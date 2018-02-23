@@ -11,7 +11,7 @@ public class MachineG extends Machine {
 
     static {
         try {
-            img = ImageIO.read(new File("C:\\Users\\denis\\IdeaProjects\\TPlabs\\resources\\image\\heavycar.png"));
+            img = ImageIO.read(new File("resources/image/heavycar.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
