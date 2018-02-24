@@ -5,7 +5,7 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 
-public class  MachineL extends Machine {
+public class CarLight extends Car {
 
     static Image img;
 
@@ -17,19 +17,19 @@ public class  MachineL extends Machine {
         }
     }
 
-    MachineL(){
+    CarLight(){
         super();
     }
     // Экземпляр класса Graphics хранит параметры, необходимые для отрисовки
-    public Machine paint(Graphics g){
-
+    public Car paint(Graphics g){
         if(img != null){
-            posX=(int)(Math.random()*(630));
-            posY=(int)(Math.random()*(630));
-            g.drawImage(img,posX,posY,70,70,null);
+            g.drawImage(img,this.getX(),this.getY(),img.getWidth(null),img.getHeight(null),null);
         }
         return null;
     }
 
+    @Override
+    public void move() {
 
+    }
 }

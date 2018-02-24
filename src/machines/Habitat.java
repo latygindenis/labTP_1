@@ -7,56 +7,20 @@ import java.util.ArrayList; // для списка
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class Habitat extends JFrame implements  KeyListener{ // обработка событий клавиатуры
+public class Habitat extends JFrame implements KeyListener{ // обработка событий клавиатуры
 
-    private double timeP1 = 0.5;
-    private double timeP2 = 0.5;
+    private double pHeavy; //Вероятность появления CarHeavy
+    private double pLight; //Вероятность появления CarLight
     private long time = 0;
-    private int timeN1 = 1;
-    private int timeN2 = 1;
+    private int timeHeavy; //Период появления CarHeavy
+    private int timeLight; //Период появления CarLight
 
-    ArrayList<Machine> list;
 
-    private void update(long t){
-        if (t%timeN1==0){
-            if(timeP1>(float)Math.random()){
-                varG++;
+    private int wHeight;
 
-                Machine rb = new MachineG();
-                rb.paint(getGraphics());
-                list.add(rb);
-            }
-        }
-
-        if(t%timeN2==0){
-            if(timeP2>(float)Math.random()){
-                varL++;
-                Machine rb = new MachineL();
-                rb.paint(getGraphics());
-                list.add(rb);
-            }
-
-        }
-    }
-
-    public int height;
-    public int length;
-    public int posX;
-    public int posY;
-
-    public Habitat(){
-        this.length=500;
-        this.height=500;
-        this.posX=100;
-        this.posY=100;
-    }
-
-    public Habitat(int length, int height, int posX, int posY){
-        this.length=length;
-        this.height=height;
-        this.posX=posX;
-        this.posY=posY;
-    }
+    private int wLength;
+    private int wPosX;
+    private int wPosY;
 
     private JLabel mes = null;
     private JPanel panel = null;
@@ -64,22 +28,67 @@ public class Habitat extends JFrame implements  KeyListener{ // обработк
     private Timer timer;
     private boolean begin = false;
 
-    public  void pan(){
-        list = new ArrayList<Machine>();
+    private int amountOfG = 0;
+    private int amountOfL = 0;
+
+    ArrayList<Car> list;
+
+
+    public Habitat(){
+        this.wLength = 500;
+        this.wHeight = 500;
+        this.wPosX = 100;
+        this.wPosY = 100;
+    }
+
+    Habitat(int wLength, int wHeight, int wPosX, int wPosY){
+        this.wLength = wLength;
+        this.wHeight = wHeight;
+        this.wPosX = wPosX;
+        this.wPosY = wPosY;
+        pHeavy = 0.5;
+        pLight = 0.5;
+        timeHeavy = 1;
+        timeLight = 1;
+    }
+
+
+    private void update(long t){
+        if (t%timeHeavy==0){ //Каждые timeN1 секунд
+            if(pHeavy >(float)Math.random()){ // Если прошло по вероятности
+                amountOfG++;
+                Car rb = new CarHeavy();
+                rb.paint(getGraphics());
+                list.add(rb);
+            }
+        }
+
+        if(t%timeLight==0){ //Каждые timeN2 секунд
+            if(pLight>(float)Math.random()){ //Если прошло по вероятности
+                amountOfL++;
+                Car rb = new CarLight();
+                rb.paint(getGraphics());
+                list.add(rb);
+            }
+        }
+    }
+
+
+    public void drawUI(){
+        list = new ArrayList<Car>();
         panel = new JPanel();
-
         add(panel);
-
-        mes = new JLabel(" ", JLabel.CENTER);
+        mes = new JLabel("", JLabel.RIGHT);
         panel.add(mes);
 
-        setBounds(posX,posY,length,height);
+        setBounds(wPosX, wPosY, wLength, wHeight);
         setVisible(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
         addKeyListener(this); // Обработка клавиатуры
 
-        timer = new Timer();
-        timer.schedule(new TimerTask(){
+        timer = new Timer(); //Создание таймера
+        timer.schedule(new TimerTask(){ //Добавление задания в таймер
             public void run(){
                 if (begin){
                     time++;
@@ -97,36 +106,39 @@ public class Habitat extends JFrame implements  KeyListener{ // обработк
 
     }
 
-    private int varG = 0;
-    private int varL = 0;
-    public void keyPressed(KeyEvent e) {
+    public void keyPressed(KeyEvent e) { //Обработкчик нажатия клавиши
         switch (e.getKeyCode()) {
             case KeyEvent.VK_B:
                 begin = true;
-                varG=0;
-                varL=0;
+                amountOfG=0;
+                amountOfL =0;
                 time = 0;
                 break;
             case KeyEvent.VK_E:
-                if (begin!=false) {
-
-                    mes.setText("Количество: " + (varL+varG) + " " + "Легковые: " + (varL) + "\n" + "Грузовые: " + varG + "\n" + "Время: " + time);
+                if (begin) {
+                    mes.setText("<html> <br>" +
+                                "Количество: " +(amountOfL + amountOfG) + "<br>" +
+                                "Легковые: " + amountOfL + "<br>" +
+                                "Грузовые: " + amountOfG +"<br>"+
+                                "Время: " + time + "<br></html>");
                     list.clear();
-                    repaint();
-                    varG=0;
-                    varL=0;
+                    repaint(); //"Очистка" интерфейса
+                    amountOfG=0;
+                    amountOfL =0;
                     time = 0;
-
                 } begin = false;
                 break;
             case KeyEvent.VK_T:
                 if (!mas){
-                    mes.setText("Количество: " + (varL+varG) + " " + "Легковые: " + (varL) + "\n" + "Грузовые: " + varG + "\n" + "Время: " + time);
+                    mes.setText("<html> <br>" +
+                                "Количество: " +(amountOfL + amountOfG) + "<br>" +
+                                "Легковые: " + amountOfL + "<br>" +
+                                "Грузовые: " + amountOfG +"<br>"+
+                                "Время: " + time + "<br></html>");
                 } else {
-                    mes.setText(" ");
+                    mes.setText("");
                 }
                 mas = !mas;
-
                 break;
         }
     }

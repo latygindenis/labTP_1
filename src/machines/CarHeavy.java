@@ -5,7 +5,7 @@ import java.awt.*; // графический интерфейс
 import java.io.File; // потоки, работа с файлами
 import java.io.IOException;
 
-public class MachineG extends Machine {
+public class CarHeavy extends Car {
 
     static Image img;
 
@@ -17,16 +17,19 @@ public class MachineG extends Machine {
         }
     }
 
-    MachineG(){
+    CarHeavy(){
         super();
     }
     // Экземпляр класса Graphics хранит параметры, необходимые для отрисовки
-    public Machine paint(Graphics g){
+    public Car paint(Graphics g){
         if(img != null){
-            posX=(int)(Math.random()*(650));
-            posY=(int)(Math.random()*(650));
-            g.drawImage(img,posX,posY,70,70,null);
+            g.drawImage(img,this.getX(),this.getY(),img.getWidth(null),img.getHeight(null),null);
         }
         return null;
+    }
+
+    @Override
+    public void move() {
+
     }
 }
