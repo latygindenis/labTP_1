@@ -54,7 +54,7 @@ public class Habitat extends JFrame implements KeyListener{ // обработк�
 
 
     private void update(long t){
-        if (t%timeHeavy==0){ //Каждые timeN1 секунд
+        if (t%timeHeavy==0){ //Каждые timeHeavy секунд
             if(pHeavy >(float)Math.random()){ // Если прошло по вероятности
                 amountOfG++;
                 Car rb = new CarHeavy();
@@ -63,7 +63,7 @@ public class Habitat extends JFrame implements KeyListener{ // обработк�
             }
         }
 
-        if(t%timeLight==0){ //Каждые timeN2 секунд
+        if(t%timeLight==0){ //Каждые timeLight секунд
             if(pLight>(float)Math.random()){ //Если прошло по вероятности
                 amountOfL++;
                 Car rb = new CarLight();
@@ -84,9 +84,7 @@ public class Habitat extends JFrame implements KeyListener{ // обработк�
         setBounds(wPosX, wPosY, wLength, wHeight);
         setVisible(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
         addKeyListener(this); // Обработка клавиатуры
-
         timer = new Timer(); //Создание таймера
         timer.schedule(new TimerTask(){ //Добавление задания в таймер
             public void run(){
@@ -113,6 +111,7 @@ public class Habitat extends JFrame implements KeyListener{ // обработк�
                 amountOfG=0;
                 amountOfL =0;
                 time = 0;
+                mes.setText("");
                 break;
             case KeyEvent.VK_E:
                 if (begin) {
@@ -126,7 +125,9 @@ public class Habitat extends JFrame implements KeyListener{ // обработк�
                     amountOfG=0;
                     amountOfL =0;
                     time = 0;
-                } begin = false;
+                }
+
+                begin = false;
                 break;
             case KeyEvent.VK_T:
                 if (!mas){
