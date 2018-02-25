@@ -9,9 +9,9 @@ public abstract class Car implements IBehaviour{
     // Экземпляр класса Graphics хранит параметры, необходимые для отрисовки
     public abstract Car paint(Graphics g);
 
-    Car(){ //При создании объекта рандомно генерируются его координаты
-        posX=(int)(Math.random()*(630));
-        posY=(int)(Math.random()*(630));
+    Car(int X, int Y){ //При создании объекта рандомно генерируются его координаты
+        this.posX=X;
+        this.posY=Y;
     }
 
     @Override
@@ -22,5 +22,15 @@ public abstract class Car implements IBehaviour{
     @Override
     public int getY() {
         return posY;
+    }
+
+    @Override
+    public void setX(int X) {
+        this.posX = X;
+    }
+
+    @Override
+    public void setY(int Y) {
+        this.posY = Y;
     }
 }

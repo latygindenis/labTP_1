@@ -17,8 +17,8 @@ public class CarHeavy extends Car {
         }
     }
 
-    CarHeavy(){
-        super();
+    CarHeavy(int X, int Y){
+        super(X, Y);
     }
     // Экземпляр класса Graphics хранит параметры, необходимые для отрисовки
     public Car paint(Graphics g){
