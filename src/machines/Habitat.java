@@ -25,6 +25,8 @@ public class Habitat extends JFrame{ // обработка событий кла
     private JPanel panelGen = null;
     private JButton startButton = null;
     private JButton endButton = null;
+    private JCheckBox showInfoCheckBox = null;
+    private JTextArea infoArea = null;
     private boolean mas = true;
     private Timer timer;
     private boolean begin = false;
@@ -80,39 +82,56 @@ public class Habitat extends JFrame{ // обработка событий кла
         amountOfG=0;
         amountOfL =0;
         time = 0;
-        mes.setText("");
+        infoArea.setText("");
+        startButton.setEnabled(false);
+        endButton.setEnabled(true);
     }
     public void endSimulation(){
         if (begin) {
-            mes.setText("<html> <br>" +
-                    "Количество: " +(amountOfL + amountOfG) + "<br>" +
-                    "Легковые: " + amountOfL + "<br>" +
-                    "Грузовые: " + amountOfG +"<br>"+
-                    "Время: " + time + "<br></html>");
+            infoArea.setText(
+                    "Количество: " +(amountOfL + amountOfG) + "\n" +
+                    "Легковые: " + amountOfL + "\n" +
+                    "Грузовые: " + amountOfG +"\n"+
+                    "Время: " + time );
             list.clear();
             repaint(); //"Очистка" интерфейса
             amountOfG=0;
             amountOfL =0;
             time = 0;
         }
+        infoArea.setVisible(true);
         begin = false;
+        startButton.setEnabled(true);
+        endButton.setEnabled(false);
+    }
+    public void showInfo (){
+            infoArea.setText(
+                    "Количество: " +(amountOfL + amountOfG) + "\n" +
+                            "Легковые: " + amountOfL + "\n" +
+                            "Грузовые: " + amountOfG +"\n"+
+                            "Время: " + time );
+            infoArea.setVisible(true);
     }
 
     public void drawUI(){
         setLayout(null);
         list = new ArrayList<Car>();
         mainPanel = new JPanel();
-        startButton = new JButton("start");
-        endButton = new JButton("end");
+        mainPanel.setLayout(null);
 
-        startButton.setFocusable(false);
-        endButton.setFocusable(false);
+        startButton = new JButton("start");
+        startButton.setSize(100, 25);
         startButton.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e) {
                 startSimulation();
             }
         });
 
+
+        endButton = new JButton("end");
+        endButton.setSize(100, 25);
+        endButton.setLocation(0, 30);
+        endButton.setEnabled(false);
         endButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -120,9 +139,31 @@ public class Habitat extends JFrame{ // обработка событий кла
             }
         });
 
+        infoArea = new JTextArea();
+        infoArea.setBounds(0, 130, 150, 100);
+        infoArea.setEditable(false);
+        infoArea.setVisible(false);
+        infoArea.setFocusable(false);
+
+        showInfoCheckBox = new JCheckBox("Показать информацию");
+        showInfoCheckBox.setBounds(0,100, 200, 25 );
+        showInfoCheckBox.setFocusable(false);
+        showInfoCheckBox.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                if(e.getStateChange() == ItemEvent.SELECTED) {//checkbox has been selected
+                    showInfo();
+                } else {//checkbox has been deselected
+                    infoArea.setVisible(false);
+                }
+            }
+        });
+
 
         mainPanel.add(startButton);
         mainPanel.add(endButton);
+        mainPanel.add(showInfoCheckBox);
+        mainPanel.add(infoArea);
         panelGen = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) { //Необходимо при перерисовки интерфейса
@@ -149,37 +190,28 @@ public class Habitat extends JFrame{ // обработка событий кла
                         endSimulation();
                         break;
                     case KeyEvent.VK_T:
-                        if (!mas){
-                            mes.setText("<html> <br>" +
-                                    "Количество: " +(amountOfL + amountOfG) + "<br>" +
-                                    "Легковые: " + amountOfL + "<br>" +
-                                    "Грузовые: " + amountOfG +"<br>"+
-                                    "Время: " + time + "<br></html>");
-                        } else {
-                            mes.setText("");
+                        if (showInfoCheckBox.isSelected()){
+                            infoArea.setVisible(false);
+                            showInfoCheckBox.setSelected(false);
+                        }else {
+                            showInfo();
+                            showInfoCheckBox.setSelected(true);
                         }
-                        mas = !mas;
                         break;
                 }
             }
-
             @Override
             public void keyReleased(KeyEvent e) {
 
             }
         });
         panelGen.setBounds(10, 10, 520, 520);
-        mainPanel.setBounds(520, 10, 100, 500);
+        mainPanel.setBounds(530, 10, 200, 500);
         mes = new JLabel("", JLabel.RIGHT);
         panelGen.add(mes);
         add(panelGen);
         add(mainPanel);
 
-
-//              startButton = new JButton("Start");
-//        mainPanel.add(startButton);
-//
-//        add(mainPanel);
         setBounds(wPosX, wPosY, wLength, wHeight);
         setVisible(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -193,4 +225,5 @@ public class Habitat extends JFrame{ // обработка событий кла
             }
         } , 0, 1000);
     }
+
 }
