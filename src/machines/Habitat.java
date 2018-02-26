@@ -60,26 +60,32 @@ public class Habitat extends JFrame{ // обработка событий кла
         if (t%timeHeavy==0){ //Каждые timeHeavy секунд
             if(pHeavy >(float)Math.random()){ // Если прошло по вероятности
                 amountOfG++;
-                Car rb = new CarHeavy(10 + (int)(Math.random() * 400),10 + (int)(Math.random() * 400));
-                rb.paint(getGraphics());
+                Car rb = new CarHeavy(10 + (int)(Math.random() * 410),10 + (int)(Math.random() * 410));
                 list.add(rb);
+                panelGen.repaint();
             }
         }
 
         if(t%timeLight==0){ //Каждые timeLight секунд
             if(pLight>(float)Math.random()){ //Если прошло по вероятности
                 amountOfL++;
-                Car rb = new CarLight((int)(Math.random() * 400), (int)(Math.random() * 400));
-                rb.paint(getGraphics());
+                Car rb = new CarLight(10 + (int)(Math.random() * 410), 10 + (int)(Math.random() * 410));
                 list.add(rb);
+                panelGen.repaint();
+
             }
         }
+        infoArea.setText(
+                "Количество: " +(amountOfL + amountOfG) + "\n" +
+                        "Легковые: " + amountOfL + "\n" +
+                        "Грузовые: " + amountOfG +"\n"+
+                        "Время: " + time );
+
     }
 
     public void startSimulation(){
-        System.out.print(1);
         begin = true;
-        amountOfG=0;
+        amountOfG =0;
         amountOfL =0;
         time = 0;
         infoArea.setText("");
@@ -88,11 +94,6 @@ public class Habitat extends JFrame{ // обработка событий кла
     }
     public void endSimulation(){
         if (begin) {
-            infoArea.setText(
-                    "Количество: " +(amountOfL + amountOfG) + "\n" +
-                    "Легковые: " + amountOfL + "\n" +
-                    "Грузовые: " + amountOfG +"\n"+
-                    "Время: " + time );
             list.clear();
             repaint(); //"Очистка" интерфейса
             amountOfG=0;
@@ -103,14 +104,6 @@ public class Habitat extends JFrame{ // обработка событий кла
         begin = false;
         startButton.setEnabled(true);
         endButton.setEnabled(false);
-    }
-    public void showInfo (){
-            infoArea.setText(
-                    "Количество: " +(amountOfL + amountOfG) + "\n" +
-                            "Легковые: " + amountOfL + "\n" +
-                            "Грузовые: " + amountOfG +"\n"+
-                            "Время: " + time );
-            infoArea.setVisible(true);
     }
 
     public void drawUI(){
@@ -152,7 +145,7 @@ public class Habitat extends JFrame{ // обработка событий кла
             @Override
             public void itemStateChanged(ItemEvent e) {
                 if(e.getStateChange() == ItemEvent.SELECTED) {//checkbox has been selected
-                    showInfo();
+                    infoArea.setVisible(true);
                 } else {//checkbox has been deselected
                     infoArea.setVisible(false);
                 }
@@ -194,7 +187,7 @@ public class Habitat extends JFrame{ // обработка событий кла
                             infoArea.setVisible(false);
                             showInfoCheckBox.setSelected(false);
                         }else {
-                            showInfo();
+                            infoArea.setVisible(true);
                             showInfoCheckBox.setSelected(true);
                         }
                         break;
