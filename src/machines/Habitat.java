@@ -114,23 +114,14 @@ public class Habitat extends JFrame{ // обработка событий кла
 
         startButton = new JButton("start");
         startButton.setSize(100, 25);
-        startButton.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e) {
-                startSimulation();
-            }
-        });
+        startButton.addActionListener(e -> startSimulation());
 
 
         endButton = new JButton("end");
         endButton.setSize(100, 25);
         endButton.setLocation(0, 30);
         endButton.setEnabled(false);
-        endButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                endSimulation();
-            }
-        });
+        endButton.addActionListener(e -> endSimulation());
 
         infoArea = new JTextArea();
         infoArea.setBounds(0, 130, 150, 100);
