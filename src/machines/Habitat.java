@@ -29,13 +29,11 @@ public class Habitat extends JFrame{ // обработка событий кла
     private JTextArea infoArea = null;
     private boolean mas = true;
     private Timer timer;
-    private boolean begin = false;
 
     private int amountOfG = 0;
     private int amountOfL = 0;
 
     ArrayList<Car> list;
-
 
     public Habitat(){
         this.wLength = 500;
@@ -54,7 +52,6 @@ public class Habitat extends JFrame{ // обработка событий кла
         timeHeavy = 1;
         timeLight = 1;
     }
-
 
     private void update(long t){
         if (t%timeHeavy==0){ //Каждые timeHeavy секунд
@@ -84,24 +81,30 @@ public class Habitat extends JFrame{ // обработка событий кла
     }
 
     public void startSimulation(){
-        begin = true;
-        amountOfG =0;
-        amountOfL =0;
+        amountOfG = 0;
+        amountOfL = 0;
         time = 0;
         infoArea.setText("");
         startButton.setEnabled(false);
         endButton.setEnabled(true);
+        timer = new Timer();
+        timer.schedule(new TimerTask(){ //Добавление задания в таймер
+            public void run(){
+                    time++;
+                    update(time);
+            }
+        } , 0, 1000);
     }
     public void endSimulation(){
-        if (begin) {
+            timer.cancel();
+            timer.purge();
             list.clear();
             repaint(); //"Очистка" интерфейса
             amountOfG=0;
             amountOfL =0;
             time = 0;
-        }
+        showInfoCheckBox.setSelected(true);
         infoArea.setVisible(true);
-        begin = false;
         startButton.setEnabled(true);
         endButton.setEnabled(false);
     }
@@ -115,7 +118,6 @@ public class Habitat extends JFrame{ // обработка событий кла
         startButton = new JButton("start");
         startButton.setSize(100, 25);
         startButton.addActionListener(e -> startSimulation());
-
 
         endButton = new JButton("end");
         endButton.setSize(100, 25);
@@ -132,17 +134,13 @@ public class Habitat extends JFrame{ // обработка событий кла
         showInfoCheckBox = new JCheckBox("Показать информацию");
         showInfoCheckBox.setBounds(0,100, 200, 25 );
         showInfoCheckBox.setFocusable(false);
-        showInfoCheckBox.addItemListener(new ItemListener() {
-            @Override
-            public void itemStateChanged(ItemEvent e) {
-                if(e.getStateChange() == ItemEvent.SELECTED) {//checkbox has been selected
-                    infoArea.setVisible(true);
-                } else {//checkbox has been deselected
-                    infoArea.setVisible(false);
-                }
+        showInfoCheckBox.addItemListener(e -> {
+            if(e.getStateChange() == ItemEvent.SELECTED) {//checkbox has been selected
+                infoArea.setVisible(true);
+            } else {//checkbox has been deselected
+                infoArea.setVisible(false);
             }
         });
-
 
         mainPanel.add(startButton);
         mainPanel.add(endButton);
@@ -200,14 +198,5 @@ public class Habitat extends JFrame{ // обработка событий кла
         setVisible(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         timer = new Timer(); //Создание таймера
-        timer.schedule(new TimerTask(){ //Добавление задания в таймер
-            public void run(){
-                if (begin){
-                    time++;
-                    update(time);
-                }
-            }
-        } , 0, 1000);
     }
-
 }
