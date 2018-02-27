@@ -20,8 +20,11 @@ public class View extends JFrame{
     JButton startButton = null;
     JButton endButton = null;
     JCheckBox showInfoCheckBox = null;
-    JCheckBox showTimeCheckBox = null;
     JTextArea infoArea = null;
+    JRadioButton yesButton = null;
+    JRadioButton noButton = null;
+    JLabel showTimeLabel = null;
+
 
 
 
@@ -40,7 +43,7 @@ public class View extends JFrame{
             public void run() {
                 Habitat.time++;
                 Habitat.update(Habitat.time);
-                if (showTimeCheckBox.isSelected()){
+                if (yesButton.isSelected()){
                     infoArea.setText(
                             "Количество: " + (Habitat.amountOfL + Habitat.amountOfG) + "\n" +
                                     "Легковые: " + Habitat.amountOfL + "\n" +
@@ -112,29 +115,33 @@ public class View extends JFrame{
         endButton.setEnabled(false);
         endButton.addActionListener(e -> endSimulation());
 
+        showTimeLabel = new JLabel("Показать время?");
+        showTimeLabel.setBounds(10, 125, 100, 20);
+
+        yesButton = new JRadioButton("Да");
+        yesButton.setFocusable(false);
+        yesButton.addActionListener(radioListener);
+        yesButton.setBounds(0, 145, 50, 25);
+
+        noButton = new JRadioButton("Нет");
+        noButton.setFocusable(false);
+        noButton.addActionListener(radioListener);
+        noButton.setBounds(60, 145, 50, 25);
+        noButton.setSelected(true);
+
+        ButtonGroup group = new ButtonGroup();
+        group.add(yesButton);
+        group.add(noButton);
+
+
         infoArea = new JTextArea();
-        infoArea.setBounds(0, 160, 150, 100);
+        infoArea.setBounds(0, 180, 150, 100);
         infoArea.setEditable(false);
         infoArea.setVisible(false);
         infoArea.setFocusable(false);
 
-        showTimeCheckBox = new JCheckBox("Показать время");
-        showTimeCheckBox.setBounds(0, 130, 200, 25);
-        showTimeCheckBox.setFocusable(false);
-        showTimeCheckBox.addItemListener(e -> {
-            if (e.getStateChange() == ItemEvent.SELECTED) {//checkbox has been selected
-                infoArea.setText(
-                        "Количество: " + (Habitat.amountOfL + Habitat.amountOfG) + "\n" +
-                                "Легковые: " + Habitat.amountOfL + "\n" +
-                                "Грузовые: " + Habitat.amountOfG + "\n" +
-                                "Время: " + Habitat.time);
-            } else {//checkbox has been deselected
-                infoArea.setText(
-                        "Количество: " + (Habitat.amountOfL + Habitat.amountOfG) + "\n" +
-                                "Легковые: " + Habitat.amountOfL + "\n" +
-                                "Грузовые: " + Habitat.amountOfG);
-            }
-        });
+
+
 
 
         showInfoCheckBox = new JCheckBox("Показать информацию");
@@ -148,17 +155,13 @@ public class View extends JFrame{
             }
         });
 
-        ButtonGroup group = new ButtonGroup();
-        JRadioButton smallButton = new JRadioButton("Small", false);
-        group.add(smallButton);
-        JRadioButton mediumButton = new JRadioButton("Medium", true);
-        group.add(mediumButton);
 
-
+        mainPanel.add(yesButton);
+        mainPanel.add(noButton);
+        mainPanel.add(showTimeLabel);
         mainPanel.add(startButton);
         mainPanel.add(endButton);
         mainPanel.add(showInfoCheckBox);
-        mainPanel.add(showTimeCheckBox);
         mainPanel.add(infoArea);
         panelGen = new JPanel() {
             @Override
@@ -206,4 +209,27 @@ public class View extends JFrame{
         setVisible(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
+
+    ActionListener radioListener = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent ae) {
+            switch ( ((JRadioButton)ae.getSource()).getText() ) {
+                case "Да" :
+                    infoArea.setText(
+                            "Количество: " + (Habitat.amountOfL + Habitat.amountOfG) + "\n" +
+                                    "Легковые: " + Habitat.amountOfL + "\n" +
+                                    "Грузовые: " + Habitat.amountOfG + "\n" +
+                                    "Время: " + Habitat.time);
+                    break;
+                case "Нет" :
+                    infoArea.setText(
+                            "Количество: " + (Habitat.amountOfL + Habitat.amountOfG) + "\n" +
+                                    "Легковые: " + Habitat.amountOfL + "\n" +
+                                    "Грузовые: " + Habitat.amountOfG);
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
 }
