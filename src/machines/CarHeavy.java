@@ -7,7 +7,7 @@ import java.io.IOException;
 
 public class CarHeavy extends Car {
 
-    static Image img;
+    private static Image img;
 
     static {
         try {
@@ -21,11 +21,10 @@ public class CarHeavy extends Car {
         super(X, Y);
     }
     // Экземпляр класса Graphics хранит параметры, необходимые для отрисовки
-    public Car paint(Graphics g){
+    public void paint(Graphics g){
         if(img != null){
             g.drawImage(img,this.getX(),this.getY(),img.getWidth(null),img.getHeight(null),null);
         }
-        return null;
     }
 
     @Override

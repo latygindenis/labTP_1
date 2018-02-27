@@ -4,10 +4,10 @@ import java.awt.*; // графический интерфейс
 
 public abstract class Car implements IBehaviour{
 
-    int posX;
-    int posY;
+    private int posX;
+    private int posY;
     // Экземпляр класса Graphics хранит параметры, необходимые для отрисовки
-    public abstract Car paint(Graphics g);
+    public abstract void paint(Graphics g);
 
     Car(int X, int Y){ //При создании объекта рандомно генерируются его координаты
         this.posX=X;
