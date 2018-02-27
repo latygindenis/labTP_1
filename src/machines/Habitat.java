@@ -26,7 +26,6 @@ public class Habitat { // обработка событий клавиатуры
 
             }
         }
-
         if (t % timeLight == 0) { //Каждые timeLight секунд
             if (pLight > (float) Math.random()) { //Если прошло по вероятности
                 amountOfL++;
@@ -35,18 +34,5 @@ public class Habitat { // обработка событий клавиатуры
 
             }
         }
-    }
-
-    public static void startSimulation() {
-        amountOfG = 0;
-        amountOfL = 0;
-        time = 0;
-    }
-
-    public static void endSimulation() {
-        CarArrayList.getInstance().arrayCarList.clear();
-        amountOfG = 0;
-        amountOfL = 0;
-        time = 0;
     }
 }
