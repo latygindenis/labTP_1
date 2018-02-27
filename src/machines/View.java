@@ -20,6 +20,7 @@ public class View extends JFrame{
     JButton startButton = null;
     JButton endButton = null;
     JCheckBox showInfoCheckBox = null;
+    JCheckBox showTimeCheckBox = null;
     JTextArea infoArea = null;
 
 
@@ -30,20 +31,28 @@ public class View extends JFrame{
         this.wPosX = wPosX;
         this.wPosY = wPosY;
     }
-    private void startSimulation() {
+    private void startSimulation(long t, int _amountG, int _amountL) {
         timer = new Timer();
-        Habitat.amountOfG = 0;
-        Habitat.amountOfL = 0;
-        Habitat.time = 0;
+        Habitat.amountOfG = _amountG;
+        Habitat.amountOfL = _amountL;
+        Habitat.time = t;
         timer.schedule(new TimerTask() { //Добавление задания в таймер
             public void run() {
                 Habitat.time++;
                 Habitat.update(Habitat.time);
-                infoArea.setText(
-                        "Количество: " + (Habitat.amountOfL + Habitat.amountOfG) + "\n" +
-                                "Легковые: " + Habitat.amountOfL + "\n" +
-                                "Грузовые: " + Habitat.amountOfG + "\n" +
-                                "Время: " + Habitat.time);
+                if (showTimeCheckBox.isSelected()){
+                    infoArea.setText(
+                            "Количество: " + (Habitat.amountOfL + Habitat.amountOfG) + "\n" +
+                                    "Легковые: " + Habitat.amountOfL + "\n" +
+                                    "Грузовые: " + Habitat.amountOfG + "\n" +
+                                    "Время: " + Habitat.time);
+                }else{
+                    infoArea.setText(
+                            "Количество: " + (Habitat.amountOfL + Habitat.amountOfG) + "\n" +
+                                    "Легковые: " + Habitat.amountOfL + "\n" +
+                                    "Грузовые: " + Habitat.amountOfG);
+                }
+
 
                 startButton.setEnabled(false);
                 endButton.setEnabled(true);
@@ -55,12 +64,35 @@ public class View extends JFrame{
     private void endSimulation() {
         timer.cancel();
         timer.purge();
-        CarArrayList.getInstance().arrayCarList.clear();
-        repaint(); //"Очистка" интерфейса
-        showInfoCheckBox.setSelected(true);
-        infoArea.setVisible(true);
-        startButton.setEnabled(true);
-        endButton.setEnabled(false);
+        if (showInfoCheckBox.isSelected()){
+            Object[] options = {"Resume",
+                    "Stop"};
+            int n = JOptionPane.showOptionDialog(new JFrame(),
+                    "Количество: " + (Habitat.amountOfL + Habitat.amountOfG) + "\n" +
+                            "Легковые: " + Habitat.amountOfL + "\n" +
+                            "Грузовые: " + Habitat.amountOfG + "\n" +
+                            "Время: " + Habitat.time,
+                    "StopDialog",
+                    JOptionPane.YES_NO_CANCEL_OPTION,
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    options,
+                    options[1]);
+            if (n == 0){
+                startSimulation(Habitat.time, Habitat.amountOfG, Habitat.amountOfL);
+
+            } else{
+                CarArrayList.getInstance().arrayCarList.clear();
+                repaint(); //"Очистка" интерфейса
+                startButton.setEnabled(true);
+                endButton.setEnabled(false);
+            }
+        } else {
+            CarArrayList.getInstance().arrayCarList.clear();
+            repaint(); //"Очистка" интерфейса
+            startButton.setEnabled(true);
+            endButton.setEnabled(false);
+        }
     }
 
 
@@ -72,7 +104,7 @@ public class View extends JFrame{
 
         startButton = new JButton("start");
         startButton.setSize(100, 25);
-        startButton.addActionListener(e -> startSimulation());
+        startButton.addActionListener(e -> startSimulation(0, 0, 0));
 
         endButton = new JButton("end");
         endButton.setSize(100, 25);
@@ -81,10 +113,29 @@ public class View extends JFrame{
         endButton.addActionListener(e -> endSimulation());
 
         infoArea = new JTextArea();
-        infoArea.setBounds(0, 130, 150, 100);
+        infoArea.setBounds(0, 160, 150, 100);
         infoArea.setEditable(false);
         infoArea.setVisible(false);
         infoArea.setFocusable(false);
+
+        showTimeCheckBox = new JCheckBox("Показать время");
+        showTimeCheckBox.setBounds(0, 130, 200, 25);
+        showTimeCheckBox.setFocusable(false);
+        showTimeCheckBox.addItemListener(e -> {
+            if (e.getStateChange() == ItemEvent.SELECTED) {//checkbox has been selected
+                infoArea.setText(
+                        "Количество: " + (Habitat.amountOfL + Habitat.amountOfG) + "\n" +
+                                "Легковые: " + Habitat.amountOfL + "\n" +
+                                "Грузовые: " + Habitat.amountOfG + "\n" +
+                                "Время: " + Habitat.time);
+            } else {//checkbox has been deselected
+                infoArea.setText(
+                        "Количество: " + (Habitat.amountOfL + Habitat.amountOfG) + "\n" +
+                                "Легковые: " + Habitat.amountOfL + "\n" +
+                                "Грузовые: " + Habitat.amountOfG);
+            }
+        });
+
 
         showInfoCheckBox = new JCheckBox("Показать информацию");
         showInfoCheckBox.setBounds(0, 100, 200, 25);
@@ -100,6 +151,7 @@ public class View extends JFrame{
         mainPanel.add(startButton);
         mainPanel.add(endButton);
         mainPanel.add(showInfoCheckBox);
+        mainPanel.add(showTimeCheckBox);
         mainPanel.add(infoArea);
         panelGen = new JPanel() {
             @Override
@@ -118,7 +170,7 @@ public class View extends JFrame{
             public void keyPressed(KeyEvent e) {
                 switch (e.getKeyCode()) {
                     case KeyEvent.VK_B:
-                        startSimulation();
+                        startSimulation(0,0,0);
                         break;
                     case KeyEvent.VK_E:
                         endSimulation();
