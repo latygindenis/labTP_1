@@ -12,15 +12,14 @@ import java.util.TimerTask;
 public class HabitatController {
 
     private Timer timer;
-
-    HabitatView view;
-    HabitatModel habitat;
-    public HabitatController(HabitatView view, HabitatModel habitat){
+    private HabitatView view;
+    private HabitatModel model;
+    public HabitatController(HabitatView view, HabitatModel model){
         this.view = view;
-        this.habitat = habitat;
+        this.model = model;
         init();
     }
-    void init(){
+    private void init(){
         view.lightSlider.addChangeListener(lightChangeListener);
         view.heavySlider.addChangeListener(heavyChangeListner);
         view.startButton.addActionListener(beginListner);
@@ -29,30 +28,35 @@ public class HabitatController {
         view.noButton.addActionListener(radioListener);
         view.showInfoCheckBox.addItemListener(showInfoCheckBoxListener);
         view.panelGen.addKeyListener(keyAdapter);
-        view.timeLightArea.setText(String.valueOf(habitat.getTimeLight()));
-        view.timeHeavyArea.setText(String.valueOf(habitat.getTimeHeavy()));
+
+        view.timeLightArea.addActionListener(timeLightTextFieldListener);
+        view.timeLightArea.setText(String.valueOf(model.getTimeLight()));
+
+        view.timeHeavyArea.addActionListener(timeHeavyTextFieldListener);
+        view.timeHeavyArea.setText(String.valueOf(model.getTimeHeavy()));
+
     }
 
-    public void startSimulation(long t, int _amountG, int _amountL) {
+    private void startSimulation(long t, int _amountG, int _amountL) {
         timer = new Timer();
-        habitat.amountOfG = _amountG;
-        habitat.amountOfL = _amountL;
-        habitat.time = t;
+        model.amountOfG = _amountG;
+        model.amountOfL = _amountL;
+        model.time = t;
         timer.schedule(new TimerTask() { //Добавление задания в таймер
             public void run() {
-                habitat.time++;
-                habitat.update(habitat.time);
+                model.time++;
+                model.update(model.time);
                 if (view.yesButton.isSelected()){
                     view.infoArea.setText(
-                            "Количество: " + (habitat.amountOfL + habitat.amountOfG) + "\n" +
-                                    "Легковые: " + habitat.amountOfL + "\n" +
-                                    "Грузовые: " + habitat.amountOfG + "\n" +
-                                    "Время: " + habitat.time);
+                            "Количество: " + (model.amountOfL + model.amountOfG) + "\n" +
+                                    "Легковые: " + model.amountOfL + "\n" +
+                                    "Грузовые: " + model.amountOfG + "\n" +
+                                    "Время: " + model.time);
                 }else{
                     view.infoArea.setText(
-                            "Количество: " + (habitat.amountOfL + habitat.amountOfG) + "\n" +
-                                    "Легковые: " + habitat.amountOfL + "\n" +
-                                    "Грузовые: " + habitat.amountOfG);
+                            "Количество: " + (model.amountOfL + model.amountOfG) + "\n" +
+                                    "Легковые: " + model.amountOfL + "\n" +
+                                    "Грузовые: " + model.amountOfG);
                 }
                 view.startButton.setEnabled(false);
                 view.endButton.setEnabled(true);
@@ -61,17 +65,17 @@ public class HabitatController {
         }, 0, 1000);
     }
 
-    public void endSimulation() {
+    private void endSimulation() {
         timer.cancel();
         timer.purge();
         if (view.showInfoCheckBox.isSelected()){
             Object[] options = {"Resume",
                     "Stop"};
             int n = JOptionPane.showOptionDialog(new JFrame(),
-                    "Количество: " + (habitat.amountOfL + habitat.amountOfG) + "\n" +
-                            "Легковые: " + habitat.amountOfL + "\n" +
-                            "Грузовые: " + habitat.amountOfG + "\n" +
-                            "Время: " + habitat.time,
+                    "Количество: " + (model.amountOfL + model.amountOfG) + "\n" +
+                            "Легковые: " + model.amountOfL + "\n" +
+                            "Грузовые: " + model.amountOfG + "\n" +
+                            "Время: " + model.time,
                     "StopDialog",
                     JOptionPane.YES_NO_CANCEL_OPTION,
                     JOptionPane.QUESTION_MESSAGE,
@@ -79,7 +83,7 @@ public class HabitatController {
                     options,
                     options[1]);
             if (n == 0){
-                startSimulation(habitat.time, habitat.amountOfG, habitat.amountOfL);
+                startSimulation(model.time, model.amountOfG, model.amountOfL);
 
             } else{
                 CarArrayList.getInstance().arrayCarList.clear();
@@ -95,22 +99,22 @@ public class HabitatController {
         }
     }
 
-    ActionListener radioListener = new ActionListener() {
+    private ActionListener radioListener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent ae) {
             switch ( ((JRadioButton)ae.getSource()).getText() ) {
                 case "Да" :
                     view.infoArea.setText(
-                            "Количество: " + (habitat.amountOfL + habitat.amountOfG) + "\n" +
-                                    "Легковые: " + habitat.amountOfL + "\n" +
-                                    "Грузовые: " + habitat.amountOfG + "\n" +
-                                    "Время: " + habitat.time);
+                            "Количество: " + (model.amountOfL + model.amountOfG) + "\n" +
+                                    "Легковые: " + model.amountOfL + "\n" +
+                                    "Грузовые: " + model.amountOfG + "\n" +
+                                    "Время: " + model.time);
                     break;
                 case "Нет" :
                     view.infoArea.setText(
-                            "Количество: " + (habitat.amountOfL + habitat.amountOfG) + "\n" +
-                                    "Легковые: " + habitat.amountOfL + "\n" +
-                                    "Грузовые: " + habitat.amountOfG);
+                            "Количество: " + (model.amountOfL + model.amountOfG) + "\n" +
+                                    "Легковые: " + model.amountOfL + "\n" +
+                                    "Грузовые: " + model.amountOfG);
                     break;
                 default:
                     break;
@@ -118,7 +122,7 @@ public class HabitatController {
         }
     };
 
-    ItemListener showInfoCheckBoxListener = new ItemListener() {
+    private ItemListener showInfoCheckBoxListener = new ItemListener() {
         @Override
         public void itemStateChanged(ItemEvent e) {
             if (e.getStateChange() == ItemEvent.SELECTED) {//checkbox has been selected
@@ -129,7 +133,7 @@ public class HabitatController {
         }
     };
 
-    KeyAdapter keyAdapter = new KeyAdapter() {
+    private KeyAdapter keyAdapter = new KeyAdapter() {
         @Override
         public void keyPressed(KeyEvent e) {
             switch (e.getKeyCode()) {
@@ -154,35 +158,58 @@ public class HabitatController {
         }
     };
 
-    ActionListener endListner = new ActionListener() {
+    private ActionListener endListner = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
             endSimulation();
         }
     };
 
-    ActionListener beginListner = new ActionListener() {
+    private ActionListener beginListner = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
             startSimulation(0, 0, 0);
         }
     };
 
-    ChangeListener lightChangeListener = new ChangeListener() {
+    private ChangeListener lightChangeListener = new ChangeListener() {
         @Override
         public void stateChanged(ChangeEvent e) {
             JSlider slider = (JSlider)e.getSource();
             double value = slider.getValue();
-            habitat.setpLight(value/100);
+            model.setpLight(value/100);
+            view.panelGen.requestFocus();
         }
     };
 
-    ChangeListener heavyChangeListner = new ChangeListener() {
+    private ChangeListener heavyChangeListner = new ChangeListener() {
         @Override
         public void stateChanged(ChangeEvent e) {
             JSlider slider = (JSlider)e.getSource();
             double value = slider.getValue();
-            habitat.setpHeavy(value/100);
+            model.setpHeavy(value/100);
+            view.panelGen.requestFocus();
         }
     };
+
+    private ActionListener timeLightTextFieldListener = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String value;
+                value = view.timeLightArea.getText();
+                view.panelGen.requestFocus();
+                model.setTimeLight(Integer.parseInt(value));
+            }
+        };
+
+    private ActionListener timeHeavyTextFieldListener = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            String value;
+            value = view.timeHeavyArea.getText();
+            view.panelGen.requestFocus();
+            model.setTimeHeavy(Integer.parseInt(value));
+        }
+    };
+
 }

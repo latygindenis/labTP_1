@@ -13,7 +13,6 @@ public class HabitatView extends JFrame{
     private int wPosX;
     private int wPosY;
 
-    JLabel mes = null;
     JPanel mainPanel = null;
     JPanel panelGen = null;
     JButton startButton = null;
@@ -28,9 +27,6 @@ public class HabitatView extends JFrame{
 
     JSlider heavySlider = null;
     JSlider lightSlider = null;
-
-
-
 
     public HabitatView(int wLength, int wHeight, int wPosX, int wPosY) {
         this.wLength = wLength;
@@ -50,17 +46,13 @@ public class HabitatView extends JFrame{
         startButton = new JButton("start");
         startButton.setSize(100, 25);
 
-
         endButton = new JButton("end");
         endButton.setSize(100, 25);
         endButton.setLocation(0, 30);
         endButton.setEnabled(false);
 
-
         showTimeLabel = new JLabel("Показать время?");
         showTimeLabel.setBounds(10, 125, 100, 20);
-
-
 
         yesButton = new JRadioButton("Да");
         yesButton.setFocusable(false);
@@ -75,19 +67,15 @@ public class HabitatView extends JFrame{
         group.add(yesButton);
         group.add(noButton);
 
-
         infoArea = new JTextArea();
         infoArea.setBounds(0, 180, 150, 65);
         infoArea.setEditable(false);
         infoArea.setVisible(false);
         infoArea.setFocusable(false);
 
-
-
         showInfoCheckBox = new JCheckBox("Показать информацию");
         showInfoCheckBox.setBounds(0, 100, 200, 25);
         showInfoCheckBox.setFocusable(false);
-
 
         timeHeavyArea = new JTextField();
         timeHeavyArea.setBounds(0, 250, 20, 20);
@@ -120,7 +108,8 @@ public class HabitatView extends JFrame{
         mainPanel.add(timeLightArea);
         mainPanel.add(heavySlider);
         mainPanel.add(lightSlider);
-        panelGen = new JPanel() {
+
+        panelGen = new JPanel()  {
             @Override
             protected void paintComponent(Graphics g) { //Необходимо при перерисовки интерфейса
                 super.paintComponent(g);
@@ -133,8 +122,6 @@ public class HabitatView extends JFrame{
         panelGen.setFocusable(true); //Разрешить обработку клавиш
         panelGen.setBounds(10, 10, 520, 520);
         mainPanel.setBounds(530, 10, 300, 500);
-        mes = new JLabel("", JLabel.RIGHT);
-        panelGen.add(mes);
         add(panelGen);
         add(mainPanel);
         setBounds(wPosX, wPosY, wLength, wHeight);
