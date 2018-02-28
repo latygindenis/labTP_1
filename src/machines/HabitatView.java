@@ -6,14 +6,13 @@ import data.CarArrayList;
 import javax.swing.*;
 import java.awt.*;
 
-public class View extends JFrame{
+public class HabitatView extends JFrame{
 
     private int wHeight;
     private int wLength;
     private int wPosX;
     private int wPosY;
 
-    Controllers controllers;
     JLabel mes = null;
     JPanel mainPanel = null;
     JPanel panelGen = null;
@@ -33,7 +32,7 @@ public class View extends JFrame{
 
 
 
-    public View(int wLength, int wHeight, int wPosX, int wPosY) {
+    public HabitatView(int wLength, int wHeight, int wPosX, int wPosY) {
         this.wLength = wLength;
         this.wHeight = wHeight;
         this.wPosX = wPosX;
@@ -42,7 +41,7 @@ public class View extends JFrame{
 
     }
 
-    public void drawUI() {
+    private void drawUI() {
         setLayout(null);
 
         mainPanel = new JPanel();
@@ -90,27 +89,25 @@ public class View extends JFrame{
         showInfoCheckBox.setFocusable(false);
 
 
-        timeHeavyArea = new JTextField(String.valueOf(Habitat.timeHeavy));
+        timeHeavyArea = new JTextField();
         timeHeavyArea.setBounds(0, 250, 20, 20);
 
-
-        timeLightArea = new JTextField(String.valueOf(Habitat.timeLight));
+        timeLightArea = new JTextField();
         timeLightArea.setBounds(0, 280, 20, 20);
 
-        heavySlider = new JSlider(JSlider.VERTICAL, 0, 100,(int) (Habitat.pHeavy*100));
+        heavySlider = new JSlider(JSlider.VERTICAL, 0, 100,50);
         heavySlider.setMajorTickSpacing(10);
         heavySlider.setPaintTicks(true);
         heavySlider.setPaintLabels(true);
         heavySlider.setSnapToTicks(true);
         heavySlider.setBounds(40, 250, 50, 200);
 
-        lightSlider = new JSlider(JSlider.VERTICAL, 0, 100,(int) (Habitat.pLight*100));
+        lightSlider = new JSlider(JSlider.VERTICAL, 0, 100,50);
         lightSlider.setMajorTickSpacing(10);
         lightSlider.setPaintTicks(true);
         lightSlider.setPaintLabels(true);
         lightSlider.setSnapToTicks(true);
         lightSlider.setBounds(90, 250, 50, 200);
-
 
         mainPanel.add(yesButton);
         mainPanel.add(noButton);
@@ -123,7 +120,6 @@ public class View extends JFrame{
         mainPanel.add(timeLightArea);
         mainPanel.add(heavySlider);
         mainPanel.add(lightSlider);
-
         panelGen = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) { //Необходимо при перерисовки интерфейса
