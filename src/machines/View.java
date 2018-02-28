@@ -38,10 +38,11 @@ public class View extends JFrame{
         this.wHeight = wHeight;
         this.wPosX = wPosX;
         this.wPosY = wPosY;
+        drawUI();
+
     }
 
     public void drawUI() {
-        Controllers controllers = new Controllers(this);
         setLayout(null);
 
         mainPanel = new JPanel();
@@ -49,13 +50,13 @@ public class View extends JFrame{
 
         startButton = new JButton("start");
         startButton.setSize(100, 25);
-        startButton.addActionListener(controllers.beginListner);
+
 
         endButton = new JButton("end");
         endButton.setSize(100, 25);
         endButton.setLocation(0, 30);
         endButton.setEnabled(false);
-        endButton.addActionListener(controllers.endListner);
+
 
         showTimeLabel = new JLabel("Показать время?");
         showTimeLabel.setBounds(10, 125, 100, 20);
@@ -64,12 +65,10 @@ public class View extends JFrame{
 
         yesButton = new JRadioButton("Да");
         yesButton.setFocusable(false);
-        yesButton.addActionListener(controllers.radioListener);
         yesButton.setBounds(0, 145, 50, 25);
 
         noButton = new JRadioButton("Нет");
         noButton.setFocusable(false);
-        noButton.addActionListener(controllers.radioListener);
         noButton.setBounds(60, 145, 50, 25);
         noButton.setSelected(true);
 
@@ -89,7 +88,7 @@ public class View extends JFrame{
         showInfoCheckBox = new JCheckBox("Показать информацию");
         showInfoCheckBox.setBounds(0, 100, 200, 25);
         showInfoCheckBox.setFocusable(false);
-        showInfoCheckBox.addItemListener(controllers.showInfoCheckBoxListener);
+
 
         timeHeavyArea = new JTextField(String.valueOf(Habitat.timeHeavy));
         timeHeavyArea.setBounds(0, 250, 20, 20);
@@ -136,7 +135,6 @@ public class View extends JFrame{
             }
         };
         panelGen.setFocusable(true); //Разрешить обработку клавиш
-        panelGen.addKeyListener(controllers.keyAdapter);
         panelGen.setBounds(10, 10, 520, 520);
         mainPanel.setBounds(530, 10, 300, 500);
         mes = new JLabel("", JLabel.RIGHT);

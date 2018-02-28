@@ -12,8 +12,17 @@ public class Controllers {
     private Timer timer;
 
     View v;
-    Controllers (View v){
+    public Controllers(View v){
         this.v = v;
+        init();
+    }
+    void init(){
+        v.startButton.addActionListener(beginListner);
+        v.endButton.addActionListener(endListner);
+        v.yesButton.addActionListener(radioListener);
+        v.noButton.addActionListener(radioListener);
+        v.showInfoCheckBox.addItemListener(showInfoCheckBoxListener);
+        v.panelGen.addKeyListener(keyAdapter);
     }
 
     public void startSimulation(long t, int _amountG, int _amountL) {
