@@ -3,6 +3,8 @@ package machines;
 import data.CarArrayList;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.event.*;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -19,6 +21,8 @@ public class HabitatController {
         init();
     }
     void init(){
+        view.lightSlider.addChangeListener(lightChangeListener);
+        view.heavySlider.addChangeListener(heavyChangeListner);
         view.startButton.addActionListener(beginListner);
         view.endButton.addActionListener(endListner);
         view.yesButton.addActionListener(radioListener);
@@ -161,6 +165,24 @@ public class HabitatController {
         @Override
         public void actionPerformed(ActionEvent e) {
             startSimulation(0, 0, 0);
+        }
+    };
+
+    ChangeListener lightChangeListener = new ChangeListener() {
+        @Override
+        public void stateChanged(ChangeEvent e) {
+            JSlider slider = (JSlider)e.getSource();
+            double value = slider.getValue();
+            habitat.setpLight(value/100);
+        }
+    };
+
+    ChangeListener heavyChangeListner = new ChangeListener() {
+        @Override
+        public void stateChanged(ChangeEvent e) {
+            JSlider slider = (JSlider)e.getSource();
+            double value = slider.getValue();
+            habitat.setpHeavy(value/100);
         }
     };
 }
