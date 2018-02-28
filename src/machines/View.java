@@ -1,10 +1,10 @@
 package machines;
 
+import data.Car;
+import data.CarArrayList;
+
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class View extends JFrame{
 
@@ -12,8 +12,8 @@ public class View extends JFrame{
     private int wLength;
     private int wPosX;
     private int wPosY;
-    private Timer timer;
 
+    Controllers controllers;
     JLabel mes = null;
     JPanel mainPanel = null;
     JPanel panelGen = null;
@@ -39,72 +39,9 @@ public class View extends JFrame{
         this.wPosX = wPosX;
         this.wPosY = wPosY;
     }
-    private void startSimulation(long t, int _amountG, int _amountL) {
-        timer = new Timer();
-        Habitat.amountOfG = _amountG;
-        Habitat.amountOfL = _amountL;
-        Habitat.time = t;
-        timer.schedule(new TimerTask() { //Добавление задания в таймер
-            public void run() {
-                Habitat.time++;
-                Habitat.update(Habitat.time);
-                if (yesButton.isSelected()){
-                    infoArea.setText(
-                            "Количество: " + (Habitat.amountOfL + Habitat.amountOfG) + "\n" +
-                                    "Легковые: " + Habitat.amountOfL + "\n" +
-                                    "Грузовые: " + Habitat.amountOfG + "\n" +
-                                    "Время: " + Habitat.time);
-                }else{
-                    infoArea.setText(
-                            "Количество: " + (Habitat.amountOfL + Habitat.amountOfG) + "\n" +
-                                    "Легковые: " + Habitat.amountOfL + "\n" +
-                                    "Грузовые: " + Habitat.amountOfG);
-                }
-
-
-                startButton.setEnabled(false);
-                endButton.setEnabled(true);
-                repaint();
-            }
-        }, 0, 1000);
-    }
-
-    private void endSimulation() {
-        timer.cancel();
-        timer.purge();
-        if (showInfoCheckBox.isSelected()){
-            Object[] options = {"Resume",
-                    "Stop"};
-            int n = JOptionPane.showOptionDialog(new JFrame(),
-                    "Количество: " + (Habitat.amountOfL + Habitat.amountOfG) + "\n" +
-                            "Легковые: " + Habitat.amountOfL + "\n" +
-                            "Грузовые: " + Habitat.amountOfG + "\n" +
-                            "Время: " + Habitat.time,
-                    "StopDialog",
-                    JOptionPane.YES_NO_CANCEL_OPTION,
-                    JOptionPane.QUESTION_MESSAGE,
-                    null,
-                    options,
-                    options[1]);
-            if (n == 0){
-                startSimulation(Habitat.time, Habitat.amountOfG, Habitat.amountOfL);
-
-            } else{
-                CarArrayList.getInstance().arrayCarList.clear();
-                repaint(); //"Очистка" интерфейса
-                startButton.setEnabled(true);
-                endButton.setEnabled(false);
-            }
-        } else {
-            CarArrayList.getInstance().arrayCarList.clear();
-            repaint(); //"Очистка" интерфейса
-            startButton.setEnabled(true);
-            endButton.setEnabled(false);
-        }
-    }
-
 
     public void drawUI() {
+        Controllers controllers = new Controllers(this);
         setLayout(null);
 
         mainPanel = new JPanel();
@@ -112,25 +49,27 @@ public class View extends JFrame{
 
         startButton = new JButton("start");
         startButton.setSize(100, 25);
-        startButton.addActionListener(e -> startSimulation(0, 0, 0));
+        startButton.addActionListener(controllers.beginListner);
 
         endButton = new JButton("end");
         endButton.setSize(100, 25);
         endButton.setLocation(0, 30);
         endButton.setEnabled(false);
-        endButton.addActionListener(e -> endSimulation());
+        endButton.addActionListener(controllers.endListner);
 
         showTimeLabel = new JLabel("Показать время?");
         showTimeLabel.setBounds(10, 125, 100, 20);
 
+
+
         yesButton = new JRadioButton("Да");
         yesButton.setFocusable(false);
-        yesButton.addActionListener(radioListener);
+        yesButton.addActionListener(controllers.radioListener);
         yesButton.setBounds(0, 145, 50, 25);
 
         noButton = new JRadioButton("Нет");
         noButton.setFocusable(false);
-        noButton.addActionListener(radioListener);
+        noButton.addActionListener(controllers.radioListener);
         noButton.setBounds(60, 145, 50, 25);
         noButton.setSelected(true);
 
@@ -150,13 +89,7 @@ public class View extends JFrame{
         showInfoCheckBox = new JCheckBox("Показать информацию");
         showInfoCheckBox.setBounds(0, 100, 200, 25);
         showInfoCheckBox.setFocusable(false);
-        showInfoCheckBox.addItemListener(e -> {
-            if (e.getStateChange() == ItemEvent.SELECTED) {//checkbox has been selected
-                infoArea.setVisible(true);
-            } else {//checkbox has been deselected
-                infoArea.setVisible(false);
-            }
-        });
+        showInfoCheckBox.addItemListener(controllers.showInfoCheckBoxListener);
 
         timeHeavyArea = new JTextField(String.valueOf(Habitat.timeHeavy));
         timeHeavyArea.setBounds(0, 250, 20, 20);
@@ -180,7 +113,6 @@ public class View extends JFrame{
         lightSlider.setBounds(90, 250, 50, 200);
 
 
-
         mainPanel.add(yesButton);
         mainPanel.add(noButton);
         mainPanel.add(showTimeLabel);
@@ -192,6 +124,7 @@ public class View extends JFrame{
         mainPanel.add(timeLightArea);
         mainPanel.add(heavySlider);
         mainPanel.add(lightSlider);
+
         panelGen = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) { //Необходимо при перерисовки интерфейса
@@ -203,31 +136,7 @@ public class View extends JFrame{
             }
         };
         panelGen.setFocusable(true); //Разрешить обработку клавиш
-        panelGen.addKeyListener(new KeyAdapter() {
-
-            @Override
-            public void keyPressed(KeyEvent e) {
-                switch (e.getKeyCode()) {
-                    case KeyEvent.VK_B:
-                        if (startButton.isEnabled()){
-                            startSimulation(0,0,0);
-                        }
-                        break;
-                    case KeyEvent.VK_E:
-                        endSimulation();
-                        break;
-                    case KeyEvent.VK_T:
-                        if (showInfoCheckBox.isSelected()) {
-                            infoArea.setVisible(false);
-                            showInfoCheckBox.setSelected(false);
-                        } else {
-                            infoArea.setVisible(true);
-                            showInfoCheckBox.setSelected(true);
-                        }
-                        break;
-                }
-            }
-        });
+        panelGen.addKeyListener(controllers.keyAdapter);
         panelGen.setBounds(10, 10, 520, 520);
         mainPanel.setBounds(530, 10, 300, 500);
         mes = new JLabel("", JLabel.RIGHT);
@@ -238,27 +147,4 @@ public class View extends JFrame{
         setVisible(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
-
-    ActionListener radioListener = new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent ae) {
-            switch ( ((JRadioButton)ae.getSource()).getText() ) {
-                case "Да" :
-                    infoArea.setText(
-                            "Количество: " + (Habitat.amountOfL + Habitat.amountOfG) + "\n" +
-                                    "Легковые: " + Habitat.amountOfL + "\n" +
-                                    "Грузовые: " + Habitat.amountOfG + "\n" +
-                                    "Время: " + Habitat.time);
-                    break;
-                case "Нет" :
-                    infoArea.setText(
-                            "Количество: " + (Habitat.amountOfL + Habitat.amountOfG) + "\n" +
-                                    "Легковые: " + Habitat.amountOfL + "\n" +
-                                    "Грузовые: " + Habitat.amountOfG);
-                    break;
-                default:
-                    break;
-            }
-        }
-    };
 }

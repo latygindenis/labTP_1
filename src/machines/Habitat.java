@@ -1,5 +1,10 @@
 package machines;
 
+import data.Car;
+import data.CarArrayList;
+import data.CarHeavy;
+import data.CarLight;
+
 public class Habitat { // обработка событий клавиатуры
 
     static double pHeavy; //Вероятность появления CarHeavy

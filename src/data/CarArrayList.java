@@ -1,11 +1,11 @@
-package machines;
+package data;
 
 import java.util.ArrayList;
 
 public class CarArrayList { //Синглтон
     private static CarArrayList instance;
 
-    ArrayList <Car> arrayCarList;
+    public ArrayList <Car> arrayCarList;
 
     private CarArrayList(){
         arrayCarList = new ArrayList<>();

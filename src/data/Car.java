@@ -1,8 +1,8 @@
-package machines;
+package data;
 
 import java.awt.*; // графический интерфейс
 
-public abstract class Car implements IBehaviour{
+public abstract class Car implements IBehaviour {
 
     private int posX;
     private int posY;

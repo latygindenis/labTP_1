@@ -1,23 +1,25 @@
-package machines;
+package data;
 
-import javax.imageio.ImageIO; // загрузка изображений
-import java.awt.*; // графический интерфейс
-import java.io.File; // потоки, работа с файлами
+import data.Car;
+
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.io.File;
 import java.io.IOException;
 
-public class CarHeavy extends Car {
+public class CarLight extends Car {
 
     private static Image img;
 
     static {
         try {
-            img = ImageIO.read(new File("resources/image/heavycar.png"));
+            img = ImageIO.read(new File("resources/image/lightcar.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    CarHeavy(int X, int Y){
+    public CarLight(int X, int Y){
         super(X, Y);
     }
     // Экземпляр класса Graphics хранит параметры, необходимые для отрисовки

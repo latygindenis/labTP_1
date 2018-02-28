@@ -1,4 +1,4 @@
-package machines;
+package data;
 // Интерфейс задает поведение объекта
 public interface IBehaviour {
     int getX();
