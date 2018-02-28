@@ -2,11 +2,11 @@ package machines;
 
 public class Habitat { // обработка событий клавиатуры
 
-    private static double pHeavy; //Вероятность появления CarHeavy
-    private static double pLight; //Вероятность появления CarLight
+    static double pHeavy; //Вероятность появления CarHeavy
+    static double pLight; //Вероятность появления CarLight
     static long time = 0;
-    private static int timeHeavy; //Период появления CarHeavy
-    private static int timeLight; //Период появления CarLight
+    static int timeHeavy; //Период появления CarHeavy
+    static int timeLight; //Период появления CarLight
     static int amountOfG = 0;
     static int amountOfL = 0;
 

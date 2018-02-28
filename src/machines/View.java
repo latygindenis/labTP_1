@@ -24,6 +24,11 @@ public class View extends JFrame{
     JRadioButton yesButton = null;
     JRadioButton noButton = null;
     JLabel showTimeLabel = null;
+    JTextField timeHeavyArea = null;
+    JTextField timeLightArea = null;
+
+    JSlider heavySlider = null;
+    JSlider lightSlider = null;
 
 
 
@@ -135,12 +140,10 @@ public class View extends JFrame{
 
 
         infoArea = new JTextArea();
-        infoArea.setBounds(0, 180, 150, 100);
+        infoArea.setBounds(0, 180, 150, 65);
         infoArea.setEditable(false);
         infoArea.setVisible(false);
         infoArea.setFocusable(false);
-
-
 
 
 
@@ -155,6 +158,28 @@ public class View extends JFrame{
             }
         });
 
+        timeHeavyArea = new JTextField(String.valueOf(Habitat.timeHeavy));
+        timeHeavyArea.setBounds(0, 250, 20, 20);
+
+
+        timeLightArea = new JTextField(String.valueOf(Habitat.timeLight));
+        timeLightArea.setBounds(0, 280, 20, 20);
+
+        heavySlider = new JSlider(JSlider.VERTICAL, 0, 100,(int) (Habitat.pHeavy*100));
+        heavySlider.setMajorTickSpacing(10);
+        heavySlider.setPaintTicks(true);
+        heavySlider.setPaintLabels(true);
+        heavySlider.setSnapToTicks(true);
+        heavySlider.setBounds(40, 250, 50, 200);
+
+        lightSlider = new JSlider(JSlider.VERTICAL, 0, 100,(int) (Habitat.pLight*100));
+        lightSlider.setMajorTickSpacing(10);
+        lightSlider.setPaintTicks(true);
+        lightSlider.setPaintLabels(true);
+        lightSlider.setSnapToTicks(true);
+        lightSlider.setBounds(90, 250, 50, 200);
+
+
 
         mainPanel.add(yesButton);
         mainPanel.add(noButton);
@@ -163,6 +188,10 @@ public class View extends JFrame{
         mainPanel.add(endButton);
         mainPanel.add(showInfoCheckBox);
         mainPanel.add(infoArea);
+        mainPanel.add(timeHeavyArea);
+        mainPanel.add(timeLightArea);
+        mainPanel.add(heavySlider);
+        mainPanel.add(lightSlider);
         panelGen = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) { //Необходимо при перерисовки интерфейса
@@ -200,7 +229,7 @@ public class View extends JFrame{
             }
         });
         panelGen.setBounds(10, 10, 520, 520);
-        mainPanel.setBounds(530, 10, 200, 500);
+        mainPanel.setBounds(530, 10, 300, 500);
         mes = new JLabel("", JLabel.RIGHT);
         panelGen.add(mes);
         add(panelGen);
