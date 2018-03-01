@@ -20,6 +20,13 @@ public class HabitatController {
         init();
     }
     private void init(){
+
+
+        view.startSimulationItem.addActionListener(beginListner);
+        view.endSimulationItem.addActionListener(endListner);
+        view.showInfoItem.addActionListener(menuInfoListener);
+//        view.showTimeItem.addActionListener(menuITimeListener);
+
         view.lightSlider.addChangeListener(lightChangeListener);
         view.heavySlider.addChangeListener(heavyChangeListner);
         view.startButton.addActionListener(beginListner);
@@ -59,6 +66,8 @@ public class HabitatController {
                                     "Грузовые: " + model.amountOfG);
                 }
                 view.startButton.setEnabled(false);
+                view.startSimulationItem.setEnabled(false);
+                view.endSimulationItem.setEnabled(true);
                 view.endButton.setEnabled(true);
                 view.repaint();
             }
@@ -95,6 +104,8 @@ public class HabitatController {
             CarArrayList.getInstance().arrayCarList.clear();
             view.repaint(); //"Очистка" интерфейса
             view.startButton.setEnabled(true);
+            view.startSimulationItem.setEnabled(true);
+            view.endSimulationItem.setEnabled(false);
             view.endButton.setEnabled(false);
         }
     }
@@ -102,6 +113,8 @@ public class HabitatController {
     private ActionListener radioListener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent ae) {
+
+
             switch ( ((JRadioButton)ae.getSource()).getText() ) {
                 case "Да" :
                     view.infoArea.setText(
@@ -109,12 +122,14 @@ public class HabitatController {
                                     "Легковые: " + model.amountOfL + "\n" +
                                     "Грузовые: " + model.amountOfG + "\n" +
                                     "Время: " + model.time);
+                    view.showTimeItem.setState(true);
                     break;
                 case "Нет" :
                     view.infoArea.setText(
                             "Количество: " + (model.amountOfL + model.amountOfG) + "\n" +
                                     "Легковые: " + model.amountOfL + "\n" +
                                     "Грузовые: " + model.amountOfG);
+                    view.showTimeItem.setState(false);
                     break;
                 default:
                     break;
@@ -127,11 +142,46 @@ public class HabitatController {
         public void itemStateChanged(ItemEvent e) {
             if (e.getStateChange() == ItemEvent.SELECTED) {//checkbox has been selected
                 view.infoArea.setVisible(true);
+                view.showInfoItem.setState(true);
             } else {//checkbox has been deselected
                 view.infoArea.setVisible(false);
+                view.showInfoItem.setState(false);
             }
         }
     };
+
+    private  ActionListener menuInfoListener = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (view.showInfoItem.getState()){
+                view.infoArea.setVisible(true);
+                view.showInfoCheckBox.setSelected(true);
+            }
+            else {
+                view.infoArea.setVisible(false);
+                view.showInfoCheckBox.setSelected(false);
+            }
+        }
+    };
+
+//    private  ActionListener menuITimeListener = new ActionListener() {
+//        @Override
+//        public void actionPerformed(ActionEvent e) {
+//            if (view.showInfoItem.getState()){
+//                view.infoArea.setText(
+//                        "Количество: " + (model.amountOfL + model.amountOfG) + "\n" +
+//                                "Легковые: " + model.amountOfL + "\n" +
+//                                "Грузовые: " + model.amountOfG + "\n" +
+//                                "Время: " + model.time);
+//            }
+//            else {
+//                view.infoArea.setText(
+//                        "Количество: " + (model.amountOfL + model.amountOfG) + "\n" +
+//                                "Легковые: " + model.amountOfL + "\n" +
+//                                "Грузовые: " + model.amountOfG);
+//            }
+//        }
+//    };
 
     private KeyAdapter keyAdapter = new KeyAdapter() {
         @Override

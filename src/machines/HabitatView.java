@@ -13,6 +13,14 @@ public class HabitatView extends JFrame{
     private int wPosX;
     private int wPosY;
 
+    JMenu menuSimulation = null;
+    JMenu menuUI = null;
+
+    JMenuItem startSimulationItem = null;
+    JMenuItem endSimulationItem = null;
+    JCheckBoxMenuItem showInfoItem = null;
+    JCheckBoxMenuItem showTimeItem = null;
+
     JPanel mainPanel = null;
     JPanel panelGen = null;
     JButton startButton = null;
@@ -33,12 +41,38 @@ public class HabitatView extends JFrame{
         this.wHeight = wHeight;
         this.wPosX = wPosX;
         this.wPosY = wPosY;
+        drawMenu();
         drawUI();
+    }
 
+    private void drawMenu(){
+        JMenuBar menuBar = new JMenuBar();
+        menuSimulation = new JMenu("Симуляция");
+        menuUI = new JMenu("Вид");
+
+        showInfoItem = new JCheckBoxMenuItem("Показывать информацию");
+        showTimeItem = new JCheckBoxMenuItem("Показывать время");
+
+        menuUI.add(showInfoItem);
+        menuUI.add(showTimeItem);
+
+
+        startSimulationItem = new JMenuItem("Начать симуляцию");
+        endSimulationItem = new JMenuItem("Остановить симуляцию");
+        endSimulationItem.setEnabled(false);
+        menuSimulation.add(startSimulationItem);
+        menuSimulation.add(endSimulationItem);
+
+
+        menuBar.add(menuSimulation);
+        menuBar.add(menuUI);
+        setJMenuBar(menuBar);
     }
 
     private void drawUI() {
         setLayout(null);
+        Font font = new Font("Verdana", Font.PLAIN, 11);
+
 
         mainPanel = new JPanel();
         mainPanel.setLayout(null);
