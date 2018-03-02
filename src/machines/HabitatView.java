@@ -30,6 +30,11 @@ public class HabitatView extends JFrame{
     JRadioButton yesButton = null;
     JRadioButton noButton = null;
     JLabel showTimeLabel = null;
+
+    JLabel timeHeavyLabel = null;
+    JLabel timeLightLabel = null;
+    JLabel pTimeHeavyLabel = null;
+    JLabel pTimeLightLabel = null;
     JTextField timeHeavyArea = null;
     JTextField timeLightArea = null;
 
@@ -51,10 +56,10 @@ public class HabitatView extends JFrame{
         menuUI = new JMenu("Вид");
 
         showInfoItem = new JCheckBoxMenuItem("Показывать информацию");
-        showTimeItem = new JCheckBoxMenuItem("Показывать время");
+//        showTimeItem = new JCheckBoxMenuItem("Показывать время");
 
         menuUI.add(showInfoItem);
-        menuUI.add(showTimeItem);
+//        menuUI.add(showTimeItem);
 
 
         startSimulationItem = new JMenuItem("Начать симуляцию");
@@ -85,16 +90,21 @@ public class HabitatView extends JFrame{
         endButton.setLocation(0, 30);
         endButton.setEnabled(false);
 
+
+        showInfoCheckBox = new JCheckBox("Показать информацию");
+        showInfoCheckBox.setBounds(0, 70, 200, 25);
+        showInfoCheckBox.setFocusable(false);
+
         showTimeLabel = new JLabel("Показать время?");
-        showTimeLabel.setBounds(10, 125, 100, 20);
+        showTimeLabel.setBounds(20, 170, 100, 20);
 
         yesButton = new JRadioButton("Да");
         yesButton.setFocusable(false);
-        yesButton.setBounds(0, 145, 50, 25);
+        yesButton.setBounds(20, 190, 50, 25);
 
         noButton = new JRadioButton("Нет");
         noButton.setFocusable(false);
-        noButton.setBounds(60, 145, 50, 25);
+        noButton.setBounds(70, 190, 50, 25);
         noButton.setSelected(true);
 
         ButtonGroup group = new ButtonGroup();
@@ -102,34 +112,42 @@ public class HabitatView extends JFrame{
         group.add(noButton);
 
         infoArea = new JTextArea();
-        infoArea.setBounds(0, 180, 150, 65);
+        infoArea.setBounds(0, 100, 150, 65);
         infoArea.setEditable(false);
         infoArea.setVisible(false);
         infoArea.setFocusable(false);
 
-        showInfoCheckBox = new JCheckBox("Показать информацию");
-        showInfoCheckBox.setBounds(0, 100, 200, 25);
-        showInfoCheckBox.setFocusable(false);
 
+
+        timeHeavyLabel = new JLabel("Период появления грузовой машины:");
+        timeHeavyLabel.setBounds(10, 240, 240, 20);
         timeHeavyArea = new JTextField();
-        timeHeavyArea.setBounds(0, 250, 20, 20);
+        timeHeavyArea.setBounds(240, 240, 20, 20);
 
+
+        timeLightLabel = new JLabel("Период появления легковой машины:");
+        timeLightLabel.setBounds(10, 340, 240, 20);
         timeLightArea = new JTextField();
-        timeLightArea.setBounds(0, 280, 20, 20);
+        timeLightArea.setBounds(240, 340, 20, 20);
 
-        heavySlider = new JSlider(JSlider.VERTICAL, 0, 100,50);
+
+        pTimeHeavyLabel = new JLabel("Вероятность появления грузовой машины:");
+        pTimeHeavyLabel.setBounds(10, 260, 260, 20);
+        heavySlider = new JSlider(JSlider.HORIZONTAL, 0, 100,50);
         heavySlider.setMajorTickSpacing(10);
         heavySlider.setPaintTicks(true);
         heavySlider.setPaintLabels(true);
         heavySlider.setSnapToTicks(true);
-        heavySlider.setBounds(40, 250, 50, 200);
+        heavySlider.setBounds(10, 280, 250, 50);
 
-        lightSlider = new JSlider(JSlider.VERTICAL, 0, 100,50);
+        pTimeLightLabel = new JLabel("Вероятность появления легковой машины:");
+        pTimeLightLabel.setBounds(10, 360, 260, 20);
+        lightSlider = new JSlider(JSlider.HORIZONTAL, 0, 100,50);
         lightSlider.setMajorTickSpacing(10);
         lightSlider.setPaintTicks(true);
         lightSlider.setPaintLabels(true);
         lightSlider.setSnapToTicks(true);
-        lightSlider.setBounds(90, 250, 50, 200);
+        lightSlider.setBounds(10, 380, 250, 50);
 
         mainPanel.add(yesButton);
         mainPanel.add(noButton);
@@ -142,6 +160,10 @@ public class HabitatView extends JFrame{
         mainPanel.add(timeLightArea);
         mainPanel.add(heavySlider);
         mainPanel.add(lightSlider);
+        mainPanel.add(timeHeavyLabel);
+        mainPanel.add(timeLightLabel);
+        mainPanel.add(pTimeHeavyLabel);
+        mainPanel.add(pTimeLightLabel);
 
         panelGen = new JPanel()  {
             @Override
