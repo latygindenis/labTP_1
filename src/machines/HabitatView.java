@@ -35,8 +35,8 @@ public class HabitatView extends JFrame{
     JLabel timeLightLabel = null;
     JLabel pTimeHeavyLabel = null;
     JLabel pTimeLightLabel = null;
-    JTextField timeHeavyArea = null;
-    JTextField timeLightArea = null;
+    TextField timeHeavyArea = null;
+    TextField timeLightArea = null;
 
     JSlider heavySlider = null;
     JSlider lightSlider = null;
@@ -54,21 +54,13 @@ public class HabitatView extends JFrame{
         JMenuBar menuBar = new JMenuBar();
         menuSimulation = new JMenu("Симуляция");
         menuUI = new JMenu("Вид");
-
         showInfoItem = new JCheckBoxMenuItem("Показывать информацию");
-//        showTimeItem = new JCheckBoxMenuItem("Показывать время");
-
         menuUI.add(showInfoItem);
-//        menuUI.add(showTimeItem);
-
-
         startSimulationItem = new JMenuItem("Начать симуляцию");
         endSimulationItem = new JMenuItem("Остановить симуляцию");
         endSimulationItem.setEnabled(false);
         menuSimulation.add(startSimulationItem);
         menuSimulation.add(endSimulationItem);
-
-
         menuBar.add(menuSimulation);
         menuBar.add(menuUI);
         setJMenuBar(menuBar);
@@ -121,13 +113,13 @@ public class HabitatView extends JFrame{
 
         timeHeavyLabel = new JLabel("Период появления грузовой машины:");
         timeHeavyLabel.setBounds(10, 240, 240, 20);
-        timeHeavyArea = new JTextField();
+        timeHeavyArea = new TextField();
         timeHeavyArea.setBounds(240, 240, 20, 20);
 
 
         timeLightLabel = new JLabel("Период появления легковой машины:");
         timeLightLabel.setBounds(10, 340, 240, 20);
-        timeLightArea = new JTextField();
+        timeLightArea = new TextField();
         timeLightArea.setBounds(240, 340, 20, 20);
 
 

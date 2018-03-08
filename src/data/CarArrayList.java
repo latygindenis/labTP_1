@@ -1,11 +1,15 @@
 package data;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.TreeSet;
 
 public class CarArrayList { //Синглтон
     private static CarArrayList instance;
 
     public ArrayList <Car> arrayCarList;
+    public TreeSet <Car> idTreeSet;
+    public HashMap <Long, Car> bornHashMap;
 
     private CarArrayList(){
         arrayCarList = new ArrayList<>();
