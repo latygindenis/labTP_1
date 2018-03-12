@@ -185,4 +185,11 @@ public class HabitatView extends JFrame {
         endButton.setEnabled(true);
         repaint();
     }
+    void stopSimulation() {
+        repaint(); //"Очистка" интерфейса
+        startButton.setEnabled(true);
+        startSimulationItem.setEnabled(true);
+        endSimulationItem.setEnabled(false);
+        endButton.setEnabled(false);
+    }
 }
