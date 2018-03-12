@@ -38,77 +38,9 @@ public class HabitatController {
         view.timeHeavyArea.setText(String.valueOf(model.getTimeHeavy()));
     }
 
-    private void startSimulation(boolean firstStart) {
-        model.startSimulation(true);
-        /*timer = new Timer();
-        model.amountHeavy = amountHeavy;
-        model.amountLight = amountLight;
-        model.time = time;
-        timer.schedule(new TimerTask() { //Добавление задания в таймер
-            public void run() {
-                model.time++;
-                model.update(model.time);
-                if (view.yesButton.isSelected()) {
-                    view.infoArea.setText(
-                            "Количество: " + (model.amountLight + model.amountHeavy) + "\n" +
-                                    "Легковые: " + model.amountLight + "\n" +
-                                    "Грузовые: " + model.amountHeavy + "\n" +
-                                    "Время: " + model.time);
-                } else {
-                    view.infoArea.setText(
-                            "Количество: " + (model.amountLight + model.amountHeavy) + "\n" +
-                                    "Легковые: " + model.amountLight + "\n" +
-                                    "Грузовые: " + model.amountHeavy);
-                }
-                view.startButton.setEnabled(false);
-                view.startSimulationItem.setEnabled(false);
-                view.endSimulationItem.setEnabled(true);
-                view.endButton.setEnabled(true);
-                view.repaint();
-            }
-        }, 0, 1000);*/
-    }
-
-    private void endSimulation() {
-        model.stopSimulation(view.showInfoCheckBox.isSelected());
-        /*timer.cancel();
-        timer.purge();
-        if (view.showInfoCheckBox.isSelected()) {
-            Object[] options = {"Resume",
-                    "Stop"};
-            int n = JOptionPane.showOptionDialog(new JFrame(),
-                    "Количество: " + (model.amountLight + model.amountHeavy) + "\n" +
-                            "Легковые: " + model.amountLight + "\n" +
-                            "Грузовые: " + model.amountHeavy + "\n" +
-                            "Время: " + model.time,
-                    "StopDialog",
-                    JOptionPane.YES_NO_CANCEL_OPTION,
-                    JOptionPane.QUESTION_MESSAGE,
-                    null,
-                    options,
-                    options[1]);
-            if (n == 0) {
-                startSimulation(false);
-            } else {
-                CarArrayList.getInstance().arrayCarList.clear();
-                view.repaint(); //"Очистка" интерфейса
-                view.startButton.setEnabled(true);
-                view.endButton.setEnabled(false);
-            }
-        } else {
-            CarArrayList.getInstance().arrayCarList.clear();
-            view.repaint(); //"Очистка" интерфейса
-            view.startButton.setEnabled(true);
-            view.startSimulationItem.setEnabled(true);
-            view.endSimulationItem.setEnabled(false);
-            view.endButton.setEnabled(false);
-        }*/
-    }
-
     private ActionListener radioListener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent ae) {
-
 
             switch (((JRadioButton) ae.getSource()).getText()) {
                 case "Да":
@@ -163,11 +95,11 @@ public class HabitatController {
             switch (e.getKeyCode()) {
                 case KeyEvent.VK_B:
                     if (view.startButton.isEnabled()) {
-                        startSimulation(true);
+                        model.startSimulation(true);
                     }
                     break;
                 case KeyEvent.VK_E:
-                    endSimulation();
+                    model.stopSimulation(view.showInfoCheckBox.isSelected());
                     break;
                 case KeyEvent.VK_T:
                     if (view.showInfoCheckBox.isSelected()) {
@@ -182,9 +114,9 @@ public class HabitatController {
         }
     };
 
-    private ActionListener endListner = e -> endSimulation();
+    private ActionListener endListner = e -> model.stopSimulation(view.showInfoCheckBox.isSelected());
 
-    private ActionListener beginListner = e -> startSimulation(true);
+    private ActionListener beginListner = e -> model.startSimulation(true);
 
     private ChangeListener lightChangeListener = new ChangeListener() {
         @Override
