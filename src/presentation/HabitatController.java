@@ -1,4 +1,4 @@
-package machines;
+package presentation;
 
 import data.CarArrayList;
 
@@ -11,16 +11,17 @@ import java.util.TimerTask;
 
 public class HabitatController {
 
-    private Timer timer;
     private HabitatView view;
     private HabitatModel model;
 
+    //binding View&Model
     public HabitatController(HabitatView view, HabitatModel model) {
         this.view = view;
         this.model = model;
         init();
     }
 
+    //add listners
     private void init() {
         view.startSimulationItem.addActionListener(beginListner);
         view.endSimulationItem.addActionListener(endListner);
@@ -36,32 +37,32 @@ public class HabitatController {
         view.timeLightArea.addTextListener(timeLightTextFieldList);
         view.timeLightArea.addActionListener(timeLightTextFieldListener);
         view.timeLightArea.setText(String.valueOf(model.getTimeLight()));
-
         view.timeHeavyArea.addTextListener(timeHeavyTextFieldList);
         view.timeHeavyArea.addActionListener(timeHeavyTextFieldListener);
         view.timeHeavyArea.setText(String.valueOf(model.getTimeHeavy()));
     }
 
-    private void startSimulation(long t, int _amountG, int _amountL) {
-        timer = new Timer();
-        model.amountOfG = _amountG;
-        model.amountOfL = _amountL;
-        model.time = t;
+    private void startSimulation(boolean firstStart) {
+        model.startSimulation(true);
+        /*timer = new Timer();
+        model.amountHeavy = amountHeavy;
+        model.amountLight = amountLight;
+        model.time = time;
         timer.schedule(new TimerTask() { //Добавление задания в таймер
             public void run() {
                 model.time++;
                 model.update(model.time);
                 if (view.yesButton.isSelected()) {
                     view.infoArea.setText(
-                            "Количество: " + (model.amountOfL + model.amountOfG) + "\n" +
-                                    "Легковые: " + model.amountOfL + "\n" +
-                                    "Грузовые: " + model.amountOfG + "\n" +
+                            "Количество: " + (model.amountLight + model.amountHeavy) + "\n" +
+                                    "Легковые: " + model.amountLight + "\n" +
+                                    "Грузовые: " + model.amountHeavy + "\n" +
                                     "Время: " + model.time);
                 } else {
                     view.infoArea.setText(
-                            "Количество: " + (model.amountOfL + model.amountOfG) + "\n" +
-                                    "Легковые: " + model.amountOfL + "\n" +
-                                    "Грузовые: " + model.amountOfG);
+                            "Количество: " + (model.amountLight + model.amountHeavy) + "\n" +
+                                    "Легковые: " + model.amountLight + "\n" +
+                                    "Грузовые: " + model.amountHeavy);
                 }
                 view.startButton.setEnabled(false);
                 view.startSimulationItem.setEnabled(false);
@@ -69,19 +70,20 @@ public class HabitatController {
                 view.endButton.setEnabled(true);
                 view.repaint();
             }
-        }, 0, 1000);
+        }, 0, 1000);*/
     }
 
     private void endSimulation() {
+        model.endSimulation(view.showInfoCheckBox.isSelected());
         timer.cancel();
         timer.purge();
         if (view.showInfoCheckBox.isSelected()) {
             Object[] options = {"Resume",
                     "Stop"};
             int n = JOptionPane.showOptionDialog(new JFrame(),
-                    "Количество: " + (model.amountOfL + model.amountOfG) + "\n" +
-                            "Легковые: " + model.amountOfL + "\n" +
-                            "Грузовые: " + model.amountOfG + "\n" +
+                    "Количество: " + (model.amountLight + model.amountHeavy) + "\n" +
+                            "Легковые: " + model.amountLight + "\n" +
+                            "Грузовые: " + model.amountHeavy + "\n" +
                             "Время: " + model.time,
                     "StopDialog",
                     JOptionPane.YES_NO_CANCEL_OPTION,
@@ -90,8 +92,7 @@ public class HabitatController {
                     options,
                     options[1]);
             if (n == 0) {
-                startSimulation(model.time, model.amountOfG, model.amountOfL);
-
+                startSimulation(false);
             } else {
                 CarArrayList.getInstance().arrayCarList.clear();
                 view.repaint(); //"Очистка" интерфейса
@@ -116,16 +117,16 @@ public class HabitatController {
             switch (((JRadioButton) ae.getSource()).getText()) {
                 case "Да":
                     view.infoArea.setText(
-                            "Количество: " + (model.amountOfL + model.amountOfG) + "\n" +
-                                    "Легковые: " + model.amountOfL + "\n" +
-                                    "Грузовые: " + model.amountOfG + "\n" +
+                            "Количество: " + (model.amountLight + model.amountHeavy) + "\n" +
+                                    "Легковые: " + model.amountLight + "\n" +
+                                    "Грузовые: " + model.amountHeavy + "\n" +
                                     "Время: " + model.time);
                     break;
                 case "Нет":
                     view.infoArea.setText(
-                            "Количество: " + (model.amountOfL + model.amountOfG) + "\n" +
-                                    "Легковые: " + model.amountOfL + "\n" +
-                                    "Грузовые: " + model.amountOfG);
+                            "Количество: " + (model.amountLight + model.amountHeavy) + "\n" +
+                                    "Легковые: " + model.amountLight + "\n" +
+                                    "Грузовые: " + model.amountHeavy);
                     break;
                 default:
                     break;
@@ -166,7 +167,7 @@ public class HabitatController {
             switch (e.getKeyCode()) {
                 case KeyEvent.VK_B:
                     if (view.startButton.isEnabled()) {
-                        startSimulation(0, 0, 0);
+                        startSimulation(true);
                     }
                     break;
                 case KeyEvent.VK_E:
@@ -187,7 +188,7 @@ public class HabitatController {
 
     private ActionListener endListner = e -> endSimulation();
 
-    private ActionListener beginListner = e -> startSimulation(0, 0, 0);
+    private ActionListener beginListner = e -> startSimulation(true);
 
     private ChangeListener lightChangeListener = new ChangeListener() {
         @Override
