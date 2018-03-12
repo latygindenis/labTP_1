@@ -1,4 +1,4 @@
-package machines;
+package presentation;
 
 import data.Car;
 import data.CarArrayList;
@@ -6,40 +6,40 @@ import data.CarArrayList;
 import javax.swing.*;
 import java.awt.*;
 
-public class HabitatView extends JFrame{
+public class HabitatView extends JFrame {
 
     private int wHeight;
     private int wLength;
     private int wPosX;
     private int wPosY;
 
-    JMenu menuSimulation = null;
-    JMenu menuUI = null;
+    JMenu menuSimulation;
+    JMenu menuUI;
 
-    JMenuItem startSimulationItem = null;
-    JMenuItem endSimulationItem = null;
-    JCheckBoxMenuItem showInfoItem = null;
-    JCheckBoxMenuItem showTimeItem = null;
+    JMenuItem startSimulationItem;
+    JMenuItem endSimulationItem;
+    JCheckBoxMenuItem showInfoItem;
+    JCheckBoxMenuItem showTimeItem;
 
-    JPanel mainPanel = null;
-    JPanel panelGen = null;
-    JButton startButton = null;
-    JButton endButton = null;
-    JCheckBox showInfoCheckBox = null;
-    JTextArea infoArea = null;
-    JRadioButton yesButton = null;
-    JRadioButton noButton = null;
-    JLabel showTimeLabel = null;
+    JPanel mainPanel;
+    JPanel panelGen;
+    JButton startButton;
+    JButton endButton;
+    JCheckBox showInfoCheckBox;
+    JTextArea infoArea;
+    JRadioButton yesButton;
+    JRadioButton noButton;
+    JLabel showTimeLabel;
 
-    JLabel timeHeavyLabel = null;
-    JLabel timeLightLabel = null;
-    JLabel pTimeHeavyLabel = null;
-    JLabel pTimeLightLabel = null;
-    TextField timeHeavyArea = null;
-    TextField timeLightArea = null;
+    JLabel timeHeavyLabel;
+    JLabel timeLightLabel;
+    JLabel pTimeHeavyLabel;
+    JLabel pTimeLightLabel;
+    TextField timeHeavyArea;
+    TextField timeLightArea;
 
-    JSlider heavySlider = null;
-    JSlider lightSlider = null;
+    JSlider heavySlider;
+    JSlider lightSlider;
 
     public HabitatView(int wLength, int wHeight, int wPosX, int wPosY) {
         this.wLength = wLength;
@@ -50,7 +50,7 @@ public class HabitatView extends JFrame{
         drawUI();
     }
 
-    private void drawMenu(){
+    private void drawMenu() {
         JMenuBar menuBar = new JMenuBar();
         menuSimulation = new JMenu("Симуляция");
         menuUI = new JMenu("Вид");
@@ -68,8 +68,6 @@ public class HabitatView extends JFrame{
 
     private void drawUI() {
         setLayout(null);
-        Font font = new Font("Verdana", Font.PLAIN, 11);
-
 
         mainPanel = new JPanel();
         mainPanel.setLayout(null);
@@ -110,7 +108,6 @@ public class HabitatView extends JFrame{
         infoArea.setFocusable(false);
 
 
-
         timeHeavyLabel = new JLabel("Период появления грузовой машины:");
         timeHeavyLabel.setBounds(10, 240, 240, 20);
         timeHeavyArea = new TextField();
@@ -125,7 +122,7 @@ public class HabitatView extends JFrame{
 
         pTimeHeavyLabel = new JLabel("Вероятность появления грузовой машины:");
         pTimeHeavyLabel.setBounds(10, 260, 260, 20);
-        heavySlider = new JSlider(JSlider.HORIZONTAL, 0, 100,50);
+        heavySlider = new JSlider(JSlider.HORIZONTAL, 0, 100, 50);
         heavySlider.setMajorTickSpacing(10);
         heavySlider.setPaintTicks(true);
         heavySlider.setPaintLabels(true);
@@ -134,7 +131,7 @@ public class HabitatView extends JFrame{
 
         pTimeLightLabel = new JLabel("Вероятность появления легковой машины:");
         pTimeLightLabel.setBounds(10, 360, 260, 20);
-        lightSlider = new JSlider(JSlider.HORIZONTAL, 0, 100,50);
+        lightSlider = new JSlider(JSlider.HORIZONTAL, 0, 100, 50);
         lightSlider.setMajorTickSpacing(10);
         lightSlider.setPaintTicks(true);
         lightSlider.setPaintLabels(true);
@@ -157,7 +154,7 @@ public class HabitatView extends JFrame{
         mainPanel.add(pTimeHeavyLabel);
         mainPanel.add(pTimeLightLabel);
 
-        panelGen = new JPanel()  {
+        panelGen = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) { //Необходимо при перерисовки интерфейса
                 super.paintComponent(g);
@@ -175,5 +172,17 @@ public class HabitatView extends JFrame{
         setBounds(wPosX, wPosY, wLength, wHeight);
         setVisible(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
+    void startSimulation(String statisticWithTime, String statisticWithoutTime) {
+        if (yesButton.isSelected()) {
+            infoArea.setText(statisticWithTime);
+        } else {
+            infoArea.setText(statisticWithoutTime);
+        }
+        startButton.setEnabled(false);
+        startSimulationItem.setEnabled(false);
+        endSimulationItem.setEnabled(true);
+        endButton.setEnabled(true);
+        repaint();
     }
 }
