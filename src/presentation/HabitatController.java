@@ -1,13 +1,9 @@
 package presentation;
 
-import data.CarArrayList;
-
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.event.*;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class HabitatController {
 
@@ -74,8 +70,8 @@ public class HabitatController {
     }
 
     private void endSimulation() {
-        model.endSimulation(view.showInfoCheckBox.isSelected());
-        timer.cancel();
+        model.stopSimulation(view.showInfoCheckBox.isSelected());
+        /*timer.cancel();
         timer.purge();
         if (view.showInfoCheckBox.isSelected()) {
             Object[] options = {"Resume",
@@ -106,7 +102,7 @@ public class HabitatController {
             view.startSimulationItem.setEnabled(true);
             view.endSimulationItem.setEnabled(false);
             view.endButton.setEnabled(false);
-        }
+        }*/
     }
 
     private ActionListener radioListener = new ActionListener() {

@@ -5,6 +5,7 @@ import data.CarArrayList;
 import data.CarHeavy;
 import data.CarLight;
 
+import javax.swing.*;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -110,7 +111,30 @@ public class HabitatModel { // обработка событий клавиат�
         return statistic;
     }
 
-    public void endSimulation(boolean selected) {
+    public void stopSimulation(boolean selected) {
+        timer.cancel();
+        timer.purge();
+        if (selected) {
+            Object[] options = {"Resume",
+                    "Stop"};
+            int n = JOptionPane.showOptionDialog(new JFrame(),
+                    generateStatisticString(true),
+                    "StopDialog",
+                    JOptionPane.YES_NO_CANCEL_OPTION,
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    options,
+                    options[1]);
+            if (n == 0) {
+                startSimulation(false);
+            } else {
+                CarArrayList.getInstance().arrayCarList.clear();
+                view.stopSimulation();
+            }
+        } else {
+            CarArrayList.getInstance().arrayCarList.clear();
+            view.stopSimulation();
+        }
 
     }
 }
