@@ -68,9 +68,11 @@ public class HabitatController {
             if (e.getStateChange() == ItemEvent.SELECTED) {//checkbox has been selected
                 view.infoArea.setVisible(true);
                 view.showInfoItem.setState(true);
+                view.showTimePanel.setVisible(true);
             } else {//checkbox has been deselected
                 view.infoArea.setVisible(false);
                 view.showInfoItem.setState(false);
+                view.showTimePanel.setVisible(false);
             }
         }
     };

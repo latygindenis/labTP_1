@@ -23,6 +23,7 @@ public class HabitatView extends JFrame {
 
     JPanel mainPanel;
     JPanel panelGen;
+    JPanel showTimePanel;
     JButton startButton;
     JButton endButton;
     JCheckBox showInfoCheckBox;
@@ -30,6 +31,7 @@ public class HabitatView extends JFrame {
     JRadioButton yesButton;
     JRadioButton noButton;
     JLabel showTimeLabel;
+    JPanel parentPanel;
 
     JLabel timeHeavyLabel;
     JLabel timeLightLabel;
@@ -67,108 +69,113 @@ public class HabitatView extends JFrame {
     }
 
     private void drawUI() {
-        setLayout(null);
+        parentPanel = new JPanel();
+        parentPanel.setLayout(new BorderLayout());
 
         mainPanel = new JPanel();
-        mainPanel.setLayout(null);
-
+        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.PAGE_AXIS));
         startButton = new JButton("start");
-        startButton.setSize(100, 25);
-
+        startButton.setMaximumSize(new Dimension(100, 25));
         endButton = new JButton("end");
-        endButton.setSize(100, 25);
-        endButton.setLocation(0, 30);
+        endButton.setMaximumSize(new Dimension(100, 25));
         endButton.setEnabled(false);
 
 
         showInfoCheckBox = new JCheckBox("Показать информацию");
-        showInfoCheckBox.setBounds(0, 70, 200, 25);
         showInfoCheckBox.setFocusable(false);
 
-        showTimeLabel = new JLabel("Показать время?");
-        showTimeLabel.setBounds(20, 170, 100, 20);
 
+
+        showTimePanel = new JPanel();
+        showTimePanel.setLayout(new BoxLayout(showTimePanel, BoxLayout.LINE_AXIS));
+
+        showTimeLabel = new JLabel("Показать время?");
         yesButton = new JRadioButton("Да");
         yesButton.setFocusable(false);
-        yesButton.setBounds(20, 190, 50, 25);
 
         noButton = new JRadioButton("Нет");
         noButton.setFocusable(false);
-        noButton.setBounds(70, 190, 50, 25);
+
         noButton.setSelected(true);
 
         ButtonGroup group = new ButtonGroup();
         group.add(yesButton);
         group.add(noButton);
+        showTimePanel.add(showTimeLabel);
+        showTimePanel.add(yesButton);
+        showTimePanel.add(noButton);
+        showTimePanel.setVisible(false);
 
         infoArea = new JTextArea();
-        infoArea.setBounds(0, 100, 150, 65);
         infoArea.setEditable(false);
         infoArea.setVisible(false);
         infoArea.setFocusable(false);
+        infoArea.setMaximumSize(new Dimension(300, 75));
 
 
+        JPanel timeHeavyPanel = new JPanel();
+        timeHeavyPanel.setLayout(new BoxLayout(timeHeavyPanel, BoxLayout.LINE_AXIS));
         timeHeavyLabel = new JLabel("Период появления грузовой машины:");
-        timeHeavyLabel.setBounds(10, 240, 240, 20);
         timeHeavyArea = new TextField();
-        timeHeavyArea.setBounds(240, 240, 20, 20);
+        timeHeavyArea.setMaximumSize(new Dimension(50, 25));
 
+        timeHeavyPanel.add(timeHeavyLabel);
+        timeHeavyPanel.add(timeHeavyArea);
 
         timeLightLabel = new JLabel("Период появления легковой машины:");
-        timeLightLabel.setBounds(10, 340, 240, 20);
         timeLightArea = new TextField();
-        timeLightArea.setBounds(240, 340, 20, 20);
+        timeLightArea.setMaximumSize(new Dimension(50,25));
+
 
 
         pTimeHeavyLabel = new JLabel("Вероятность появления грузовой машины:");
-        pTimeHeavyLabel.setBounds(10, 260, 260, 20);
-        heavySlider = new JSlider(JSlider.HORIZONTAL, 0, 100, 50);
+        heavySlider = new JSlider(JSlider.HORIZONTAL, 0, 100,50);
         heavySlider.setMajorTickSpacing(10);
         heavySlider.setPaintTicks(true);
         heavySlider.setPaintLabels(true);
         heavySlider.setSnapToTicks(true);
-        heavySlider.setBounds(10, 280, 250, 50);
 
         pTimeLightLabel = new JLabel("Вероятность появления легковой машины:");
-        pTimeLightLabel.setBounds(10, 360, 260, 20);
-        lightSlider = new JSlider(JSlider.HORIZONTAL, 0, 100, 50);
+        lightSlider = new JSlider(JSlider.HORIZONTAL, 0, 100,50);
         lightSlider.setMajorTickSpacing(10);
         lightSlider.setPaintTicks(true);
         lightSlider.setPaintLabels(true);
         lightSlider.setSnapToTicks(true);
-        lightSlider.setBounds(10, 380, 250, 50);
 
-        mainPanel.add(yesButton);
-        mainPanel.add(noButton);
-        mainPanel.add(showTimeLabel);
+
+
         mainPanel.add(startButton);
+        mainPanel.add(Box.createRigidArea(new Dimension(0, 5)));
         mainPanel.add(endButton);
         mainPanel.add(showInfoCheckBox);
         mainPanel.add(infoArea);
-        mainPanel.add(timeHeavyArea);
-        mainPanel.add(timeLightArea);
-        mainPanel.add(heavySlider);
-        mainPanel.add(lightSlider);
-        mainPanel.add(timeHeavyLabel);
-        mainPanel.add(timeLightLabel);
+        mainPanel.add(Box.createRigidArea(new Dimension(0, 5)));
+        mainPanel.add(showTimePanel);
+        mainPanel.add(Box.createRigidArea(new Dimension(0, 5)));
+        mainPanel.add(timeHeavyPanel);
+        mainPanel.add(Box.createRigidArea(new Dimension(0, 5)));
         mainPanel.add(pTimeHeavyLabel);
+        mainPanel.add(heavySlider);
+        mainPanel.add(timeLightLabel);
+        mainPanel.add(timeLightArea);
         mainPanel.add(pTimeLightLabel);
+        mainPanel.add(lightSlider);
 
-        panelGen = new JPanel() {
+        panelGen = new JPanel()  {
             @Override
             protected void paintComponent(Graphics g) { //Необходимо при перерисовки интерфейса
                 super.paintComponent(g);
-                g.drawRect(10, 10, 500, 500);
+                g.drawRect(10, 10, getWidth()-40, getHeight()-40);
                 for (Car car : CarArrayList.getInstance().arrayCarList) {
                     car.paint(g);
                 }
             }
         };
         panelGen.setFocusable(true); //Разрешить обработку клавиш
-        panelGen.setBounds(10, 10, 520, 520);
-        mainPanel.setBounds(530, 10, 300, 500);
-        add(panelGen);
-        add(mainPanel);
+        add(parentPanel);
+
+        parentPanel.add(panelGen, BorderLayout.CENTER);
+        parentPanel.add(mainPanel, BorderLayout.LINE_END);
         setBounds(wPosX, wPosY, wLength, wHeight);
         setVisible(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
