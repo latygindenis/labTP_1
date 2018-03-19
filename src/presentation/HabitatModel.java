@@ -30,6 +30,17 @@ public class HabitatModel { // обработка событий клавиат�
     }
 
     void update(long t) {
+
+        for (int i=0; i<CarCollections.getInstance().arrayCarList.size(); i++){
+            Car curCar = CarCollections.getInstance().arrayCarList.get(i);
+            Long curBornTime = CarCollections.getInstance().bornHashMap.get(curCar.getId());
+            if (time - curBornTime  > curCar.getLiveTime()){
+                CarCollections.getInstance().bornHashMap.remove(curCar.getId());
+                CarCollections.getInstance().arrayCarList.remove(i);
+            }
+
+        }
+
         if (t % timeHeavy == 0) { //Каждые timeHeavy секунд
             if (pHeavy > (float) Math.random()) { // Если прошло по вероятности
                 amountHeavy++;

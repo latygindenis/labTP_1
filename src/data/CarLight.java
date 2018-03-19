@@ -8,7 +8,6 @@ import java.io.IOException;
 public class CarLight extends Car {
 
     private long bornTime;
-    private int liveTime;
 
     public long getBornTime() {
         return bornTime;
@@ -16,14 +15,6 @@ public class CarLight extends Car {
 
     public void setBornTime(long bornTime) {
         this.bornTime = bornTime;
-    }
-
-    public int getLiveTime() {
-        return liveTime;
-    }
-
-    public void setLiveTime(int liveTime) {
-        this.liveTime = liveTime;
     }
 
     private static Image img;
