@@ -1,7 +1,7 @@
 package presentation;
 
 import data.Car;
-import data.CarArrayList;
+import data.CarCollections;
 
 import javax.swing.*;
 import java.awt.*;
@@ -70,19 +70,25 @@ public class HabitatView extends JFrame {
 
     private void drawUI() {
         parentPanel = new JPanel();
-        parentPanel.setLayout(new BorderLayout());
+        parentPanel.setLayout(new GridLayout(1, 2));
+
 
         mainPanel = new JPanel();
+        mainPanel.setAlignmentX(1);
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.PAGE_AXIS));
         startButton = new JButton("start");
-        startButton.setMaximumSize(new Dimension(100, 25));
+       startButton.setMaximumSize(new Dimension(150, 25));
+        startButton.setAlignmentX(1);
         endButton = new JButton("end");
-        endButton.setMaximumSize(new Dimension(100, 25));
+        endButton.setMaximumSize(new Dimension(150, 25));
         endButton.setEnabled(false);
+        endButton.setAlignmentX(1);
 
 
         showInfoCheckBox = new JCheckBox("Показать информацию");
         showInfoCheckBox.setFocusable(false);
+        showInfoCheckBox.setAlignmentX((float) 0.8);
+
 
 
 
@@ -121,6 +127,7 @@ public class HabitatView extends JFrame {
 
         timeHeavyPanel.add(timeHeavyLabel);
         timeHeavyPanel.add(timeHeavyArea);
+        timeHeavyPanel.setAlignmentX((float) 0.1);
 
         timeLightLabel = new JLabel("Период появления легковой машины:");
         timeLightArea = new TextField();
@@ -129,6 +136,7 @@ public class HabitatView extends JFrame {
 
 
         pTimeHeavyLabel = new JLabel("Вероятность появления грузовой машины:");
+        pTimeHeavyLabel.setAlignmentX(1);
         heavySlider = new JSlider(JSlider.HORIZONTAL, 0, 100,50);
         heavySlider.setMajorTickSpacing(10);
         heavySlider.setPaintTicks(true);
@@ -160,22 +168,25 @@ public class HabitatView extends JFrame {
         mainPanel.add(timeLightArea);
         mainPanel.add(pTimeLightLabel);
         mainPanel.add(lightSlider);
+        mainPanel.setMaximumSize(new Dimension(300, 500));
+
 
         panelGen = new JPanel()  {
             @Override
             protected void paintComponent(Graphics g) { //Необходимо при перерисовки интерфейса
                 super.paintComponent(g);
                 g.drawRect(10, 10, getWidth()-40, getHeight()-40);
-                for (Car car : CarArrayList.getInstance().arrayCarList) {
+                for (Car car : CarCollections.getInstance().arrayCarList) {
                     car.paint(g);
                 }
+                System.out.print(mainPanel.getWidth()+ " " + mainPanel.getHeight());
             }
         };
         panelGen.setFocusable(true); //Разрешить обработку клавиш
         add(parentPanel);
 
-        parentPanel.add(panelGen, BorderLayout.CENTER);
-        parentPanel.add(mainPanel, BorderLayout.LINE_END);
+        parentPanel.add(panelGen);
+        parentPanel.add(mainPanel);
         setBounds(wPosX, wPosY, wLength, wHeight);
         setVisible(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

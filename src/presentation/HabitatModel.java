@@ -1,7 +1,7 @@
 package presentation;
 
 import data.Car;
-import data.CarArrayList;
+import data.CarCollections;
 import data.CarHeavy;
 import data.CarLight;
 
@@ -33,16 +33,16 @@ public class HabitatModel { // обработка событий клавиат�
         if (t % timeHeavy == 0) { //Каждые timeHeavy секунд
             if (pHeavy > (float) Math.random()) { // Если прошло по вероятности
                 amountHeavy++;
-                Car rb = new CarHeavy(10 + (int) (Math.random() * (view.panelGen.getWidth() - 100)), 10 + (int) (Math.random() * (view.panelGen.getHeight() - 100)));
-                CarArrayList.getInstance().arrayCarList.add(rb);
+                Car rb = new CarHeavy(10 + (int) (Math.random() * (view.panelGen.getWidth() - 100)), 10 + (int) (Math.random() * (view.panelGen.getHeight() - 100)), time);
+                CarCollections.getInstance().arrayCarList.add(rb);
 
             }
         }
         if (t % timeLight == 0) { //Каждые timeLight секунд
             if (pLight > (float) Math.random()) { //Если прошло по вероятности
                 amountLight++;
-                Car rb = new CarLight(10 + (int) (Math.random() * (view.panelGen.getWidth() - 100)), 10 + (int) (Math.random() * (view.panelGen.getHeight() - 100)));
-                CarArrayList.getInstance().arrayCarList.add(rb);
+                Car rb = new CarLight(10 + (int) (Math.random() * (view.panelGen.getWidth() - 100)), 10 + (int) (Math.random() * (view.panelGen.getHeight() - 100)), time);
+                CarCollections.getInstance().arrayCarList.add(rb);
 
             }
         }
@@ -128,11 +128,11 @@ public class HabitatModel { // обработка событий клавиат�
             if (n == 0) {
                 startSimulation(false);
             } else {
-                CarArrayList.getInstance().arrayCarList.clear();
+                CarCollections.getInstance().arrayCarList.clear();
                 view.stopSimulation();
             }
         } else {
-            CarArrayList.getInstance().arrayCarList.clear();
+            CarCollections.getInstance().arrayCarList.clear();
             view.stopSimulation();
         }
 

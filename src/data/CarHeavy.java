@@ -1,13 +1,29 @@
 package data;
 
-import data.Car;
-
 import javax.imageio.ImageIO; // загрузка изображений
 import java.awt.*; // графический интерфейс
 import java.io.File; // потоки, работа с файлами
 import java.io.IOException;
 
 public class CarHeavy extends Car {
+    private long bornTime;
+    private int liveTime;
+
+    public long getBornTime() {
+        return bornTime;
+    }
+
+    public void setBornTime(long bornTime) {
+        this.bornTime = bornTime;
+    }
+
+    public int getLiveTime() {
+        return liveTime;
+    }
+
+    public void setLiveTime(int liveTime) {
+        this.liveTime = liveTime;
+    }
 
     private static Image img;
 
@@ -19,8 +35,10 @@ public class CarHeavy extends Car {
         }
     }
 
-    public CarHeavy(int X, int Y){
+    public CarHeavy(int X, int Y, long bornTime){
         super(X, Y);
+        setBornTime(bornTime);
+        CarCollections.getInstance().bornHashMap.put(getId(), bornTime);
     }
     // Экземпляр класса Graphics хранит параметры, необходимые для отрисовки
     public void paint(Graphics g){

@@ -1,13 +1,30 @@
 package data;
 
-import data.Car;
-
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 
 public class CarLight extends Car {
+
+    private long bornTime;
+    private int liveTime;
+
+    public long getBornTime() {
+        return bornTime;
+    }
+
+    public void setBornTime(long bornTime) {
+        this.bornTime = bornTime;
+    }
+
+    public int getLiveTime() {
+        return liveTime;
+    }
+
+    public void setLiveTime(int liveTime) {
+        this.liveTime = liveTime;
+    }
 
     private static Image img;
 
@@ -19,8 +36,10 @@ public class CarLight extends Car {
         }
     }
 
-    public CarLight(int X, int Y){
+    public CarLight(int X, int Y, long time){
         super(X, Y);
+        setBornTime(time);
+        CarCollections.getInstance().bornHashMap.put(getId(), bornTime);
     }
     // Экземпляр класса Graphics хранит параметры, необходимые для отрисовки
     public void paint(Graphics g){
