@@ -8,6 +8,7 @@ import data.CarLight;
 import javax.swing.*;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.UUID;
 
 public class HabitatModel { // обработка событий клавиатуры
 
@@ -30,31 +31,23 @@ public class HabitatModel { // обработка событий клавиат�
     }
 
     void update(long t) {
-
-        for (int i=0; i<CarCollections.getInstance().arrayCarList.size(); i++){
-            Car curCar = CarCollections.getInstance().arrayCarList.get(i);
-            Long curBornTime = CarCollections.getInstance().bornHashMap.get(curCar.getId());
-            if (time - curBornTime  > curCar.getLiveTime()){
-                CarCollections.getInstance().bornHashMap.remove(curCar.getId());
-                CarCollections.getInstance().arrayCarList.remove(i);
-            }
-
-        }
-
+        CarCollections.getInstance().cleanCollections(t); //Очистка "отживших" машин
         if (t % timeHeavy == 0) { //Каждые timeHeavy секунд
             if (pHeavy > (float) Math.random()) { // Если прошло по вероятности
                 amountHeavy++;
-                Car rb = new CarHeavy(10 + (int) (Math.random() * (view.panelGen.getWidth() - 100)), 10 + (int) (Math.random() * (view.panelGen.getHeight() - 100)), time);
+                Car rb = new CarHeavy(10 + (int) (Math.random() * (view.panelGen.getWidth() - 100)), 10 + (int) (Math.random() * (view.panelGen.getHeight() - 100)));
                 CarCollections.getInstance().arrayCarList.add(rb);
-
+                CarCollections.getInstance().idTreeSet.add(rb.getId());
+                CarCollections.getInstance().bornHashMap.put(rb.getId(), time);
             }
         }
         if (t % timeLight == 0) { //Каждые timeLight секунд
             if (pLight > (float) Math.random()) { //Если прошло по вероятности
                 amountLight++;
-                Car rb = new CarLight(10 + (int) (Math.random() * (view.panelGen.getWidth() - 100)), 10 + (int) (Math.random() * (view.panelGen.getHeight() - 100)), time);
+                Car rb = new CarLight(10 + (int) (Math.random() * (view.panelGen.getWidth() - 100)), 10 + (int) (Math.random() * (view.panelGen.getHeight() - 100)));
                 CarCollections.getInstance().arrayCarList.add(rb);
-
+                CarCollections.getInstance().idTreeSet.add(rb.getId());
+                CarCollections.getInstance().bornHashMap.put(rb.getId(), time);
             }
         }
     }
@@ -125,6 +118,10 @@ public class HabitatModel { // обработка событий клавиат�
     public void stopSimulation(boolean selected) {
         timer.cancel();
         timer.purge();
+        CarCollections.getInstance().idTreeSet.clear();
+        CarCollections.getInstance().bornHashMap.clear();
+        CarCollections.getInstance().arrayCarList.clear();
+
         if (selected) {
             Object[] options = {"Resume",
                     "Stop"};

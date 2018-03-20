@@ -9,16 +9,6 @@ public abstract class Car implements IBehaviour {
     private int posY;
     private UUID id = UUID.randomUUID();
 
-    public int getLiveTime() {
-        return liveTime;
-    }
-
-    public void setLiveTime(int liveTime) {
-        this.liveTime = liveTime;
-    }
-
-    private int liveTime = 2;
-
     public UUID getId() {
         return id;
     }

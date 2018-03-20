@@ -179,7 +179,7 @@ public class HabitatView extends JFrame {
                 for (Car car : CarCollections.getInstance().arrayCarList) {
                     car.paint(g);
                 }
-                System.out.print(mainPanel.getWidth()+ " " + mainPanel.getHeight());
+               // System.out.print(mainPanel.getWidth()+ " " + mainPanel.getHeight());
             }
         };
         panelGen.setFocusable(true); //Разрешить обработку клавиш

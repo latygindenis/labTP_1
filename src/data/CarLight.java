@@ -7,15 +7,15 @@ import java.io.IOException;
 
 public class CarLight extends Car {
 
-    private long bornTime;
-
-    public long getBornTime() {
-        return bornTime;
+    public void setLiveTime(int liveTime) {
+        this.liveTime = liveTime;
     }
 
-    public void setBornTime(long bornTime) {
-        this.bornTime = bornTime;
+    public int getLiveTime() {
+        return liveTime;
     }
+
+    private int liveTime = 2;
 
     private static Image img;
 
@@ -27,10 +27,8 @@ public class CarLight extends Car {
         }
     }
 
-    public CarLight(int X, int Y, long time){
+    public CarLight(int X, int Y){
         super(X, Y);
-        setBornTime(time);
-        CarCollections.getInstance().bornHashMap.put(getId(), bornTime);
     }
     // Экземпляр класса Graphics хранит параметры, необходимые для отрисовки
     public void paint(Graphics g){

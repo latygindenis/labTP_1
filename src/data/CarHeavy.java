@@ -6,17 +6,16 @@ import java.io.File; // потоки, работа с файлами
 import java.io.IOException;
 
 public class CarHeavy extends Car {
-    private long bornTime;
 
-
-    public long getBornTime() {
-        return bornTime;
+    public int getLiveTime() {
+        return liveTime;
     }
 
-    public void setBornTime(long bornTime) {
-        this.bornTime = bornTime;
+    public void setLiveTime(int liveTime) {
+        this.liveTime = liveTime;
     }
 
+    private int liveTime = 2;
 
     private static Image img;
 
@@ -28,10 +27,8 @@ public class CarHeavy extends Car {
         }
     }
 
-    public CarHeavy(int X, int Y, long bornTime){
+    public CarHeavy(int X, int Y){
         super(X, Y);
-        setBornTime(bornTime);
-        CarCollections.getInstance().bornHashMap.put(getId(), bornTime);
     }
     // Экземпляр класса Graphics хранит параметры, необходимые для отрисовки
     public void paint(Graphics g){
