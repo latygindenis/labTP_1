@@ -15,7 +15,7 @@ public class CarLight extends Car {
         return liveTime;
     }
 
-    private int liveTime = 2;
+    public static int liveTime = 2;
 
     private static Image img;
 

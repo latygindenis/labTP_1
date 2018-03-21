@@ -1,8 +1,12 @@
 package presentation;
 
+import data.CarHeavy;
+import data.CarLight;
+
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import java.awt.*;
 import java.awt.event.*;
 
 public class HabitatController {
@@ -36,6 +40,9 @@ public class HabitatController {
         view.timeHeavyArea.addTextListener(timeHeavyTextFieldList);
         view.timeHeavyArea.addActionListener(timeHeavyTextFieldListener);
         view.timeHeavyArea.setText(String.valueOf(model.getTimeHeavy()));
+
+        view.liveHeavyArea.addTextListener(liveHeavyTextFieldList);
+        view.liveLightArea.addTextListener(liveLightTextFieldList);
     }
 
     private ActionListener radioListener = new ActionListener() {
@@ -141,39 +148,26 @@ public class HabitatController {
     };
 
 
-    private void timeHeavyValidation() {
+    private int formValidation(TextField textField) {
         //Валидация формы
         try {
-            Integer value;
-            value = Integer.parseInt(view.timeHeavyArea.getText());
+            Integer value = Integer.parseInt(textField.getText());
             if (value > 0) {
-                model.setTimeHeavy(value);
+                return value;
             } else {
                 throw new Exception();
             }
         } catch (Exception ignored) {
-
+            return 0;
         }
     }
 
-    private void timeLightValidation() {
-        try { //Валидация формы
-            Integer value;
-            value = Integer.parseInt(view.timeLightArea.getText());
-            if (value > 0) {
-                model.setTimeLight(value);
-            } else {
-                throw new Exception();
-            }
-        } catch (Exception ignored) {
-
-        }
-    }
 
     private ActionListener timeLightTextFieldListener = new ActionListener() { //Обработка по Enter
         @Override
         public void actionPerformed(ActionEvent e) {
-            timeLightValidation();
+            int curTimeLight = formValidation(view.timeLightArea);
+            if (curTimeLight > 0) model.setTimeLight(curTimeLight);
             view.panelGen.requestFocus();
         }
     };
@@ -181,11 +175,41 @@ public class HabitatController {
     private ActionListener timeHeavyTextFieldListener = new ActionListener() { //Обработка по Enter
         @Override
         public void actionPerformed(ActionEvent e) {
-            timeHeavyValidation();
+            int curTimeHeavy = formValidation(view.timeHeavyArea);
+            if (curTimeHeavy > 0) model.setTimeHeavy(curTimeHeavy);
             view.panelGen.requestFocus();
         }
     };
 
-    private TextListener timeLightTextFieldList = e -> timeLightValidation(); //Обработка текста во время ввода
-    private TextListener timeHeavyTextFieldList = e -> timeHeavyValidation(); //Обработка текста во время ввода
+    private TextListener timeLightTextFieldList = new TextListener() {
+        @Override
+        public void textValueChanged(TextEvent e) {
+            int curTimeLight = formValidation(view.timeLightArea);
+            if (curTimeLight > 0) model.setTimeLight(curTimeLight);
+        }
+    }; //Обработка текста во время ввода
+    private TextListener timeHeavyTextFieldList = new TextListener() {
+        @Override
+        public void textValueChanged(TextEvent e) {
+            int curTimeHeavy = formValidation(view.timeHeavyArea);
+            if (curTimeHeavy > 0) model.setTimeHeavy(curTimeHeavy);
+        }
+    }; //Обработка текста во время ввода
+
+    private TextListener liveHeavyTextFieldList = new TextListener() {
+        @Override
+        public void textValueChanged(TextEvent e) {
+            int curLiveTimeHeavy = formValidation(view.liveHeavyArea);
+            if (curLiveTimeHeavy > 0) CarHeavy.liveTime = curLiveTimeHeavy;
+        }
+    };
+
+    private TextListener liveLightTextFieldList = new TextListener() {
+        @Override
+        public void textValueChanged(TextEvent e) {
+            int curLiveTimeLight = formValidation(view.liveLightArea);
+            if (curLiveTimeLight > 0) CarLight.liveTime = curLiveTimeLight ;
+        }
+    };
+
 }

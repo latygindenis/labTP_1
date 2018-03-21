@@ -2,6 +2,8 @@ package presentation;
 
 import data.Car;
 import data.CarCollections;
+import data.CarHeavy;
+import data.CarLight;
 
 import javax.swing.*;
 import java.awt.*;
@@ -42,6 +44,12 @@ public class HabitatView extends JFrame {
 
     JSlider heavySlider;
     JSlider lightSlider;
+    JPanel livePanel;
+    JLabel liveHeavyLabel;
+    TextField liveHeavyArea;
+    JLabel liveLightLabel;
+    TextField liveLightArea;
+
 
     public HabitatView(int wLength, int wHeight, int wPosX, int wPosY) {
         this.wLength = wLength;
@@ -50,6 +58,21 @@ public class HabitatView extends JFrame {
         this.wPosY = wPosY;
         drawMenu();
         drawUI();
+    }
+    private void drawLivePanel(){
+        livePanel = new JPanel();
+        livePanel.setLayout(new BoxLayout(livePanel, BoxLayout.PAGE_AXIS));
+        liveHeavyLabel = new JLabel("Время жизни грузовой машины");
+        liveHeavyArea = new TextField();
+        liveHeavyArea.setText(String.valueOf(CarHeavy.liveTime));
+        liveLightLabel = new JLabel("Время жизни легковой машины");
+        liveLightArea = new TextField();
+        liveLightArea.setText(String.valueOf(CarLight.liveTime));
+        livePanel.add(liveHeavyLabel);
+        livePanel.add(liveHeavyArea);
+        livePanel.add(liveLightLabel);
+        livePanel.add(liveLightArea);
+        mainPanel.add(livePanel);
     }
 
     private void drawMenu() {
@@ -168,6 +191,7 @@ public class HabitatView extends JFrame {
         mainPanel.add(timeLightArea);
         mainPanel.add(pTimeLightLabel);
         mainPanel.add(lightSlider);
+        drawLivePanel();
         mainPanel.setMaximumSize(new Dimension(300, 500));
 
 
