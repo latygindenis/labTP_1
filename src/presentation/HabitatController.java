@@ -42,7 +42,9 @@ public class HabitatController {
         view.timeHeavyArea.setText(String.valueOf(model.getTimeHeavy()));
 
         view.liveHeavyArea.addTextListener(liveHeavyTextFieldList);
+        view.liveHeavyArea.addActionListener(liveHeavyTextFieldListner);
         view.liveLightArea.addTextListener(liveLightTextFieldList);
+        view.liveLightArea.addActionListener(liveLightTextFieldListner);
     }
 
     private ActionListener radioListener = new ActionListener() {
@@ -177,6 +179,24 @@ public class HabitatController {
         public void actionPerformed(ActionEvent e) {
             int curTimeHeavy = formValidation(view.timeHeavyArea);
             if (curTimeHeavy > 0) model.setTimeHeavy(curTimeHeavy);
+            view.panelGen.requestFocus();
+        }
+    };
+
+    private ActionListener liveLightTextFieldListner = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            int curLiveTimeHeavy = formValidation(view.liveHeavyArea);
+            if (curLiveTimeHeavy > 0) {CarHeavy.liveTime = curLiveTimeHeavy;}
+            view.panelGen.requestFocus();
+        }
+    };
+
+    private ActionListener liveHeavyTextFieldListner = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            int curLiveTimeHeavy = formValidation(view.liveHeavyArea);
+            if (curLiveTimeHeavy > 0) CarHeavy.liveTime = curLiveTimeHeavy;
             view.panelGen.requestFocus();
         }
     };
