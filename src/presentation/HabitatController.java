@@ -209,6 +209,7 @@ public class HabitatController {
         public void textValueChanged(TextEvent e) {
             int curLiveTimeLight = formValidation(view.liveLightArea);
             if (curLiveTimeLight > 0) CarLight.liveTime = curLiveTimeLight ;
+            System.out.println(CarLight.liveTime);
         }
     };
 

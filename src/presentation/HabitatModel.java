@@ -52,7 +52,6 @@ public class HabitatModel { // обработка событий клавиат�
         }
     }
 
-
     public double getpHeavy() {
         return pHeavy;
     }

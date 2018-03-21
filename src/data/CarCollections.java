@@ -29,11 +29,20 @@ public class CarCollections { //Синглтон
         for (int i=0; i<CarCollections.getInstance().arrayCarList.size(); i++){
             Car curCar = CarCollections.getInstance().arrayCarList.get(i);
             Long curBornTime = CarCollections.getInstance().bornHashMap.get(curCar.getId());
-            if (time - CarCollections.getInstance().bornHashMap.get(curCar.getId()) > curBornTime){
-                CarCollections.getInstance().bornHashMap.remove(curCar.getId());
-                CarCollections.getInstance().idTreeSet.remove(curCar.getId());
-                CarCollections.getInstance().arrayCarList.remove(i);
+            if (curCar instanceof CarHeavy){
+                if (time - CarCollections.getInstance().bornHashMap.get(curCar.getId()) >= CarHeavy.liveTime){
+                    CarCollections.getInstance().bornHashMap.remove(curCar.getId());
+                    CarCollections.getInstance().idTreeSet.remove(curCar.getId());
+                    CarCollections.getInstance().arrayCarList.remove(i);
+                }
+            } else {
+                if (time - CarCollections.getInstance().bornHashMap.get(curCar.getId()) >= CarLight.liveTime){
+                    CarCollections.getInstance().bornHashMap.remove(curCar.getId());
+                    CarCollections.getInstance().idTreeSet.remove(curCar.getId());
+                    CarCollections.getInstance().arrayCarList.remove(i);
+                }
             }
+
         }
     }
 }
