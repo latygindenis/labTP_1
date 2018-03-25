@@ -141,4 +141,5 @@ public class HabitatModel { // обработка событий клавиат�
             view.stopSimulation();
         }
     }
+
 }

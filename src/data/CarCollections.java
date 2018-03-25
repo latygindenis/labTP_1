@@ -45,4 +45,21 @@ public class CarCollections { //Синглтон
 
         }
     }
+
+    public StringBuilder liveObjString (){
+
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i=0; i<CarCollections.getInstance().arrayCarList.size(); i++){
+            Car curCar = CarCollections.getInstance().arrayCarList.get(i);
+            if (curCar instanceof CarHeavy){
+                stringBuilder.append("Heavy ");
+            } else {
+                stringBuilder.append("Light ");
+            }
+            stringBuilder.append(curCar.getId() + " ");
+            stringBuilder.append(CarCollections.getInstance().bornHashMap.get(curCar.getId()));
+            stringBuilder.append("\n");
+        }
+        return stringBuilder;
+    }
 }
