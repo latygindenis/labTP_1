@@ -90,6 +90,9 @@ public class HabitatModel { // обработка событий клавиат�
             amountHeavy = 0;
             amountLight = 0;
             time = 0;
+            CarCollections.getInstance().idTreeSet.clear();
+            CarCollections.getInstance().bornHashMap.clear();
+            CarCollections.getInstance().arrayCarList.clear();
         }
         timer.schedule(new TimerTask() { //Добавление задания в таймер
             public void run() {
@@ -117,9 +120,6 @@ public class HabitatModel { // обработка событий клавиат�
     public void stopSimulation(boolean selected) {
         timer.cancel();
         timer.purge();
-        CarCollections.getInstance().idTreeSet.clear();
-        CarCollections.getInstance().bornHashMap.clear();
-        CarCollections.getInstance().arrayCarList.clear();
 
         if (selected) {
             Object[] options = {"Resume",
@@ -135,13 +135,10 @@ public class HabitatModel { // обработка событий клавиат�
             if (n == 0) {
                 startSimulation(false);
             } else {
-                CarCollections.getInstance().arrayCarList.clear();
                 view.stopSimulation();
             }
         } else {
-            CarCollections.getInstance().arrayCarList.clear();
             view.stopSimulation();
         }
-
     }
 }

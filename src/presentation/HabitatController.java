@@ -41,11 +41,18 @@ public class HabitatController {
         view.timeHeavyArea.addActionListener(timeHeavyTextFieldListener);
         view.timeHeavyArea.setText(String.valueOf(model.getTimeHeavy()));
 
-        view.liveHeavyArea.addTextListener(liveHeavyTextFieldList);
-        view.liveHeavyArea.addActionListener(liveHeavyTextFieldListner);
-        view.liveLightArea.addTextListener(liveLightTextFieldList);
-        view.liveLightArea.addActionListener(liveLightTextFieldListner);
+//        view.liveHeavyArea.addTextListener(liveHeavyTextFieldList);
+//        view.liveHeavyArea.addActionListener(liveHeavyTextFieldListner);
+//        view.liveLightArea.addTextListener(liveLightTextFieldList);
+//        view.liveLightArea.addActionListener(liveLightTextFieldListner);
     }
+
+    private ActionListener liveObjectsListener = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            model.stopSimulation(false);
+        }
+    };
 
     private ActionListener radioListener = new ActionListener() {
         @Override
