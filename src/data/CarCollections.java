@@ -42,7 +42,6 @@ public class CarCollections { //Синглтон
                     CarCollections.getInstance().arrayCarList.remove(i);
                 }
             }
-
         }
     }
 

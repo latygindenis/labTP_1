@@ -8,7 +8,7 @@ import java.io.IOException;
 public class CarLight extends Car {
 
     public void setLiveTime(int liveTime) {
-        this.liveTime = liveTime;
+        CarLight.liveTime = liveTime;
     }
 
     public int getLiveTime() {
@@ -33,12 +33,14 @@ public class CarLight extends Car {
     // Экземпляр класса Graphics хранит параметры, необходимые для отрисовки
     public void paint(Graphics g){
         if(img != null){
+            System.out.println("LightPaint");
             g.drawImage(img,this.getX(),this.getY(),img.getWidth(null),img.getHeight(null),null);
         }
     }
 
     @Override
-    public void move() {
-
+    public void move(int X, int Y) {
+        setX(X);
+        setY(Y);
     }
 }

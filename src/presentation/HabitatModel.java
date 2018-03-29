@@ -1,9 +1,6 @@
 package presentation;
 
-import data.Car;
-import data.CarCollections;
-import data.CarHeavy;
-import data.CarLight;
+import data.*;
 
 import javax.swing.*;
 import java.util.Timer;
@@ -11,7 +8,6 @@ import java.util.TimerTask;
 import java.util.UUID;
 
 public class HabitatModel { // обработка событий клавиатуры
-
     private Timer timer;
     private double pHeavy; //Вероятность появления CarHeavy
     private double pLight; //Вероятность появления CarLight
@@ -21,6 +17,8 @@ public class HabitatModel { // обработка событий клавиат�
     int amountHeavy = 0;
     int amountLight = 0;
     HabitatView view;
+    HeavyAI heavyAI = new HeavyAI();
+    LightAI lightAI = new LightAI();
 
     public HabitatModel(double pHeavy, double pLight, int timeHeavy, int timeLight, HabitatView view) {
         this.pHeavy = pHeavy;
@@ -31,7 +29,13 @@ public class HabitatModel { // обработка событий клавиат�
     }
 
     void update(long t) {
-        CarCollections.getInstance().cleanCollections(t); //Очистка "отживших" машин
+
+            CarCollections.getInstance().cleanCollections(t); //Очистка "отживших" машин
+
+
+        heavyAI.run();
+        lightAI.run();
+
         if (t % timeHeavy == 0) { //Каждые timeHeavy секунд
             if (pHeavy > (float) Math.random()) { // Если прошло по вероятности
                 amountHeavy++;
@@ -86,6 +90,7 @@ public class HabitatModel { // обработка событий клавиат�
 
     void startSimulation(boolean firstStart) {
         timer = new Timer();
+
         if(firstStart) {
             amountHeavy = 0;
             amountLight = 0;
@@ -100,7 +105,7 @@ public class HabitatModel { // обработка событий клавиат�
                 update(time);
                 view.startSimulation(generateStatisticString(true), generateStatisticString(false));
             }
-        }, 0, 1000);
+        }, 0, 10);
     }
     String generateStatisticString(boolean withTime) {
         String statistic;

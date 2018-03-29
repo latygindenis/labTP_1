@@ -53,8 +53,7 @@ public class HabitatController {
         @Override
         public void actionPerformed(ActionEvent e) {
             model.stopSimulation(false);
-           showLiveObj();
-
+            showLiveObj();
         }
     };
 
@@ -240,10 +239,8 @@ public class HabitatController {
         public void textValueChanged(TextEvent e) {
             int curLiveTimeLight = formValidation(view.liveLightArea);
             if (curLiveTimeLight > 0) CarLight.liveTime = curLiveTimeLight ;
-            System.out.println(CarLight.liveTime);
         }
     };
-
 
     private void showLiveObj(){
         Object[] options = {"Resume"};

@@ -221,9 +221,12 @@ public class HabitatView extends JFrame {
             @Override
             protected void paintComponent(Graphics g) { //Необходимо при перерисовки интерфейса
                 super.paintComponent(g);
-                for (Car car : CarCollections.getInstance().arrayCarList) {
-                    car.paint(g);
+                synchronized (CarCollections.getInstance().arrayCarList){
+                    for (Car car : CarCollections.getInstance().arrayCarList) {
+                        car.paint(g);
+                    }
                 }
+
             }
         };
         panelGen.setBorder(blackline);
