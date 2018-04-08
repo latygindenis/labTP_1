@@ -24,13 +24,13 @@ public class HabitatController {
 
     //add listners
     private void init() {
-        view.startSimulationItem.addActionListener(beginListner);
-        view.endSimulationItem.addActionListener(endListner);
+        view.startSimulationItem.addActionListener(beginListener);
+        view.endSimulationItem.addActionListener(endListener);
         view.showInfoItem.addActionListener(menuInfoListener);
         view.lightSlider.addChangeListener(lightChangeListener);
         view.heavySlider.addChangeListener(heavyChangeListner);
-        view.startButton.addActionListener(beginListner);
-        view.endButton.addActionListener(endListner);
+        view.startButton.addActionListener(beginListener);
+        view.endButton.addActionListener(endListener);
         view.yesButton.addActionListener(radioListener);
         view.noButton.addActionListener(radioListener);
         view.showInfoCheckBox.addItemListener(showInfoCheckBoxListener);
@@ -137,9 +137,9 @@ public class HabitatController {
         }
     };
 
-    private ActionListener endListner = e -> model.stopSimulation(view.showInfoCheckBox.isSelected());
+    private ActionListener endListener = e -> model.stopSimulation(view.showInfoCheckBox.isSelected());
 
-    private ActionListener beginListner = e -> model.startSimulation(true);
+    private ActionListener beginListener = e -> model.startSimulation(true);
 
     private ChangeListener lightChangeListener = new ChangeListener() {
         @Override
@@ -247,30 +247,27 @@ public class HabitatController {
     private ActionListener lightAIListener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-            synchronized (model.lightAI.obj){
-            if (!model.lightAI.paused){
-                model.lightAI.paused = true;
+            if (model.lightAI.paused){
+                model.beginLightAI();
             }else {
-                model.lightAI.paused = false;
-                model.lightAI.obj.notifyAll();
-                }
+                model.pauseLightAI();
             }
         }
     };
 
+
+
     private ActionListener heavyAIListener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-            synchronized (model.heavyAI.obj){
-                if (!model.heavyAI.paused){
-                    model.heavyAI.paused = true;
-                }else {
-                    model.heavyAI.paused = false;
-                    model.heavyAI.obj.notifyAll();
-                }
+            if (model.heavyAI.paused){
+                model.beginHeavyAI();
+            }else {
+                model.pauseHeavyAI();
             }
         }
     };
+
 
 
 

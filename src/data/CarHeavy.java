@@ -1,5 +1,7 @@
 package data;
 
+import presentation.HabitatView;
+
 import javax.imageio.ImageIO; // загрузка изображений
 import java.awt.*; // графический интерфейс
 import java.io.File; // потоки, работа с файлами
@@ -38,8 +40,12 @@ public class CarHeavy extends Car {
     }
 
     @Override
-    public void move(int X, int Y) {
-        setX(X);
-        setY(Y);
+    public void move() {
+        if (getX() > HabitatView.wLength/2) {
+            setX(getX() + 1);
+        }
+        if(getY() > HabitatView.wHeight/2){
+            setY(getY() + 1);
+        }
     }
 }

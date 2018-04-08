@@ -11,8 +11,8 @@ import java.awt.*;
 
 public class HabitatView extends JFrame {
 
-    private int wHeight;
-    private int wLength;
+    public static int wHeight;
+    public static int wLength;
     private int wPosX;
     private int wPosY;
 
@@ -259,7 +259,6 @@ public class HabitatView extends JFrame {
         endSimulationItem.setEnabled(true);
         endButton.setEnabled(true);
         liveObjects.setEnabled(true);
-//        System.out.println(CarCollections.getInstance().arrayCarList.size());
         repaint();
     }
     void stopSimulation() {

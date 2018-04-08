@@ -5,7 +5,6 @@ import data.*;
 import javax.swing.*;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.UUID;
 
 public class HabitatModel { // обработка событий клавиатуры
     private Timer timer;
@@ -20,8 +19,6 @@ public class HabitatModel { // обработка событий клавиат�
     HeavyAI heavyAI = new HeavyAI();
     LightAI lightAI = new LightAI();
 
-    Thread threadHeavy = new Thread(heavyAI);
-    Thread threadLight = new Thread(lightAI);
 
     public HabitatModel(double pHeavy, double pLight, int timeHeavy, int timeLight, HabitatView view) {
         this.pHeavy = pHeavy;
@@ -99,6 +96,9 @@ public class HabitatModel { // обработка событий клавиат�
             CarCollections.getInstance().idTreeSet.clear();
             CarCollections.getInstance().bornHashMap.clear();
             CarCollections.getInstance().arrayCarList.clear();
+        }else {
+            beginHeavyAI();
+            beginLightAI();
         }
         timer.schedule(new TimerTask() { //Добавление задания в таймер
             public void run() {
@@ -127,7 +127,8 @@ public class HabitatModel { // обработка событий клавиат�
     public void stopSimulation(boolean selected) {
         timer.cancel();
         timer.purge();
-
+        pauseHeavyAI();
+        pauseLightAI();
         if (selected) {
             Object[] options = {"Resume",
                     "Stop"};
@@ -148,6 +149,34 @@ public class HabitatModel { // обработка событий клавиат�
             view.stopSimulation();
         }
     }
+
+    void pauseLightAI (){
+        if (!lightAI.paused){
+            lightAI.paused = true;
+        }
+    }
+    void beginLightAI(){
+        if (lightAI.paused){
+            synchronized (lightAI.obj){
+                lightAI.paused = false;
+                lightAI.obj.notify();
+            }
+        }
+    }
+    void pauseHeavyAI (){
+        if (!heavyAI.paused){
+            heavyAI.paused = true;
+        }
+    }
+    void beginHeavyAI(){
+        if (heavyAI.paused){
+            synchronized (heavyAI.obj){
+                heavyAI.paused = false;
+                heavyAI.obj.notify();
+            }
+        }
+    }
+
 
 }
 

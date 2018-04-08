@@ -1,13 +1,12 @@
 package data;
 
 public abstract class BaseAI extends Thread{
-    Boolean isGoing = true;
     public String threadName;
     public final Object obj = new Object();
     public BaseAI(String threadName) {
         this.threadName = threadName;
     }
-    public Boolean paused = new Boolean(false);
+    public Boolean paused = Boolean.TRUE;
 
     @Override
     public void run() {

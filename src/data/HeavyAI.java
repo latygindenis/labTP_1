@@ -11,7 +11,7 @@ public class HeavyAI extends BaseAI {
         synchronized (CarCollections.getInstance().arrayCarList){
             for (Car car:CarCollections.getInstance().arrayCarList){
                 if (car instanceof CarHeavy){
-                    car.move(car.getX() + 1, car.getY());
+                    car.move();
                 }
             }
         }

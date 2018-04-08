@@ -8,6 +8,7 @@ import java.util.UUID;
 public class CarCollections { //Синглтон
     private static CarCollections instance;
 
+
     public final ArrayList <Car> arrayCarList;
     public TreeSet <UUID> idTreeSet;
     public HashMap <UUID, Long> bornHashMap;

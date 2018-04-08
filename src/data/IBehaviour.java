@@ -5,5 +5,5 @@ public interface IBehaviour {
     int getY();
     void setX(int X);
     void setY(int Y);
-    void move(int X, int Y);
+    void move();
 }
