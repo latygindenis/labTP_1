@@ -8,7 +8,7 @@ import java.util.UUID;
 public class CarCollections { //Синглтон
     private static CarCollections instance;
 
-    public ArrayList <Car> arrayCarList;
+    public final ArrayList <Car> arrayCarList;
     public TreeSet <UUID> idTreeSet;
     public HashMap <UUID, Long> bornHashMap;
 
@@ -25,7 +25,7 @@ public class CarCollections { //Синглтон
         return instance;
     }
 
-    public void cleanCollections (Long time){
+    public synchronized void cleanCollections (Long time){
         for (int i=0; i<CarCollections.getInstance().arrayCarList.size(); i++){
             Car curCar = CarCollections.getInstance().arrayCarList.get(i);
             Long curBornTime = CarCollections.getInstance().bornHashMap.get(curCar.getId());

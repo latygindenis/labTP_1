@@ -6,15 +6,14 @@ public class LightAI extends BaseAI{
     }
 
     @Override
-    Boolean nextStep() {
+    void nextStep() {
         System.out.println(super.threadName);
-
+        synchronized (CarCollections.getInstance().arrayCarList){
             for (Car car:CarCollections.getInstance().arrayCarList){
                 if (car instanceof CarLight){
                     car.move(car.getX() - 1, car.getY());
                 }
             }
-            super.isGoing = false;
-        return true;
-    }
+        }
+}
 }

@@ -47,6 +47,8 @@ public class HabitatController {
         view.liveLightArea.addTextListener(liveLightTextFieldList);
         view.liveLightArea.addActionListener(liveLightTextFieldListner);
         view.liveObjects.addActionListener(liveObjectsListener);
+        view.lightAIButton.addActionListener(lightAIListener);
+        view.heavyAIButton.addActionListener(heavyAIListener);
     }
 
     private ActionListener liveObjectsListener = new ActionListener() {
@@ -241,6 +243,36 @@ public class HabitatController {
             if (curLiveTimeLight > 0) CarLight.liveTime = curLiveTimeLight ;
         }
     };
+
+    private ActionListener lightAIListener = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            synchronized (model.lightAI.obj){
+            if (!model.lightAI.paused){
+                model.lightAI.paused = true;
+            }else {
+                model.lightAI.paused = false;
+                model.lightAI.obj.notifyAll();
+                }
+            }
+        }
+    };
+
+    private ActionListener heavyAIListener = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            synchronized (model.heavyAI.obj){
+                if (!model.heavyAI.paused){
+                    model.heavyAI.paused = true;
+                }else {
+                    model.heavyAI.paused = false;
+                    model.heavyAI.obj.notifyAll();
+                }
+            }
+        }
+    };
+
+
 
     private void showLiveObj(){
         Object[] options = {"Resume"};

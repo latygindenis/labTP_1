@@ -33,7 +33,6 @@ public class CarLight extends Car {
     // Экземпляр класса Graphics хранит параметры, необходимые для отрисовки
     public void paint(Graphics g){
         if(img != null){
-            System.out.println("LightPaint");
             g.drawImage(img,this.getX(),this.getY(),img.getWidth(null),img.getHeight(null),null);
         }
     }

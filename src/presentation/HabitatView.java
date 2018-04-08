@@ -31,6 +31,8 @@ public class HabitatView extends JFrame {
     JButton startButton;
     JButton endButton;
     JButton liveObjects;
+    JButton lightAIButton;
+    JButton heavyAIButton;
     JCheckBox showInfoCheckBox;
     JTextArea infoArea;
     JRadioButton yesButton;
@@ -210,10 +212,16 @@ public class HabitatView extends JFrame {
 
         drawHeavyPanel();
         drawLightPanel();
+        lightAIButton = new JButton("Light AI");
+        lightAIButton.setBounds(0, 450, 100, 25);
+        heavyAIButton = new JButton("Heavy AI");
+        heavyAIButton.setBounds(105, 450, 100, 25);
 
         mainPanel.add(testPanel);
         mainPanel.add(heavyPanel);
         mainPanel.add(lightPanel);
+        mainPanel.add(lightAIButton);
+        mainPanel.add(heavyAIButton);
         mainPanel.setPreferredSize(new Dimension(300, 500));
 
 
@@ -251,6 +259,7 @@ public class HabitatView extends JFrame {
         endSimulationItem.setEnabled(true);
         endButton.setEnabled(true);
         liveObjects.setEnabled(true);
+//        System.out.println(CarCollections.getInstance().arrayCarList.size());
         repaint();
     }
     void stopSimulation() {
