@@ -49,6 +49,8 @@ public class HabitatController {
         view.liveObjects.addActionListener(liveObjectsListener);
         view.lightAIButton.addActionListener(lightAIListener);
         view.heavyAIButton.addActionListener(heavyAIListener);
+        view.priorHeavyAI.addActionListener(heavyAIPriorListener);
+        view.priorLightAI.addActionListener(lightAIPriorListener);
     }
 
     private ActionListener liveObjectsListener = new ActionListener() {
@@ -268,6 +270,21 @@ public class HabitatController {
         }
     };
 
+    private ActionListener heavyAIPriorListener = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            model.heavyAI.setPriority(Integer.parseInt(String.valueOf(view.priorHeavyAI.getSelectedItem())));
+            System.out.println("heavyAI priority is: " + model.heavyAI.getPriority());
+        }
+    };
+
+    private ActionListener lightAIPriorListener = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            model.lightAI.setPriority(Integer.parseInt(String.valueOf(view.priorLightAI.getSelectedItem())));
+            System.out.println("lightAI priority is: " + model.lightAI.getPriority());
+        }
+    };
 
 
 

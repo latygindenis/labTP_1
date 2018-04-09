@@ -54,6 +54,9 @@ public class HabitatView extends JFrame {
     JLabel liveLightLabel;
     TextField liveLightArea;
 
+    JComboBox priorLightAI;
+    JComboBox priorHeavyAI;
+
 
     public HabitatView(int wLength, int wHeight, int wPosX, int wPosY) {
         this.wLength = wLength;
@@ -216,12 +219,26 @@ public class HabitatView extends JFrame {
         lightAIButton.setBounds(0, 450, 100, 25);
         heavyAIButton = new JButton("Heavy AI");
         heavyAIButton.setBounds(105, 450, 100, 25);
+        priorHeavyAI = new JComboBox();
+        priorHeavyAI.setBounds(130, 480, 50, 25);
 
+        for (int i = 1; i <= 10; i++) {
+            priorHeavyAI.addItem(i);
+        }
+
+        priorLightAI = new JComboBox();
+        priorLightAI.setBounds(25,480, 50, 25);
+
+        for (int i = 1; i <= 10; i++) {
+            priorLightAI.addItem(i);
+        }
         mainPanel.add(testPanel);
         mainPanel.add(heavyPanel);
         mainPanel.add(lightPanel);
         mainPanel.add(lightAIButton);
         mainPanel.add(heavyAIButton);
+        mainPanel.add(priorHeavyAI);
+        mainPanel.add(priorLightAI);
         mainPanel.setPreferredSize(new Dimension(300, 500));
 
 
