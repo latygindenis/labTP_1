@@ -7,7 +7,7 @@ public class HeavyAI extends BaseAI {
 
     @Override
     void nextStep() {
-        System.out.println(super.threadName);
+       // System.out.println(super.threadName);
         synchronized (CarCollections.getInstance().arrayCarList){
             for (Car car:CarCollections.getInstance().arrayCarList){
                 if (car instanceof CarHeavy){

@@ -25,7 +25,7 @@ public class HabitatView extends JFrame {
     JCheckBoxMenuItem showTimeItem;
 
     JPanel mainPanel;
-    JPanel panelGen;
+    public static JPanel panelGen;
     JPanel showTimePanel;
     JPanel testPanel;
     JButton startButton;
