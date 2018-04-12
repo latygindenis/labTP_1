@@ -4,13 +4,15 @@ public abstract class BaseAI extends Thread{
     public String threadName;
     public final Object obj = new Object();
     public BaseAI(String threadName) {
+        this.setDaemon(true);
         this.threadName = threadName;
     }
     public Boolean paused = Boolean.TRUE;
-
+    public boolean isGoing = true;
     @Override
     public void run() {
-        while (!this.isInterrupted()){
+
+        while (isGoing){
             synchronized (obj){
                if (paused){
                    try {

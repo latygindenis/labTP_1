@@ -16,6 +16,7 @@ public class HabitatView extends JFrame {
     private int wPosX;
     private int wPosY;
 
+    Window[] window = getWindows();
     JMenu menuSimulation;
     JMenu menuUI;
 
@@ -261,7 +262,7 @@ public class HabitatView extends JFrame {
         parentPanel.add(mainPanel, BorderLayout.EAST);
         setBounds(wPosX, wPosY, wLength, wHeight);
         setVisible(true);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+       // setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
 

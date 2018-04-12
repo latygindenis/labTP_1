@@ -1,5 +1,7 @@
 package presentation;
 
+import consol.Consol;
+import consol.ConsolView;
 import data.CarCollections;
 import data.CarHeavy;
 import data.CarLight;
@@ -51,11 +53,13 @@ public class HabitatController {
         view.heavyAIButton.addActionListener(heavyAIListener);
         view.priorHeavyAI.addActionListener(heavyAIPriorListener);
         view.priorLightAI.addActionListener(lightAIPriorListener);
+        view.window[0].addWindowListener(windowClose);
     }
 
     private ActionListener liveObjectsListener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
+            Consol consol = new Consol(300,300);
             model.stopSimulation(false);
             showLiveObj();
         }
@@ -287,7 +291,15 @@ public class HabitatController {
     };
 
 
-
+    private WindowAdapter windowClose = new WindowAdapter() {
+        @Override
+        public void windowClosing(WindowEvent e) {
+            model.lightAI.isGoing = false;
+            model.heavyAI.isGoing = false;
+            e.getWindow().setVisible(false);
+            System.exit(0);
+        }
+    };
     private void showLiveObj(){
         Object[] options = {"Resume"};
         int n = JOptionPane.showOptionDialog(new JFrame(),
