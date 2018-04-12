@@ -1,4 +1,4 @@
-package data;
+package data.model;
 // Интерфейс задает поведение объекта
 public interface IBehaviour {
     int getX();

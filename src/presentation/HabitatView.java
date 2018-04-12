@@ -1,9 +1,9 @@
 package presentation;
 
-import data.Car;
-import data.CarCollections;
-import data.CarHeavy;
-import data.CarLight;
+import data.model.Car;
+import data.model.CarCollections;
+import data.model.CarHeavy;
+import data.model.CarLight;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -56,6 +56,7 @@ public class HabitatView extends JFrame {
 
     JComboBox priorLightAI;
     JComboBox priorHeavyAI;
+    JButton socketButton;
 
 
     public HabitatView(int wLength, int wHeight, int wPosX, int wPosY) {
@@ -221,6 +222,8 @@ public class HabitatView extends JFrame {
         heavyAIButton.setBounds(105, 450, 100, 25);
         priorHeavyAI = new JComboBox();
         priorHeavyAI.setBounds(130, 480, 50, 25);
+        socketButton = new JButton("Открыть сокеты");
+        socketButton.setBounds(105, 550, 100, 25);
 
         for (int i = 1; i <= 10; i++) {
             priorHeavyAI.addItem(i);
@@ -239,6 +242,7 @@ public class HabitatView extends JFrame {
         mainPanel.add(heavyAIButton);
         mainPanel.add(priorHeavyAI);
         mainPanel.add(priorLightAI);
+        mainPanel.add(socketButton);
         mainPanel.setPreferredSize(new Dimension(300, 500));
 
 

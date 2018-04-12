@@ -1,4 +1,4 @@
-package data;
+package data.model;
 
 import java.awt.*; // графический интерфейс
 import java.util.UUID;

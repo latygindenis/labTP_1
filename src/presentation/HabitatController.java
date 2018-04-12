@@ -1,14 +1,18 @@
 package presentation;
 
-import data.CarCollections;
-import data.CarHeavy;
-import data.CarLight;
+import data.model.CarCollections;
+import data.model.CarHeavy;
+import data.model.CarLight;
+import socket.SocketEmitter;
+import socket.SocketListener;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.IOException;
+import java.net.Socket;
 
 public class HabitatController {
 
@@ -51,6 +55,7 @@ public class HabitatController {
         view.heavyAIButton.addActionListener(heavyAIListener);
         view.priorHeavyAI.addActionListener(heavyAIPriorListener);
         view.priorLightAI.addActionListener(lightAIPriorListener);
+        view.socketButton.addActionListener(onSocketClickListener);
     }
 
     private ActionListener liveObjectsListener = new ActionListener() {
@@ -64,7 +69,6 @@ public class HabitatController {
     private ActionListener radioListener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent ae) {
-
             switch (((JRadioButton) ae.getSource()).getText()) {
                 case "Да":
                     view.infoArea.setText(
@@ -269,7 +273,19 @@ public class HabitatController {
             }
         }
     };
-
+    private ActionListener onSocketClickListener = e -> {
+        String host = "localhost";
+        int port = 8000;
+        try {
+            Socket socket = new Socket(host, port);
+            SocketListener socketListener = new SocketListener(socket);
+            SocketEmitter socketEmitter = new SocketEmitter(socket);
+            socketEmitter.setCar();
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        }
+        //socketListener.sendCar();
+    };
     private ActionListener heavyAIPriorListener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {

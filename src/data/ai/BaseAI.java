@@ -1,4 +1,4 @@
-package data;
+package data.ai;
 
 public abstract class BaseAI extends Thread{
     public String threadName;

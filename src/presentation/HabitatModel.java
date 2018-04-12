@@ -1,6 +1,11 @@
 package presentation;
 
-import data.*;
+import data.ai.HeavyAI;
+import data.ai.LightAI;
+import data.model.Car;
+import data.model.CarCollections;
+import data.model.CarHeavy;
+import data.model.CarLight;
 
 import javax.swing.*;
 import java.util.Timer;
@@ -31,7 +36,7 @@ public class HabitatModel { // обработка событий клавиат�
     }
 
     void update(long t) {
-        synchronized (CarCollections.getInstance().arrayCarList){
+        synchronized (CarCollections.getInstance().arrayCarList) {
             CarCollections.getInstance().cleanCollections(t); //Очистка "отживших" машин
             if (t % timeHeavy == 0) { //Каждые timeHeavy секунд
                 if (pHeavy > (float) Math.random()) { // Если прошло по вероятности
@@ -96,7 +101,7 @@ public class HabitatModel { // обработка событий клавиат�
             CarCollections.getInstance().idTreeSet.clear();
             CarCollections.getInstance().bornHashMap.clear();
             CarCollections.getInstance().arrayCarList.clear();
-        }else {
+        } else {
             beginHeavyAI();
             beginLightAI();
         }
@@ -150,27 +155,30 @@ public class HabitatModel { // обработка событий клавиат�
         }
     }
 
-    void pauseLightAI (){
-        if (!lightAI.paused){
+    void pauseLightAI() {
+        if (!lightAI.paused) {
             lightAI.paused = true;
         }
     }
-    void beginLightAI(){
-        if (lightAI.paused){
-            synchronized (lightAI.obj){
+
+    void beginLightAI() {
+        if (lightAI.paused) {
+            synchronized (lightAI.obj) {
                 lightAI.paused = false;
                 lightAI.obj.notify();
             }
         }
     }
-    void pauseHeavyAI (){
-        if (!heavyAI.paused){
+
+    void pauseHeavyAI() {
+        if (!heavyAI.paused) {
             heavyAI.paused = true;
         }
     }
-    void beginHeavyAI(){
-        if (heavyAI.paused){
-            synchronized (heavyAI.obj){
+
+    void beginHeavyAI() {
+        if (heavyAI.paused) {
+            synchronized (heavyAI.obj) {
                 heavyAI.paused = false;
                 heavyAI.obj.notify();
             }
