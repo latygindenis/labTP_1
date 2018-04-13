@@ -10,7 +10,6 @@ import data.model.CarLight;
 import javax.swing.*;
 import java.util.Timer;
 import java.util.TimerTask;
-
 public class HabitatModel { // обработка событий клавиатуры
     private Timer timer;
     private double pHeavy; //Вероятность появления CarHeavy
@@ -21,8 +20,8 @@ public class HabitatModel { // обработка событий клавиат�
     int amountHeavy = 0;
     int amountLight = 0;
     HabitatView view;
-    HeavyAI heavyAI = new HeavyAI();
-    LightAI lightAI = new LightAI();
+    public HeavyAI heavyAI = new HeavyAI();
+    public LightAI lightAI = new LightAI();
 
 
     public HabitatModel(double pHeavy, double pLight, int timeHeavy, int timeLight, HabitatView view) {
@@ -36,7 +35,7 @@ public class HabitatModel { // обработка событий клавиат�
     }
 
     void update(long t) {
-        synchronized (CarCollections.getInstance().arrayCarList) {
+        synchronized (CarCollections.getInstance().arrayCarList){
             CarCollections.getInstance().cleanCollections(t); //Очистка "отживших" машин
             if (t % timeHeavy == 0) { //Каждые timeHeavy секунд
                 if (pHeavy > (float) Math.random()) { // Если прошло по вероятности
@@ -101,7 +100,7 @@ public class HabitatModel { // обработка событий клавиат�
             CarCollections.getInstance().idTreeSet.clear();
             CarCollections.getInstance().bornHashMap.clear();
             CarCollections.getInstance().arrayCarList.clear();
-        } else {
+        }else {
             beginHeavyAI();
             beginLightAI();
         }
@@ -155,30 +154,27 @@ public class HabitatModel { // обработка событий клавиат�
         }
     }
 
-    void pauseLightAI() {
-        if (!lightAI.paused) {
+    void pauseLightAI (){
+        if (!lightAI.paused){
             lightAI.paused = true;
         }
     }
-
-    void beginLightAI() {
-        if (lightAI.paused) {
-            synchronized (lightAI.obj) {
+    void beginLightAI(){
+        if (lightAI.paused){
+            synchronized (lightAI.obj){
                 lightAI.paused = false;
                 lightAI.obj.notify();
             }
         }
     }
-
-    void pauseHeavyAI() {
-        if (!heavyAI.paused) {
+    void pauseHeavyAI (){
+        if (!heavyAI.paused){
             heavyAI.paused = true;
         }
     }
-
-    void beginHeavyAI() {
-        if (heavyAI.paused) {
-            synchronized (heavyAI.obj) {
+    void beginHeavyAI(){
+        if (heavyAI.paused){
+            synchronized (heavyAI.obj){
                 heavyAI.paused = false;
                 heavyAI.obj.notify();
             }
@@ -187,4 +183,3 @@ public class HabitatModel { // обработка событий клавиат�
 
 
 }
-

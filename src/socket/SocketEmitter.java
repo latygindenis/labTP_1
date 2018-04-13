@@ -20,16 +20,13 @@ public class SocketEmitter {
     }
 
     public void setCar() {
-        while (true) {
-            CarHeavy carHeavy = new CarHeavy(0, 1);
-            String json = gson.toJson(carHeavy);
-            System.out.println("json " + json);
-            try {
-                outStream.write(json.getBytes());
-                //Thread.sleep(1000);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        CarHeavy carHeavy = new CarHeavy(0, 1);
+        String json = gson.toJson(carHeavy);
+        System.out.println("json " + json);
+        try {
+            outStream.write(json.getBytes());
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

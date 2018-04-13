@@ -23,7 +23,7 @@ public class HabitatView extends JFrame {
     JMenuItem endSimulationItem;
     JCheckBoxMenuItem showInfoItem;
     JCheckBoxMenuItem showTimeItem;
-
+    Window[] window = getWindows();
     JPanel mainPanel;
     public static JPanel panelGen;
     JPanel showTimePanel;
@@ -57,6 +57,7 @@ public class HabitatView extends JFrame {
     JComboBox priorLightAI;
     JComboBox priorHeavyAI;
     JButton socketButton;
+    JButton emitButton;
 
 
     public HabitatView(int wLength, int wHeight, int wPosX, int wPosY) {
@@ -223,8 +224,9 @@ public class HabitatView extends JFrame {
         priorHeavyAI = new JComboBox();
         priorHeavyAI.setBounds(130, 480, 50, 25);
         socketButton = new JButton("Открыть сокеты");
-        socketButton.setBounds(105, 550, 100, 25);
-
+        socketButton.setBounds(0, 500, 100, 25);
+        emitButton = new JButton("Отправить сообщение");
+        emitButton.setBounds(105, 500, 100, 25);
         for (int i = 1; i <= 10; i++) {
             priorHeavyAI.addItem(i);
         }
@@ -243,6 +245,7 @@ public class HabitatView extends JFrame {
         mainPanel.add(priorHeavyAI);
         mainPanel.add(priorLightAI);
         mainPanel.add(socketButton);
+        mainPanel.add(emitButton);
         mainPanel.setPreferredSize(new Dimension(300, 500));
 
 

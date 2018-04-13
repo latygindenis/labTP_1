@@ -56,6 +56,9 @@ public class HabitatController {
         view.priorHeavyAI.addActionListener(heavyAIPriorListener);
         view.priorLightAI.addActionListener(lightAIPriorListener);
         view.socketButton.addActionListener(onSocketClickListener);
+        view.emitButton.addActionListener(onEmitClickListener);
+        view.window[0].addWindowListener(windowClose);
+
     }
 
     private ActionListener liveObjectsListener = new ActionListener() {
@@ -273,18 +276,23 @@ public class HabitatController {
             }
         }
     };
+    Socket socket;
+    SocketListener socketListener;
+    SocketEmitter socketEmitter;
     private ActionListener onSocketClickListener = e -> {
         String host = "localhost";
         int port = 8000;
         try {
-            Socket socket = new Socket(host, port);
-            SocketListener socketListener = new SocketListener(socket);
-            SocketEmitter socketEmitter = new SocketEmitter(socket);
-            socketEmitter.setCar();
+            socket = new Socket(host, port);
+            socketListener = new SocketListener(socket);
+            socketEmitter = new SocketEmitter(socket);
+
         } catch (IOException e1) {
             e1.printStackTrace();
         }
-        //socketListener.sendCar();
+    };
+    private ActionListener onEmitClickListener = e -> {
+        socketEmitter.setCar();
     };
     private ActionListener heavyAIPriorListener = new ActionListener() {
         @Override
@@ -318,4 +326,13 @@ public class HabitatController {
             model.startSimulation(false);
         }
     }
+    private WindowAdapter windowClose = new WindowAdapter() {
+        @Override
+        public void windowClosing(WindowEvent e) {
+            model.lightAI.isGoing = false;
+            model.heavyAI.isGoing = false;
+            e.getWindow().setVisible(false);
+            System.exit(0);
+        }
+    };
 }
