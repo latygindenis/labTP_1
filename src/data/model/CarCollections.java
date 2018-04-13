@@ -9,14 +9,17 @@ public class CarCollections { //Синглтон
     private static CarCollections instance;
 
 
-    public final ArrayList <Car> arrayCarList;
+    public ArrayList <Car> arrayCarList;
     public TreeSet <UUID> idTreeSet;
     public HashMap <UUID, Long> bornHashMap;
+    public ArrayList<String> users;
+    public String id;
 
     private CarCollections(){
         arrayCarList = new ArrayList<>();
         idTreeSet = new TreeSet<>();
         bornHashMap = new HashMap<>();
+        users = new ArrayList<>();
     }
 
     public static CarCollections getInstance(){ //Создан ли список?

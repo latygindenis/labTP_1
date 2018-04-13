@@ -57,8 +57,10 @@ public class HabitatView extends JFrame {
     JComboBox priorLightAI;
     JComboBox priorHeavyAI;
     JButton socketButton;
-    JButton emitButton;
+    JButton swapButton;
 
+    JList usersList;
+    DefaultListModel listModel;
 
     public HabitatView(int wLength, int wHeight, int wPosX, int wPosY) {
         this.wLength = wLength;
@@ -224,9 +226,13 @@ public class HabitatView extends JFrame {
         priorHeavyAI = new JComboBox();
         priorHeavyAI.setBounds(130, 480, 50, 25);
         socketButton = new JButton("Открыть сокеты");
-        socketButton.setBounds(0, 500, 100, 25);
-        emitButton = new JButton("Отправить сообщение");
-        emitButton.setBounds(105, 500, 100, 25);
+        socketButton.setBounds(0, 520, 100, 25);
+        swapButton = new JButton("Swap");
+        swapButton.setBounds(105, 520, 100, 25);
+        listModel = new DefaultListModel();
+        usersList = new JList(listModel);
+        usersList.setBounds(0, 550, 200, 200);
+
         for (int i = 1; i <= 10; i++) {
             priorHeavyAI.addItem(i);
         }
@@ -245,7 +251,8 @@ public class HabitatView extends JFrame {
         mainPanel.add(priorHeavyAI);
         mainPanel.add(priorLightAI);
         mainPanel.add(socketButton);
-        mainPanel.add(emitButton);
+        mainPanel.add(swapButton);
+        mainPanel.add(usersList);
         mainPanel.setPreferredSize(new Dimension(300, 500));
 
 
@@ -292,5 +299,12 @@ public class HabitatView extends JFrame {
         endSimulationItem.setEnabled(false);
         endButton.setEnabled(false);
         liveObjects.setEnabled(false);
+    }
+
+    public void updateUsersList() {
+        listModel.clear();
+        for(int i=0; i<CarCollections.getInstance().users.size(); i++) {
+            listModel.addElement(CarCollections.getInstance().users.get(i));
+        }
     }
 }

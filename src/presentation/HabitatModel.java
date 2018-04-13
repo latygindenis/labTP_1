@@ -6,6 +6,8 @@ import data.model.Car;
 import data.model.CarCollections;
 import data.model.CarHeavy;
 import data.model.CarLight;
+import data.model.req.CarsRequest;
+import socket.SocketEmitter;
 
 import javax.swing.*;
 import java.util.Timer;
@@ -36,6 +38,7 @@ public class HabitatModel { // обработка событий клавиат�
 
     void update(long t) {
         synchronized (CarCollections.getInstance().arrayCarList){
+
             CarCollections.getInstance().cleanCollections(t); //Очистка "отживших" машин
             if (t % timeHeavy == 0) { //Каждые timeHeavy секунд
                 if (pHeavy > (float) Math.random()) { // Если прошло по вероятности

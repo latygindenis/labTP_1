@@ -31,6 +31,9 @@ public abstract class Car implements IBehaviour {
         CarCollections.getInstance().idTreeSet.add(this.id);
     }
 
+    public Car() {
+    }
+
     @Override
     public int getX() {
         return posX;
