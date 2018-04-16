@@ -19,6 +19,7 @@ public class ConsolView extends JFrame {
         setBounds(100, 100, wWindth, wHeight);
         consolArea = new JTextArea();
         consolArea.setBounds(0, 0, wWindth, wHeight);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
         add(consolArea);
         setVisible(true);
     }

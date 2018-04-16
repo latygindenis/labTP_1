@@ -1,7 +1,5 @@
 package consol;
 
-public class ConsolModel {
-     boolean command(){
-         return false;
-     }
+public abstract class ConsolModel {
+     abstract boolean command(String str);
 }
