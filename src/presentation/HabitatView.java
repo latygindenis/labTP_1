@@ -58,7 +58,7 @@ public class HabitatView extends JFrame {
     JComboBox priorHeavyAI;
     JButton socketButton;
     JButton swapButton;
-
+    JButton openConsol;
     JList usersList;
     DefaultListModel listModel;
 
@@ -226,6 +226,9 @@ public class HabitatView extends JFrame {
         priorHeavyAI = new JComboBox();
         priorHeavyAI.setBounds(130, 480, 50, 25);
         socketButton = new JButton("Открыть сокеты");
+        openConsol = new JButton("Консоль");
+        openConsol.setBounds(210, 450, 85, 25);
+
         socketButton.setBounds(0, 520, 100, 25);
         swapButton = new JButton("Swap");
         swapButton.setBounds(105, 520, 100, 25);
@@ -248,12 +251,13 @@ public class HabitatView extends JFrame {
         mainPanel.add(lightPanel);
         mainPanel.add(lightAIButton);
         mainPanel.add(heavyAIButton);
+        mainPanel.add(openConsol);
         mainPanel.add(priorHeavyAI);
         mainPanel.add(priorLightAI);
         mainPanel.add(socketButton);
         mainPanel.add(swapButton);
         mainPanel.add(usersList);
-        mainPanel.setPreferredSize(new Dimension(300, 500));
+        mainPanel.setPreferredSize(new Dimension(325, 500));
 
 
         panelGen = new JPanel()  {

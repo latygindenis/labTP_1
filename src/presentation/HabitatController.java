@@ -1,5 +1,6 @@
 package presentation;
 
+import consol.ConsolAdapder;
 import data.model.CarCollections;
 import data.model.CarHeavy;
 import data.model.CarLight;
@@ -18,6 +19,7 @@ public class HabitatController {
 
     private HabitatView view;
     private HabitatModel model;
+    private ConsolAdapder consolAdapder;
 
     //binding View&Model
     public HabitatController(HabitatView view, HabitatModel model) {
@@ -53,6 +55,7 @@ public class HabitatController {
         view.liveObjects.addActionListener(liveObjectsListener);
         view.lightAIButton.addActionListener(lightAIListener);
         view.heavyAIButton.addActionListener(heavyAIListener);
+        view.openConsol.addActionListener(consolButtonListener);
         view.priorHeavyAI.addActionListener(heavyAIPriorListener);
         view.priorLightAI.addActionListener(lightAIPriorListener);
         view.socketButton.addActionListener(onSocketClickListener);
@@ -104,6 +107,62 @@ public class HabitatController {
                 view.showInfoItem.setState(false);
                 view.showTimePanel.setVisible(false);
             }
+        }
+    };
+
+    private  ActionListener consolButtonListener = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            consolAdapder = new ConsolAdapder(350, 350){
+                @Override
+                public boolean command(String str) {
+                     super.command(str);
+                     if (str.equals("StopHeavyAI")){
+                         if (model.heavyAI.paused) {
+                             printToConsole("Поток уже остановлен :(");
+                         } else {
+                             model.pauseHeavyAI();
+                             printToConsole("Поток остановлен");
+                         }
+                         return true;
+                     }
+                     if (str.equals("StopLightAI")){
+                         if (model.lightAI.paused) {
+                             printToConsole("Поток уже остановлен :(");
+                         } else {
+                             model.pauseLightAI();
+                             printToConsole("Поток остановлен");
+                         }
+                         return true;
+                     }
+
+                     if (str.equals("StartHeavyAI")){
+                         if (model.heavyAI.paused) {
+                             model.beginHeavyAI();
+                             printToConsole("Поток запущен");
+                         } else {
+                             printToConsole("Уже запустили((");
+                         }
+                         return true;
+                     }
+                     if (str.equals("StartLightAI")){
+                         if (model.lightAI.paused) {
+                             model.beginLightAI();
+                             printToConsole("Поток запущен");
+                         } else {
+                             printToConsole("Уже запустили((");
+                         }
+                         return true;
+                     }
+                     if (str.equals("help")){
+
+                         printToConsole("Start(LightAI/HeavyAI) - запуск интеллекта объектов\n" +
+                                 "Stop(LightAI/HeavyAI) - приостановка интеллекта объектов");
+                         return true;
+                     }
+                    return false;
+                }
+            };
         }
     };
 
