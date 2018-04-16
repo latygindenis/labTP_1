@@ -1,17 +1,18 @@
 package presentation;
 
-import consol.Consol;
-import consol.ConsolAdapder;
-import consol.ConsolView;
-import data.CarCollections;
-import data.CarHeavy;
-import data.CarLight;
+import data.model.CarCollections;
+import data.model.CarHeavy;
+import data.model.CarLight;
+import socket.SocketEmitter;
+import socket.SocketListener;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.IOException;
+import java.net.Socket;
 
 public class HabitatController {
 
@@ -54,23 +55,15 @@ public class HabitatController {
         view.heavyAIButton.addActionListener(heavyAIListener);
         view.priorHeavyAI.addActionListener(heavyAIPriorListener);
         view.priorLightAI.addActionListener(lightAIPriorListener);
+        view.socketButton.addActionListener(onSocketClickListener);
+        view.swapButton.addActionListener(onSwapClickListener);
         view.window[0].addWindowListener(windowClose);
+
     }
 
     private ActionListener liveObjectsListener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-            ConsolAdapder consolAdapder = new ConsolAdapder(300, 300){
-                @Override
-                public boolean command(String str) {
-                    super.command(str);
-                    if (str.equals("Hello")){
-                    super.printToConsole("Y too");
-                    return true;
-                    }
-                    return false;
-                }
-            };
             model.stopSimulation(false);
             showLiveObj();
         }
@@ -79,7 +72,6 @@ public class HabitatController {
     private ActionListener radioListener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent ae) {
-
             switch (((JRadioButton) ae.getSource()).getText()) {
                 case "Да":
                     view.infoArea.setText(
@@ -216,7 +208,9 @@ public class HabitatController {
         @Override
         public void actionPerformed(ActionEvent e) {
             int curLiveTimeHeavy = formValidation(view.liveHeavyArea);
-            if (curLiveTimeHeavy > 0) {CarHeavy.liveTime = curLiveTimeHeavy;}
+            if (curLiveTimeHeavy > 0) {
+                CarHeavy.liveTime = curLiveTimeHeavy;
+            }
             view.panelGen.requestFocus();
         }
     };
@@ -257,34 +251,68 @@ public class HabitatController {
         @Override
         public void textValueChanged(TextEvent e) {
             int curLiveTimeLight = formValidation(view.liveLightArea);
-            if (curLiveTimeLight > 0) CarLight.liveTime = curLiveTimeLight ;
+            if (curLiveTimeLight > 0) CarLight.liveTime = curLiveTimeLight;
         }
     };
 
     private ActionListener lightAIListener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-            if (model.lightAI.paused){
+            if (model.lightAI.paused) {
                 model.beginLightAI();
-            }else {
+            } else {
                 model.pauseLightAI();
             }
         }
     };
 
 
-
     private ActionListener heavyAIListener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-            if (model.heavyAI.paused){
+            if (model.heavyAI.paused) {
                 model.beginHeavyAI();
-            }else {
+            } else {
                 model.pauseHeavyAI();
             }
         }
     };
-
+    Socket socket;
+    SocketListener socketListener;
+    SocketEmitter socketEmitter;
+    private boolean open;
+    private ActionListener onSocketClickListener = e -> {
+        String host = "localhost";
+        int port = 8000;
+        if (!open) {
+            view.socketButton.setText("Закрыть");
+            try {
+                socket = new Socket(host, port);
+                socketListener = new SocketListener(socket, view);
+                socketListener.start();
+                socketEmitter = new SocketEmitter(socket);
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+        } else {
+            view.socketButton.setText("Открыть");
+            try {
+                socket.getInputStream().close();
+                socket.getOutputStream().close();
+                socket.close();
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+        }
+        open = !open;
+    };
+    private ActionListener onSwapClickListener = e -> {
+        try {
+            socketEmitter.swap(CarCollections.getInstance().users.get(view.usersList.getSelectedIndex()));
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        }
+    };
     private ActionListener heavyAIPriorListener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -302,16 +330,7 @@ public class HabitatController {
     };
 
 
-    private WindowAdapter windowClose = new WindowAdapter() {
-        @Override
-        public void windowClosing(WindowEvent e) {
-            model.lightAI.isGoing = false;
-            model.heavyAI.isGoing = false;
-            e.getWindow().setVisible(false);
-            System.exit(0);
-        }
-    };
-    private void showLiveObj(){
+    private void showLiveObj() {
         Object[] options = {"Resume"};
         int n = JOptionPane.showOptionDialog(new JFrame(),
                 CarCollections.getInstance().liveObjString(),
@@ -325,4 +344,19 @@ public class HabitatController {
             model.startSimulation(false);
         }
     }
+
+    private WindowAdapter windowClose = new WindowAdapter() {
+        @Override
+        public void windowClosing(WindowEvent e) {
+            model.lightAI.isGoing = false;
+            model.heavyAI.isGoing = false;
+            try {
+                socket.close();
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+            e.getWindow().setVisible(false);
+            System.exit(0);
+        }
+    };
 }

@@ -1,5 +1,8 @@
-package data;
+package data.ai;
 
+import data.model.Car;
+import data.model.CarCollections;
+import data.model.CarLight;
 public class LightAI extends BaseAI {
     public LightAI() {
         super("LightThread");

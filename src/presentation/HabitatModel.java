@@ -1,11 +1,17 @@
 package presentation;
 
-import data.*;
+import data.ai.HeavyAI;
+import data.ai.LightAI;
+import data.model.Car;
+import data.model.CarCollections;
+import data.model.CarHeavy;
+import data.model.CarLight;
+import data.model.req.CarsRequest;
+import socket.SocketEmitter;
 
 import javax.swing.*;
 import java.util.Timer;
 import java.util.TimerTask;
-
 public class HabitatModel { // обработка событий клавиатуры
     private Timer timer;
     private double pHeavy; //Вероятность появления CarHeavy
@@ -16,8 +22,8 @@ public class HabitatModel { // обработка событий клавиат�
     int amountHeavy = 0;
     int amountLight = 0;
     HabitatView view;
-    HeavyAI heavyAI = new HeavyAI();
-    LightAI lightAI = new LightAI();
+    public HeavyAI heavyAI = new HeavyAI();
+    public LightAI lightAI = new LightAI();
 
 
     public HabitatModel(double pHeavy, double pLight, int timeHeavy, int timeLight, HabitatView view) {
@@ -32,6 +38,7 @@ public class HabitatModel { // обработка событий клавиат�
 
     void update(long t) {
         synchronized (CarCollections.getInstance().arrayCarList){
+
             CarCollections.getInstance().cleanCollections(t); //Очистка "отживших" машин
             if (t % timeHeavy == 0) { //Каждые timeHeavy секунд
                 if (pHeavy > (float) Math.random()) { // Если прошло по вероятности
@@ -179,4 +186,3 @@ public class HabitatModel { // обработка событий клавиат�
 
 
 }
-

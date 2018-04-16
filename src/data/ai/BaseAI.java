@@ -1,4 +1,4 @@
-package data;
+package data.ai;
 
 public abstract class BaseAI extends Thread{
     public String threadName;
@@ -14,15 +14,15 @@ public abstract class BaseAI extends Thread{
 
         while (isGoing){
             synchronized (obj){
-               if (paused){
-                   try {
-                       System.out.println(threadName + "paused");
-                       obj.wait();
+                if (paused){
+                    try {
+                        System.out.println(threadName + "paused");
+                        obj.wait();
 
-                   } catch (InterruptedException e) {
-                       break;
-                   }
-               }
+                    } catch (InterruptedException e) {
+                        break;
+                    }
+                }
             }
             try {
                 this.sleep(10);

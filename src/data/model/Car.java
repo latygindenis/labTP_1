@@ -1,4 +1,4 @@
-package data;
+package data.model;
 
 import java.awt.*; // графический интерфейс
 import java.util.UUID;
@@ -29,6 +29,9 @@ public abstract class Car implements IBehaviour {
         this.posY=Y;
         checkId();
         CarCollections.getInstance().idTreeSet.add(this.id);
+    }
+
+    public Car() {
     }
 
     @Override
