@@ -1,6 +1,7 @@
 package presentation;
 
 import consol.Consol;
+import consol.ConsolAdapder;
 import consol.ConsolView;
 import data.CarCollections;
 import data.CarHeavy;
@@ -59,7 +60,17 @@ public class HabitatController {
     private ActionListener liveObjectsListener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-            Consol consol = new Consol(300,300);
+            ConsolAdapder consolAdapder = new ConsolAdapder(300, 300){
+                @Override
+                public boolean command(String str) {
+                    super.command(str);
+                    if (str.equals("Hello")){
+                    super.printToConsole("Y too");
+                    return true;
+                    }
+                    return false;
+                }
+            };
             model.stopSimulation(false);
             showLiveObj();
         }
