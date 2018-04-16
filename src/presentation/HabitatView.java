@@ -24,7 +24,6 @@ public class HabitatView extends JFrame {
     JMenuItem endSimulationItem;
     JCheckBoxMenuItem showInfoItem;
     JCheckBoxMenuItem showTimeItem;
-    Window[] window = getWindows();
     JPanel mainPanel;
     public static JPanel panelGen;
     JPanel showTimePanel;

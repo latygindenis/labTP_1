@@ -7,7 +7,6 @@ public class ConsolView extends JFrame {
     int wHeight;
     int wWindth;
     JTextArea consolArea;
-    Window[] window = getWindows();
 
     public ConsolView(int wHeight, int wWidth) {
         this.wHeight = wHeight;

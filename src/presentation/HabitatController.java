@@ -352,8 +352,10 @@ public class HabitatController {
             model.heavyAI.isGoing = false;
             try {
                 socket.close();
-            } catch (IOException e1) {
-                e1.printStackTrace();
+            } catch (Exception el) {
+                el.printStackTrace();
+                e.getWindow().setVisible(false);
+                System.exit(0);
             }
             e.getWindow().setVisible(false);
             System.exit(0);
