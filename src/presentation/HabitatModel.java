@@ -36,8 +36,7 @@ public class HabitatModel { // обработка событий клавиат�
         lightAI.start();
     }
 
-    void update(long t) {
-        synchronized (CarCollections.getInstance().arrayCarList){
+    public void update(long t) {
 
             CarCollections.getInstance().cleanCollections(t); //Очистка "отживших" машин
             if (t % timeHeavy == 0) { //Каждые timeHeavy секунд
@@ -58,7 +57,7 @@ public class HabitatModel { // обработка событий клавиат�
                     CarCollections.getInstance().bornHashMap.put(rb.getId(), time);
                 }
             }
-        }
+
     }
 
     public double getpHeavy() {

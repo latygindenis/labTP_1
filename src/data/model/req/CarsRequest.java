@@ -1,6 +1,7 @@
 package data.model.req;
 
 import data.model.Car;
+import data.model.NewCar;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,7 +13,7 @@ public class CarsRequest {
     String id;
     String swapId;
     ArrayList<String> users = new ArrayList<>();
-    public ArrayList<Car> arrayCarList;
+    public ArrayList<NewCar> arrayCarList;
     public TreeSet<UUID> idTreeSet;
     public HashMap<UUID, Long> bornHashMap;
 
@@ -30,7 +31,7 @@ public class CarsRequest {
         this.swapId = swapId;
     }
 
-    public CarsRequest(String status, String id, String swapId, ArrayList<Car> arrayCarList, TreeSet<UUID> idTreeSet, HashMap<UUID, Long> bornHashMap) {
+    public CarsRequest(String status, String id, String swapId, ArrayList<NewCar> arrayCarList, TreeSet<UUID> idTreeSet, HashMap<UUID, Long> bornHashMap) {
         this.status = status;
         this.id = id;
         this.swapId = swapId;
@@ -39,7 +40,7 @@ public class CarsRequest {
         this.bornHashMap = bornHashMap;
     }
 
-    public CarsRequest(String status, ArrayList<Car> arrayCarList, TreeSet<UUID> idTreeSet, HashMap<UUID, Long> bornHashMap) {
+    public CarsRequest(String status, ArrayList<NewCar> arrayCarList, TreeSet<UUID> idTreeSet, HashMap<UUID, Long> bornHashMap) {
         this.status = status;
         this.arrayCarList = arrayCarList;
         this.idTreeSet = idTreeSet;

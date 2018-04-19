@@ -53,4 +53,24 @@ public abstract class Car implements IBehaviour {
     public void setY(int Y) {
         this.posY = Y;
     }
+
+    public int getPosX() {
+        return posX;
+    }
+
+    public void setPosX(int posX) {
+        this.posX = posX;
+    }
+
+    public int getPosY() {
+        return posY;
+    }
+
+    public void setPosY(int posY) {
+        this.posY = posY;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
 }

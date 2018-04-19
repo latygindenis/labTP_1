@@ -30,6 +30,9 @@ public class CarHeavy extends Car {
         }
     }
 
+    public CarHeavy() {
+    }
+
     public CarHeavy(int X, int Y){
         super(X, Y);
         checkPosition();
@@ -77,5 +80,69 @@ public class CarHeavy extends Car {
                 inPosition = true;
             }
         }
+    }
+
+    public static Image getImg() {
+        return img;
+    }
+
+    public static void setImg(Image img) {
+        CarHeavy.img = img;
+    }
+
+    public boolean isInPosition() {
+        return inPosition;
+    }
+
+    public void setInPosition(boolean inPosition) {
+        this.inPosition = inPosition;
+    }
+
+    public int getNewX() {
+        return newX;
+    }
+
+    public void setNewX(int newX) {
+        this.newX = newX;
+    }
+
+    public int getNewY() {
+        return newY;
+    }
+
+    public void setNewY(int newY) {
+        this.newY = newY;
+    }
+
+    public float getNormA() {
+        return normA;
+    }
+
+    public void setNormA(float normA) {
+        this.normA = normA;
+    }
+
+    public float getNormB() {
+        return normB;
+    }
+
+    public void setNormB(float normB) {
+        this.normB = normB;
+    }
+
+    public int getTimeToPos() {
+        return timeToPos;
+    }
+
+    public void setTimeToPos(int timeToPos) {
+        this.timeToPos = timeToPos;
+    }
+
+    public int getCurTime() {
+        return curTime;
+    }
+
+    public void setCurTime(int curTime) {
+        this.curTime = curTime;
     }
 }

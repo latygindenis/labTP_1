@@ -2,18 +2,25 @@ package socket;
 
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
+import data.model.Car;
 import data.model.CarCollections;
+import data.model.CarLight;
+import data.model.NewCar;
 import data.model.req.CarsRequest;
+import presentation.HabitatModel;
 import presentation.HabitatView;
 
+import java.awt.*;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.StringReader;
 import java.net.Socket;
+import java.util.ArrayList;
 
 public class SocketListener extends Thread {
     private final HabitatView view;
+    private final HabitatModel model;
     String host = "localhost";
     int port = 8000;
     Socket socket;
@@ -21,11 +28,12 @@ public class SocketListener extends Thread {
     DataInputStream inStream;
     Gson gson = new Gson();
 
-    public SocketListener(Socket socket, HabitatView view) throws IOException {
+    public SocketListener(Socket socket, HabitatView view, HabitatModel model) throws IOException {
         this.socket = socket;
         this.view = view;
         inStream = new DataInputStream(socket.getInputStream());
         outStream = new DataOutputStream(socket.getOutputStream());
+        this.model = model;
     }
 
 
@@ -40,6 +48,8 @@ public class SocketListener extends Thread {
                 reader.setLenient(true);
                 CarsRequest carsRequest;
                 carsRequest = gson.fromJson(reader, CarsRequest.class);
+                ArrayList<NewCar> newCars = new ArrayList<>();
+                ArrayList<Car> cars = new ArrayList<>();
                 switch (carsRequest.getStatus()) {
                     case "update":
                         System.out.println("update list");
@@ -55,18 +65,39 @@ public class SocketListener extends Thread {
                         break;
                     case "swap req":
                         System.out.println("swap req from " + carsRequest.getId());
-                        CarsRequest res = new CarsRequest("swap res", CarCollections.getInstance().id, carsRequest.getId(), CarCollections.getInstance().arrayCarList, CarCollections.getInstance().idTreeSet, CarCollections.getInstance().bornHashMap);
+                        newCars.clear();
+                        for(int i=0; i<CarCollections.getInstance().arrayCarList.size(); i++) {
+                            Car car = CarCollections.getInstance().arrayCarList.get(i);
+                            newCars.add(new NewCar(car.getX(), car.getY(), car.getId()));
+                        }
+                        CarsRequest res = new CarsRequest("swap res", CarCollections.getInstance().id, carsRequest.getId(), newCars, CarCollections.getInstance().idTreeSet, CarCollections.getInstance().bornHashMap);
                         String req = gson.toJson(res);
                         outStream.write(req.getBytes());
-                        CarCollections.getInstance().idTreeSet = carsRequest.idTreeSet;
+                        /*CarCollections.getInstance().idTreeSet = carsRequest.idTreeSet;
                         CarCollections.getInstance().bornHashMap = carsRequest.bornHashMap;
-                        CarCollections.getInstance().arrayCarList = carsRequest.arrayCarList;
-                        break;
+                        for(int i=0; i<carsRequest.arrayCarList.size(); i++) {
+                            NewCar newCar = carsRequest.arrayCarList.get(i);
+                            Car car = new CarLight();
+                            car.setX(newCar.getPosX());
+                            car.setY(newCar.getPosY());
+                            car.setId(newCar.getId());
+                            cars.add(car);
+                        }
+                        CarCollections.getInstance().arrayCarList = cars;*/
+                        //System.out.println("clear");
                     case "swap res":
                         System.out.println("swap res from " + carsRequest.getId());
                         CarCollections.getInstance().idTreeSet = carsRequest.idTreeSet;
                         CarCollections.getInstance().bornHashMap = carsRequest.bornHashMap;
-                        CarCollections.getInstance().arrayCarList = carsRequest.arrayCarList;
+                        for(int i=0; i<carsRequest.arrayCarList.size(); i++) {
+                            NewCar newCar = carsRequest.arrayCarList.get(i);
+                            Car car = new CarLight();
+                            car.setX(newCar.getPosX());
+                            car.setY(newCar.getPosY());
+                            car.setId(newCar.getId());
+                            cars.add(car);
+                        }
+                        CarCollections.getInstance().arrayCarList = cars;
                         break;
                     default:
                         System.out.println("def ");

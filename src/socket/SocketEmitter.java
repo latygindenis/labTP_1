@@ -1,13 +1,16 @@
 package socket;
 
 import com.google.gson.Gson;
+import data.model.Car;
 import data.model.CarCollections;
 import data.model.CarHeavy;
+import data.model.NewCar;
 import data.model.req.CarsRequest;
+import org.apache.commons.lang3.SerializationUtils;
 
-import java.io.DataOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.logging.Handler;
 
 public class SocketEmitter {
@@ -37,9 +40,14 @@ public class SocketEmitter {
     }
 
     public void swap(String swapId) throws IOException {
-        CarsRequest request = new CarsRequest("swap req", CarCollections.getInstance().id, swapId, CarCollections.getInstance().arrayCarList, CarCollections.getInstance().idTreeSet, CarCollections.getInstance().bornHashMap);
+        ArrayList<NewCar> newCars = new ArrayList<>();
+        for(int i = 0; i<CarCollections.getInstance().arrayCarList.size(); i++) {
+            Car car = CarCollections.getInstance().arrayCarList.get(i);
+            newCars.add(new NewCar(car.getX(), car.getY(), car.getId()));
+        }
+        CarsRequest request = new CarsRequest("swap req", CarCollections.getInstance().id, swapId, newCars, CarCollections.getInstance().idTreeSet, CarCollections.getInstance().bornHashMap);
         String req = gson.toJson(request);
-        System.out.println("onConnect " + req);
+        System.out.println("swap req " + req);
         outStream.write(req.getBytes());
     }
 }
