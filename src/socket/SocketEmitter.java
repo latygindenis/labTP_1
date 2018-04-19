@@ -1,12 +1,10 @@
 package socket;
 
 import com.google.gson.Gson;
-import data.model.Car;
-import data.model.CarCollections;
-import data.model.CarHeavy;
-import data.model.NewCar;
+import data.model.*;
 import data.model.req.CarsRequest;
 import org.apache.commons.lang3.SerializationUtils;
+import presentation.HabitatModel;
 
 import java.io.*;
 import java.net.Socket;
@@ -43,9 +41,11 @@ public class SocketEmitter {
         ArrayList<NewCar> newCars = new ArrayList<>();
         for(int i = 0; i<CarCollections.getInstance().arrayCarList.size(); i++) {
             Car car = CarCollections.getInstance().arrayCarList.get(i);
-            newCars.add(new NewCar(car.getX(), car.getY(), car.getId()));
+            String type = car instanceof CarLight ? "light" : "heavy";
+            newCars.add(new NewCar(car.getX(), car.getY(), car.getId(), type));
         }
         CarsRequest request = new CarsRequest("swap req", CarCollections.getInstance().id, swapId, newCars, CarCollections.getInstance().idTreeSet, CarCollections.getInstance().bornHashMap);
+        request.setTime(HabitatModel.time);
         String req = gson.toJson(request);
         System.out.println("swap req " + req);
         outStream.write(req.getBytes());

@@ -266,7 +266,6 @@ public class HabitatController {
         }
     };
 
-
     private ActionListener heavyAIListener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {

@@ -12,6 +12,7 @@ public class CarsRequest {
     String status;
     String id;
     String swapId;
+    long time;
     ArrayList<String> users = new ArrayList<>();
     public ArrayList<NewCar> arrayCarList;
     public TreeSet<UUID> idTreeSet;
@@ -38,6 +39,14 @@ public class CarsRequest {
         this.arrayCarList = arrayCarList;
         this.idTreeSet = idTreeSet;
         this.bornHashMap = bornHashMap;
+    }
+
+    public long getTime() {
+        return time;
+    }
+
+    public void setTime(long time) {
+        this.time = time;
     }
 
     public CarsRequest(String status, ArrayList<NewCar> arrayCarList, TreeSet<UUID> idTreeSet, HashMap<UUID, Long> bornHashMap) {

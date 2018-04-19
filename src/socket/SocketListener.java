@@ -2,10 +2,7 @@ package socket;
 
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
-import data.model.Car;
-import data.model.CarCollections;
-import data.model.CarLight;
-import data.model.NewCar;
+import data.model.*;
 import data.model.req.CarsRequest;
 import presentation.HabitatModel;
 import presentation.HabitatView;
@@ -68,9 +65,11 @@ public class SocketListener extends Thread {
                         newCars.clear();
                         for(int i=0; i<CarCollections.getInstance().arrayCarList.size(); i++) {
                             Car car = CarCollections.getInstance().arrayCarList.get(i);
-                            newCars.add(new NewCar(car.getX(), car.getY(), car.getId()));
+                            String type = car instanceof CarLight ? "light" : "heavy";
+                            newCars.add(new NewCar(car.getX(), car.getY(), car.getId(), type));
                         }
                         CarsRequest res = new CarsRequest("swap res", CarCollections.getInstance().id, carsRequest.getId(), newCars, CarCollections.getInstance().idTreeSet, CarCollections.getInstance().bornHashMap);
+                        res.setTime(HabitatModel.time);
                         String req = gson.toJson(res);
                         outStream.write(req.getBytes());
                         /*CarCollections.getInstance().idTreeSet = carsRequest.idTreeSet;
@@ -87,11 +86,12 @@ public class SocketListener extends Thread {
                         //System.out.println("clear");
                     case "swap res":
                         System.out.println("swap res from " + carsRequest.getId());
+                        HabitatModel.time = carsRequest.getTime();
                         CarCollections.getInstance().idTreeSet = carsRequest.idTreeSet;
                         CarCollections.getInstance().bornHashMap = carsRequest.bornHashMap;
                         for(int i=0; i<carsRequest.arrayCarList.size(); i++) {
                             NewCar newCar = carsRequest.arrayCarList.get(i);
-                            Car car = new CarLight();
+                            Car car = newCar.getType().equals("light") ? new CarLight() : new CarHeavy();
                             car.setX(newCar.getPosX());
                             car.setY(newCar.getPosY());
                             car.setId(newCar.getId());
