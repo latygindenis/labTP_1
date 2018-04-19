@@ -264,11 +264,10 @@ public class HabitatView extends JFrame {
             @Override
             protected void paintComponent(Graphics g) { //Необходимо при перерисовки интерфейса
                 super.paintComponent(g);
-                synchronized (CarCollections.getInstance().arrayCarList){
                     for (Car car : CarCollections.getInstance().arrayCarList) {
                         car.paint(g);
                     }
-                }
+
 
             }
         };

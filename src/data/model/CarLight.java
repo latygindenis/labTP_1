@@ -7,8 +7,13 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.Random;
+import java.util.UUID;
 
 public class CarLight extends Car {
+
+    public CarLight() {
+    }
+
 
     public void setLiveTime(int liveTime) {
         CarLight.liveTime = liveTime;
@@ -79,5 +84,69 @@ public class CarLight extends Car {
                 inPosition = true;
             }
         }
+    }
+
+    public static Image getImg() {
+        return img;
+    }
+
+    public static void setImg(Image img) {
+        CarLight.img = img;
+    }
+
+    public boolean isInPosition() {
+        return inPosition;
+    }
+
+    public void setInPosition(boolean inPosition) {
+        this.inPosition = inPosition;
+    }
+
+    public int getNewX() {
+        return newX;
+    }
+
+    public void setNewX(int newX) {
+        this.newX = newX;
+    }
+
+    public int getNewY() {
+        return newY;
+    }
+
+    public void setNewY(int newY) {
+        this.newY = newY;
+    }
+
+    public float getNormA() {
+        return normA;
+    }
+
+    public void setNormA(float normA) {
+        this.normA = normA;
+    }
+
+    public float getNormB() {
+        return normB;
+    }
+
+    public void setNormB(float normB) {
+        this.normB = normB;
+    }
+
+    public int getTimeToPos() {
+        return timeToPos;
+    }
+
+    public void setTimeToPos(int timeToPos) {
+        this.timeToPos = timeToPos;
+    }
+
+    public int getCurTime() {
+        return curTime;
+    }
+
+    public void setCurTime(int curTime) {
+        this.curTime = curTime;
     }
 }

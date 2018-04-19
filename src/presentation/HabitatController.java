@@ -325,7 +325,6 @@ public class HabitatController {
         }
     };
 
-
     private ActionListener heavyAIListener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -347,7 +346,7 @@ public class HabitatController {
             view.socketButton.setText("Закрыть");
             try {
                 socket = new Socket(host, port);
-                socketListener = new SocketListener(socket, view);
+                socketListener = new SocketListener(socket, view, model);
                 socketListener.start();
                 socketEmitter = new SocketEmitter(socket);
             } catch (IOException e1) {

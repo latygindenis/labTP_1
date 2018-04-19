@@ -16,7 +16,7 @@ public class HabitatModel { // обработка событий клавиат�
     private Timer timer;
     private double pHeavy; //Вероятность появления CarHeavy
     private double pLight; //Вероятность появления CarLight
-    long time = 0;
+    public static long time = 0;
     private int timeHeavy; //Период появления CarHeavy
     private int timeLight; //Период появления CarLight
     int amountHeavy = 0;
@@ -36,8 +36,7 @@ public class HabitatModel { // обработка событий клавиат�
         lightAI.start();
     }
 
-    void update(long t) {
-        synchronized (CarCollections.getInstance().arrayCarList){
+    public void update(long t) {
 
             CarCollections.getInstance().cleanCollections(t); //Очистка "отживших" машин
             if (t % timeHeavy == 0) { //Каждые timeHeavy секунд
@@ -58,7 +57,7 @@ public class HabitatModel { // обработка событий клавиат�
                     CarCollections.getInstance().bornHashMap.put(rb.getId(), time);
                 }
             }
-        }
+
     }
 
     public double getpHeavy() {
