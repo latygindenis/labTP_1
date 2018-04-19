@@ -86,11 +86,12 @@ public class HabitatView extends JFrame {
         menuBar.add(menuUI);
         setJMenuBar(menuBar);
     }
-    private void drawHeavyPanel(){
+
+    private void drawHeavyPanel() {
         heavyPanel = new JPanel();
         heavyPanel.setLayout(null);
         heavyPanel.setMaximumSize(new Dimension(300, 125));
-        heavyPanel.setBounds(0,160, 300, 125);
+        heavyPanel.setBounds(0, 160, 300, 125);
         timeHeavyLabel = new JLabel("Период появления грузовой машины:");
         timeHeavyLabel.setBounds(0, 0, 230, 25);
         timeHeavyArea = new TextField();
@@ -102,7 +103,7 @@ public class HabitatView extends JFrame {
         liveHeavyArea.setText(String.valueOf(CarHeavy.liveTime));
         liveHeavyArea.setBounds(230, 30, 30, 25);
 
-        heavySlider = new JSlider(JSlider.HORIZONTAL, 0, 100,50);
+        heavySlider = new JSlider(JSlider.HORIZONTAL, 0, 100, 50);
         heavySlider.setBounds(0, 60, 300, 50);
         heavySlider.setMajorTickSpacing(10);
         heavySlider.setPaintTicks(true);
@@ -115,11 +116,12 @@ public class HabitatView extends JFrame {
         heavyPanel.add(liveHeavyArea);
         heavyPanel.add(heavySlider);
     }
-    private void drawLightPanel(){
+
+    private void drawLightPanel() {
         lightPanel = new JPanel();
         lightPanel.setLayout(null);
         lightPanel.setMaximumSize(new Dimension(300, 125));
-        lightPanel.setBounds(0,295, 300, 125);
+        lightPanel.setBounds(0, 295, 300, 125);
 
         timeLightLabel = new JLabel("Период появления легковой машины:");
         timeLightLabel.setBounds(0, 0, 230, 25);
@@ -134,7 +136,7 @@ public class HabitatView extends JFrame {
         liveLightArea.setBounds(230, 30, 30, 25);
 
 
-        lightSlider = new JSlider(JSlider.HORIZONTAL, 0, 100,50);
+        lightSlider = new JSlider(JSlider.HORIZONTAL, 0, 100, 50);
         lightSlider.setBounds(0, 60, 300, 50);
         lightSlider.setMajorTickSpacing(10);
         lightSlider.setPaintTicks(true);
@@ -167,16 +169,16 @@ public class HabitatView extends JFrame {
 
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(null);
-        buttonPanel.setBounds(0, 30, 100,125 );
+        buttonPanel.setBounds(0, 30, 100, 125);
 
         startButton = new JButton("Start");
         startButton.setBounds(0, 0, 100, 25);
         endButton = new JButton("End");
-        endButton.setBounds(0,30,100, 25);
+        endButton.setBounds(0, 30, 100, 25);
         endButton.setEnabled(false);
 
         liveObjects = new JButton("Live Obj");
-        liveObjects.setBounds(0,60,100, 25);
+        liveObjects.setBounds(0, 60, 100, 25);
         liveObjects.setEnabled(false);
 
         buttonPanel.add(startButton);
@@ -238,7 +240,7 @@ public class HabitatView extends JFrame {
         }
 
         priorLightAI = new JComboBox();
-        priorLightAI.setBounds(25,480, 50, 25);
+        priorLightAI.setBounds(25, 480, 50, 25);
 
         for (int i = 1; i <= 10; i++) {
             priorLightAI.addItem(i);
@@ -256,13 +258,13 @@ public class HabitatView extends JFrame {
         mainPanel.setPreferredSize(new Dimension(300, 500));
 
 
-        panelGen = new JPanel()  {
+        panelGen = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) { //Необходимо при перерисовки интерфейса
                 super.paintComponent(g);
-                    for (Car car : CarCollections.getInstance().arrayCarList) {
-                        car.paint(g);
-                    }
+                for (Car car : CarCollections.getInstance().arrayCarList) {
+                    car.paint(g);
+                }
 
 
             }
@@ -291,6 +293,7 @@ public class HabitatView extends JFrame {
         liveObjects.setEnabled(true);
         repaint();
     }
+
     void stopSimulation() {
         repaint(); //"Очистка" интерфейса
         startButton.setEnabled(true);
@@ -302,8 +305,9 @@ public class HabitatView extends JFrame {
 
     public void updateUsersList() {
         listModel.clear();
-        for(int i=0; i<CarCollections.getInstance().users.size(); i++) {
-            listModel.addElement(CarCollections.getInstance().users.get(i));
+        for (int i = 0; i < CarCollections.getInstance().users.size(); i++) {
+            if (!CarCollections.getInstance().id.equals(CarCollections.getInstance().users.get(i)))
+                listModel.addElement(CarCollections.getInstance().users.get(i));
         }
     }
 }

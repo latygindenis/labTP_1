@@ -56,6 +56,8 @@ public class SocketListener extends Thread {
                     case "first connect":
                         System.out.println("first start");
                         CarCollections.getInstance().id = carsRequest.getId();
+                        CarCollections.getInstance().users = carsRequest.getUsers();
+                        view.updateUsersList();
                         break;
                     case "swap":
                         System.out.println("swap echo");
@@ -72,18 +74,6 @@ public class SocketListener extends Thread {
                         res.setTime(HabitatModel.time);
                         String req = gson.toJson(res);
                         outStream.write(req.getBytes());
-                        /*CarCollections.getInstance().idTreeSet = carsRequest.idTreeSet;
-                        CarCollections.getInstance().bornHashMap = carsRequest.bornHashMap;
-                        for(int i=0; i<carsRequest.arrayCarList.size(); i++) {
-                            NewCar newCar = carsRequest.arrayCarList.get(i);
-                            Car car = new CarLight();
-                            car.setX(newCar.getPosX());
-                            car.setY(newCar.getPosY());
-                            car.setId(newCar.getId());
-                            cars.add(car);
-                        }
-                        CarCollections.getInstance().arrayCarList = cars;*/
-                        //System.out.println("clear");
                     case "swap res":
                         System.out.println("swap res from " + carsRequest.getId());
                         HabitatModel.time = carsRequest.getTime();
