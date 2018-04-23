@@ -1,6 +1,7 @@
 package presentation;
 
 import consol.Consol;
+import data.model.Car;
 import data.model.CarCollections;
 import data.model.CarHeavy;
 import data.model.CarLight;
@@ -113,9 +114,68 @@ public class HabitatController {
         view.priorLightAI.addActionListener(lightAIPriorListener);
         view.socketButton.addActionListener(onSocketClickListener);
         view.swapButton.addActionListener(onSwapClickListener);
+        view.saveMachines.addActionListener(saveMachinesListener);
+        view.loadMachines.addActionListener(loadMachinesListener);
         view.window[0].addWindowListener(windowClose);
 
     }
+
+    private ActionListener saveMachinesListener = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            JFileChooser fileSave = new JFileChooser();
+            try {
+                ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("machinepack.txt"));
+                for (Car car : CarCollections.getInstance().arrayCarList) {
+                    oos.writeObject(car); // Сериализация
+                }
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+        }
+    };
+
+    private ActionListener loadMachinesListener = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (!view.startButton.isEnabled()) {
+                model.stopSimulation(false); // Остановка симуляции
+            }
+            JFileChooser fileopen = new JFileChooser();
+            int ret = fileopen.showDialog(null, "Открыть файл");
+            if (ret == JFileChooser.APPROVE_OPTION) {
+                File file = fileopen.getSelectedFile();
+                try {
+                    ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file));
+                    while (true) {
+                        Object o = null;
+                        try {
+                            o = ois.readObject();
+                        } catch (IOException | ClassNotFoundException ex) {
+                            break;
+                        }
+                        if (!(o instanceof Car)) {
+                            continue;
+                        }
+                        Car car = (Car) o;
+                        if (car instanceof CarLight) {
+                            model.amountLight++;
+                        } else if (car instanceof CarHeavy) {
+                            model.amountHeavy++;
+                        }
+                        System.out.println(car.getId());
+                        CarCollections.getInstance().arrayCarList.add(car);
+                        CarCollections.getInstance().bornHashMap.put(car.getId(), (long) 0);
+                        CarCollections.getInstance().idTreeSet.add(car.getId());
+                    }
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        }
+    };
+
+
 
     private ActionListener liveObjectsListener = new ActionListener() {
         @Override
@@ -163,10 +223,10 @@ public class HabitatController {
         }
     };
 
-    private  ActionListener consolButtonListener = new ActionListener() {
+    private ActionListener consolButtonListener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-            Consol consol = new Consol(200, 200){
+            Consol consol = new Consol(200, 200) {
                 @Override
                 public void command(String cmd) {
                     result = null;
@@ -175,7 +235,7 @@ public class HabitatController {
                             result = "Интеллект легковой остановлен :(";
                         } else {
                             model.pauseLightAI();
-                            result =  "Интеллект легковой приостановлен";
+                            result = "Интеллект легковой приостановлен";
                         }
                     } else if (cmd.equalsIgnoreCase("bL")) {
                         if (model.lightAI.paused) {
@@ -184,21 +244,21 @@ public class HabitatController {
                         } else {
                             result = "Интеллект легковой уже запустили((";
                         }
-                    } else if (cmd.equalsIgnoreCase("pH")){
+                    } else if (cmd.equalsIgnoreCase("pH")) {
                         if (model.heavyAI.paused) {
                             result = "Интеллект грузовой уже остановлен :(";
                         } else {
                             model.pauseHeavyAI();
                             result = "Интеллект грузовой приостановлен";
                         }
-                    } else if (cmd.equalsIgnoreCase("bH")){
+                    } else if (cmd.equalsIgnoreCase("bH")) {
                         if (model.heavyAI.paused) {
                             model.beginHeavyAI();
-                            result ="Интеллект грузовой возобновлен";
+                            result = "Интеллект грузовой возобновлен";
                         } else {
                             result = "Интеллект грузовой запустили((";
                         }
-                    } else if (cmd.equalsIgnoreCase("help")){
+                    } else if (cmd.equalsIgnoreCase("help")) {
 
                         result = "b(L/H)- запуск интеллекта объектов\n" +
                                 "p(L/H) - приостановка интеллекта объектов";

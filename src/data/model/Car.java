@@ -1,9 +1,10 @@
 package data.model;
 
 import java.awt.*; // графический интерфейс
+import java.io.Serializable;
 import java.util.UUID;
 
-public abstract class Car implements IBehaviour {
+public abstract class Car implements IBehaviour, Serializable {
 
     private int posX;
     private int posY;

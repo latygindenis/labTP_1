@@ -59,6 +59,8 @@ public class HabitatView extends JFrame {
     JButton socketButton;
     JButton swapButton;
     JButton openConsol;
+    JButton saveMachines;
+    JButton loadMachines;
     JList usersList;
     DefaultListModel listModel;
 
@@ -227,11 +229,17 @@ public class HabitatView extends JFrame {
         priorHeavyAI.setBounds(130, 480, 50, 25);
         socketButton = new JButton("Открыть сокеты");
         openConsol = new JButton("Консоль");
-        openConsol.setBounds(210, 450, 85, 25);
+        openConsol.setBounds(210, 450, 100, 25);
 
-        socketButton.setBounds(0, 520, 100, 25);
+        saveMachines = new JButton("Сохранить");
+        saveMachines.setBounds(210, 480, 100, 25);
+
+        loadMachines = new JButton("Загрузить");
+        loadMachines.setBounds(210, 510, 100, 25);
+
+        socketButton.setBounds(0, 510, 100, 25);
         swapButton = new JButton("Swap");
-        swapButton.setBounds(105, 520, 100, 25);
+        swapButton.setBounds(105, 510, 100, 25);
         listModel = new DefaultListModel();
         usersList = new JList(listModel);
         usersList.setBounds(0, 550, 200, 200);
@@ -257,6 +265,8 @@ public class HabitatView extends JFrame {
         mainPanel.add(socketButton);
         mainPanel.add(swapButton);
         mainPanel.add(usersList);
+        mainPanel.add(saveMachines);
+        mainPanel.add(loadMachines);
         mainPanel.setPreferredSize(new Dimension(325, 500));
 
 

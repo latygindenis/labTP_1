@@ -97,14 +97,12 @@ public class HabitatModel { // обработка событий клавиат�
 
     void startSimulation(boolean firstStart) {
         timer = new Timer();
-
         if (firstStart) {
-            amountHeavy = 0;
-            amountLight = 0;
+            if (CarCollections.getInstance().arrayCarList.size() < 1) {
+                amountHeavy = 0;
+                amountLight = 0;
+            }
             time = 0;
-            CarCollections.getInstance().idTreeSet.clear();
-            CarCollections.getInstance().bornHashMap.clear();
-            CarCollections.getInstance().arrayCarList.clear();
         }else {
             beginHeavyAI();
             beginLightAI();
@@ -152,9 +150,15 @@ public class HabitatModel { // обработка событий клавиат�
             if (n == 0) {
                 startSimulation(false);
             } else {
+                CarCollections.getInstance().idTreeSet.clear();
+                CarCollections.getInstance().bornHashMap.clear();
+                CarCollections.getInstance().arrayCarList.clear();
                 view.stopSimulation();
             }
         } else {
+            CarCollections.getInstance().idTreeSet.clear();
+            CarCollections.getInstance().bornHashMap.clear();
+            CarCollections.getInstance().arrayCarList.clear();
             view.stopSimulation();
         }
     }
