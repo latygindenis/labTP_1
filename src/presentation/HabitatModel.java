@@ -10,6 +10,7 @@ import data.model.req.CarsRequest;
 import socket.SocketEmitter;
 
 import javax.swing.*;
+import java.util.Properties;
 import java.util.Timer;
 import java.util.TimerTask;
 public class HabitatModel { // обработка событий клавиатуры
@@ -184,6 +185,4 @@ public class HabitatModel { // обработка событий клавиат�
             }
         }
     }
-
-
 }

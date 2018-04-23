@@ -12,23 +12,72 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.IOException;
+import java.io.*;
 import java.net.Socket;
+import java.util.Properties;
 
 public class HabitatController {
-
+    private Properties properties;
     private HabitatView view;
     private HabitatModel model;
+
+    Properties defaulProp() {
+        Properties prop = new Properties();
+        prop.setProperty("bornL", "100");
+        prop.setProperty("bornH", "100");
+        prop.setProperty("periodL", "500");
+        prop.setProperty("periodH", "500");
+        prop.setProperty("verL", "80");
+        prop.setProperty("verH", "80");
+        prop.setProperty("priorL", "2");
+        prop.setProperty("priorH", "1");
+        return prop;
+    }
 
     //binding View&Model
     public HabitatController(HabitatView view, HabitatModel model) {
         this.view = view;
         this.model = model;
+        properties = new Properties();
+        try {
+            properties.load(new FileInputStream(new File("prop.properties")));
+        } catch (FileNotFoundException e) {
+            try {
+                defaulProp().store(new FileOutputStream(new File("prop.properties")), "Config");
+                properties = defaulProp();
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         init();
+    }
+
+    void setProp(Properties properties) {
+        CarHeavy.liveTime = Integer.parseInt(properties.getProperty("periodH"));
+        view.liveHeavyArea.setText(String.valueOf(CarHeavy.liveTime));
+
+        CarLight.liveTime = Integer.parseInt(properties.getProperty("periodL"));
+        view.liveLightArea.setText(String.valueOf(CarLight.liveTime));
+        model.setTimeLight(Integer.parseInt(properties.getProperty("bornL")));
+        model.setTimeHeavy(Integer.parseInt(properties.getProperty("bornH")));
+
+        model.setpLight(Integer.parseInt(properties.getProperty("verL")));
+        view.lightSlider.setValue(Integer.parseInt(properties.getProperty("verL")));
+
+        model.setpHeavy(Integer.parseInt(properties.getProperty("verH")));
+        view.heavySlider.setValue(Integer.parseInt(properties.getProperty("verH")));
+
+        model.heavyAI.setPriority(Integer.parseInt(properties.getProperty("priorH")));
+        view.priorHeavyAI.setSelectedIndex(Integer.parseInt(properties.getProperty("priorH")));
+        model.lightAI.setPriority(Integer.parseInt(properties.getProperty("priorL")) - 1);
+        view.priorLightAI.setSelectedIndex(Integer.parseInt(properties.getProperty("priorL")) - 1);
     }
 
     //add listners
     private void init() {
+        setProp(properties);
         view.startSimulationItem.addActionListener(beginListener);
         view.endSimulationItem.addActionListener(endListener);
         view.showInfoItem.addActionListener(menuInfoListener);
