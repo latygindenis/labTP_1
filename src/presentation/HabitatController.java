@@ -1,6 +1,6 @@
 package presentation;
 
-import consol.ConsolAdapder;
+import consol.Consol;
 import data.model.CarCollections;
 import data.model.CarHeavy;
 import data.model.CarLight;
@@ -19,7 +19,6 @@ public class HabitatController {
 
     private HabitatView view;
     private HabitatModel model;
-    private ConsolAdapder consolAdapder;
 
     //binding View&Model
     public HabitatController(HabitatView view, HabitatModel model) {
@@ -113,54 +112,44 @@ public class HabitatController {
     private  ActionListener consolButtonListener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-            consolAdapder = new ConsolAdapder(350, 350){
+            Consol consol = new Consol(200, 200){
                 @Override
-                public boolean command(String str) {
-                     super.command(str);
-                     if (str.equals("StopHeavyAI")){
-                         if (model.heavyAI.paused) {
-                             printToConsole("Поток уже остановлен :(");
-                         } else {
-                             model.pauseHeavyAI();
-                             printToConsole("Поток остановлен");
-                         }
-                         return true;
-                     }
-                     if (str.equals("StopLightAI")){
-                         if (model.lightAI.paused) {
-                             printToConsole("Поток уже остановлен :(");
-                         } else {
-                             model.pauseLightAI();
-                             printToConsole("Поток остановлен");
-                         }
-                         return true;
-                     }
+                public void command(String cmd) {
+                    result = null;
+                    if (cmd.equalsIgnoreCase("pL")) {
+                        if (model.lightAI.paused) {
+                            result = "Интеллект легковой остановлен :(";
+                        } else {
+                            model.pauseLightAI();
+                            result =  "Интеллект легковой приостановлен";
+                        }
+                    } else if (cmd.equalsIgnoreCase("bL")) {
+                        if (model.lightAI.paused) {
+                            model.beginLightAI();
+                            result = "Интеллект легковой возобновлен";
+                        } else {
+                            result = "Интеллект легковой уже запустили((";
+                        }
+                    } else if (cmd.equalsIgnoreCase("pH")){
+                        if (model.heavyAI.paused) {
+                            result = "Интеллект грузовой уже остановлен :(";
+                        } else {
+                            model.pauseHeavyAI();
+                            result = "Интеллект грузовой приостановлен";
+                        }
+                    } else if (cmd.equalsIgnoreCase("bH")){
+                        if (model.heavyAI.paused) {
+                            model.beginHeavyAI();
+                            result ="Интеллект грузовой возобновлен";
+                        } else {
+                            result = "Интеллект грузовой запустили((";
+                        }
+                    } else if (cmd.equalsIgnoreCase("help")){
 
-                     if (str.equals("StartHeavyAI")){
-                         if (model.heavyAI.paused) {
-                             model.beginHeavyAI();
-                             printToConsole("Поток запущен");
-                         } else {
-                             printToConsole("Уже запустили((");
-                         }
-                         return true;
-                     }
-                     if (str.equals("StartLightAI")){
-                         if (model.lightAI.paused) {
-                             model.beginLightAI();
-                             printToConsole("Поток запущен");
-                         } else {
-                             printToConsole("Уже запустили((");
-                         }
-                         return true;
-                     }
-                     if (str.equals("help")){
-
-                         printToConsole("Start(LightAI/HeavyAI) - запуск интеллекта объектов\n" +
-                                 "Stop(LightAI/HeavyAI) - приостановка интеллекта объектов");
-                         return true;
-                     }
-                    return false;
+                        result = "b(L/H)- запуск интеллекта объектов\n" +
+                                "p(L/H) - приостановка интеллекта объектов";
+                    }
+                    super.command(cmd);
                 }
             };
         }

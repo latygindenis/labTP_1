@@ -3,7 +3,6 @@ package socket;
 import com.google.gson.Gson;
 import data.model.*;
 import data.model.req.CarsRequest;
-import org.apache.commons.lang3.SerializationUtils;
 import presentation.HabitatModel;
 
 import java.io.*;

@@ -37,26 +37,28 @@ public class HabitatModel { // обработка событий клавиат�
     }
 
     public void update(long t) {
+            synchronized (CarCollections.getInstance().arrayCarList){
+                CarCollections.getInstance().cleanCollections(t); //Очистка "отживших" машин
+                if (t % timeHeavy == 0) { //Каждые timeHeavy секунд
+                    if (pHeavy > (float) Math.random()) { // Если прошло по вероятности
+                        amountHeavy++;
+                        Car rb = new CarHeavy(10 + (int) (Math.random() * (view.panelGen.getWidth() - 100)), 10 + (int) (Math.random() * (view.panelGen.getHeight() - 100)));
+                        CarCollections.getInstance().arrayCarList.add(rb);
+                        CarCollections.getInstance().idTreeSet.add(rb.getId());
+                        CarCollections.getInstance().bornHashMap.put(rb.getId(), time);
+                    }
+                }
+                if (t % timeLight == 0) { //Каждые timeLight секунд
+                    if (pLight > (float) Math.random()) { //Если прошло по вероятности
+                        amountLight++;
+                        Car rb = new CarLight(10 + (int) (Math.random() * (view.panelGen.getWidth() - 100)), 10 + (int) (Math.random() * (view.panelGen.getHeight() - 100)));
+                        CarCollections.getInstance().arrayCarList.add(rb);
+                        CarCollections.getInstance().idTreeSet.add(rb.getId());
+                        CarCollections.getInstance().bornHashMap.put(rb.getId(), time);
+                    }
+                }
+            }
 
-            CarCollections.getInstance().cleanCollections(t); //Очистка "отживших" машин
-            if (t % timeHeavy == 0) { //Каждые timeHeavy секунд
-                if (pHeavy > (float) Math.random()) { // Если прошло по вероятности
-                    amountHeavy++;
-                    Car rb = new CarHeavy(10 + (int) (Math.random() * (view.panelGen.getWidth() - 100)), 10 + (int) (Math.random() * (view.panelGen.getHeight() - 100)));
-                    CarCollections.getInstance().arrayCarList.add(rb);
-                    CarCollections.getInstance().idTreeSet.add(rb.getId());
-                    CarCollections.getInstance().bornHashMap.put(rb.getId(), time);
-                }
-            }
-            if (t % timeLight == 0) { //Каждые timeLight секунд
-                if (pLight > (float) Math.random()) { //Если прошло по вероятности
-                    amountLight++;
-                    Car rb = new CarLight(10 + (int) (Math.random() * (view.panelGen.getWidth() - 100)), 10 + (int) (Math.random() * (view.panelGen.getHeight() - 100)));
-                    CarCollections.getInstance().arrayCarList.add(rb);
-                    CarCollections.getInstance().idTreeSet.add(rb.getId());
-                    CarCollections.getInstance().bornHashMap.put(rb.getId(), time);
-                }
-            }
 
     }
 
