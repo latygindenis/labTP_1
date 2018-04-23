@@ -55,13 +55,18 @@ public class HabitatController {
     }
 
     void setProp(Properties properties) {
+
+        model.setTimeHeavy(Integer.parseInt(properties.getProperty("bornH")));
+        view.liveHeavyArea.setText(String.valueOf(model.getTimeHeavy()));
+
+        model.setTimeLight(Integer.parseInt(properties.getProperty("bornL")));
+        view.liveLightArea.setText(String.valueOf(model.getTimeLight()));
+
         CarHeavy.liveTime = Integer.parseInt(properties.getProperty("periodH"));
-        view.liveHeavyArea.setText(String.valueOf(CarHeavy.liveTime));
+        view.timeHeavyArea.setText(String.valueOf(CarHeavy.liveTime));
 
         CarLight.liveTime = Integer.parseInt(properties.getProperty("periodL"));
-        view.liveLightArea.setText(String.valueOf(CarLight.liveTime));
-        model.setTimeLight(Integer.parseInt(properties.getProperty("bornL")));
-        model.setTimeHeavy(Integer.parseInt(properties.getProperty("bornH")));
+        view.timeLightArea.setText(String.valueOf(CarLight.liveTime));
 
         model.setpLight(Integer.parseInt(properties.getProperty("verL")));
         view.lightSlider.setValue(Integer.parseInt(properties.getProperty("verL")));
@@ -70,8 +75,9 @@ public class HabitatController {
         view.heavySlider.setValue(Integer.parseInt(properties.getProperty("verH")));
 
         model.heavyAI.setPriority(Integer.parseInt(properties.getProperty("priorH")));
-        view.priorHeavyAI.setSelectedIndex(Integer.parseInt(properties.getProperty("priorH")));
-        model.lightAI.setPriority(Integer.parseInt(properties.getProperty("priorL")) - 1);
+        view.priorHeavyAI.setSelectedIndex(Integer.parseInt(properties.getProperty("priorH")) - 1);
+
+        model.lightAI.setPriority(Integer.parseInt(properties.getProperty("priorL")));
         view.priorLightAI.setSelectedIndex(Integer.parseInt(properties.getProperty("priorL")) - 1);
     }
 
@@ -91,10 +97,9 @@ public class HabitatController {
         view.panelGen.addKeyListener(keyAdapter);
         view.timeLightArea.addTextListener(timeLightTextFieldList);
         view.timeLightArea.addActionListener(timeLightTextFieldListener);
-        view.timeLightArea.setText(String.valueOf(model.getTimeLight()));
+
         view.timeHeavyArea.addTextListener(timeHeavyTextFieldList);
         view.timeHeavyArea.addActionListener(timeHeavyTextFieldListener);
-        view.timeHeavyArea.setText(String.valueOf(model.getTimeHeavy()));
 
         view.liveHeavyArea.addTextListener(liveHeavyTextFieldList);
         view.liveHeavyArea.addActionListener(liveHeavyTextFieldListner);
@@ -446,6 +451,23 @@ public class HabitatController {
         public void windowClosing(WindowEvent e) {
             model.lightAI.isGoing = false;
             model.heavyAI.isGoing = false;
+
+            properties.setProperty("bornL", view.liveLightArea.getText());
+            properties.setProperty("bornH", view.liveHeavyArea.getText());
+
+            properties.setProperty("periodL", view.timeLightArea.getText());
+            properties.setProperty("periodH", view.timeHeavyArea.getText());
+            properties.setProperty("verL", String.valueOf(view.lightSlider.getValue()));
+            properties.setProperty("verH", String.valueOf(view.heavySlider.getValue()));
+            properties.setProperty("priorL", String.valueOf(model.lightAI.getPriority()));
+            properties.setProperty("priorH", String.valueOf(model.heavyAI.getPriority()));
+            try {
+                properties.store(new FileOutputStream(new File("prop.properties")), "Config");
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+
+
             try {
                 socket.close();
             } catch (Exception el) {
