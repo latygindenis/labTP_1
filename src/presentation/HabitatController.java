@@ -299,6 +299,7 @@ public class HabitatController {
                 socket.getInputStream().close();
                 socket.getOutputStream().close();
                 socket.close();
+                socketListener.stop();
             } catch (IOException e1) {
                 e1.printStackTrace();
             }

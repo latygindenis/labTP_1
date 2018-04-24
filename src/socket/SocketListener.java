@@ -50,6 +50,7 @@ public class SocketListener extends Thread {
                 switch (carsRequest.getStatus()) {
                     case "update":
                         System.out.println("update list");
+                        CarCollections.getInstance().users.clear();
                         CarCollections.getInstance().users = carsRequest.getUsers();
                         view.updateUsersList();
                         break;
@@ -94,6 +95,13 @@ public class SocketListener extends Thread {
                 }
             } catch (Exception e) {
                 System.out.println(e);
+                try {
+                    socket.close();
+                    inStream.close();
+                    stop();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
             }
         }
     }
