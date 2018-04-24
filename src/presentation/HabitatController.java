@@ -308,7 +308,8 @@ public class HabitatController {
     };
     private ActionListener onSwapClickListener = e -> {
         try {
-            socketEmitter.swap(CarCollections.getInstance().users.get(view.usersList.getSelectedIndex()));
+            String str = (String) view.usersList.getSelectedValue();
+            socketEmitter.swap(str);
         } catch (IOException e1) {
             e1.printStackTrace();
         }
